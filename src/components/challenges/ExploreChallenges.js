@@ -4,6 +4,7 @@ import { getAllChallenges } from "../../store/slices/challengesSlice";
 import { Link } from "react-router-dom";
 import Countdown from "react-countdown";
 import fetchToken from "../../utils/fetchToken";
+import { ThreeDots } from "react-loader-spinner";
 
 const ExploreChallenges = () => {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ const ExploreChallenges = () => {
     <div className="container">
       <h3 className="my-4">Explore Challenges</h3>
       {loading ? (
-        <p>Loading...</p>
+        <ThreeDots color="#B9B4C7" width="64px" height={"64px"}/>
       ) : (
         challenges?.map((challenge, index) => {
           if (challenge) {

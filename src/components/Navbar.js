@@ -7,6 +7,7 @@ import { getUserProfile, logoutUserSlice } from "../store/slices/userSlice";
 import { logoutEntrySlice } from "../store/slices/dailyEntriesSlice";
 import bcrypt from "bcryptjs";
 import { logoutChallengesSlice } from "../store/slices/challengesSlice";
+import brand_logo from "../assets/images/brand.png";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -59,7 +60,7 @@ const Navbar = () => {
     >
       <div className="container">
         <Link className="navbar-brand fw-bold" to="/">
-          DeToxifyMe
+        <img src={brand_logo} alt="DeToxifyMe" style={{height:"42px"}}/>
         </Link>
         <button
           className="navbar-toggler"

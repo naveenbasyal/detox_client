@@ -13,6 +13,7 @@ import ExploreChallenges from "./components/challenges/ExploreChallenges";
 import GetSingleChallenge from "./components/challenges/getSingleChallenge";
 import MyEntries from "./Pages/MyEntries";
 import InspectUser from "./components/leaderboard/InspectUser";
+import NotFoundPage from "./Pages/NotFoundPage";
 const App = () => {
   const { isLogin } = useSelector((state) => state?.auth);
   const { admin } = useSelector((state) => state?.user);
@@ -84,7 +85,7 @@ const App = () => {
           }
         />
         {/* ___404 Routes */}
-        <Route path="*" element={<h1>404 Not Found</h1>} />
+        <Route path="*" element={<NotFoundPage/>} />
       </Routes>
     </Router>
   );

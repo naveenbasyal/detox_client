@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { InspectUserProfile } from "../../store/slices/userSlice";
+import Loader from "../Loader";
 
 const InspectUser = () => {
   const id = useParams()?.id;
@@ -17,7 +18,7 @@ const InspectUser = () => {
   return (
     <div className="container mt-4">
       {loading ? (
-        <h1>Loading...</h1>
+        <Loader/>
       ) : (
         <div className="card">
           <div className="card-body">

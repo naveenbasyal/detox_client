@@ -16,6 +16,7 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
+import Loader from "../components/Loader";
 
 const MyEntries = () => {
   const dispatch = useDispatch();
@@ -130,7 +131,7 @@ const MyEntries = () => {
         </Dialog>
       )}
       {loading ? (
-        <p>Loading...</p>
+        <Loader/>
       ) : (
         entries?.map(({ createdAt, _id, content, mood, visibility }) => {
           return (

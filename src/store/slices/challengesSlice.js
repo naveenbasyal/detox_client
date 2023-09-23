@@ -166,7 +166,8 @@ const challengesSlice = createSlice({
   initialState,
   reducers: {
     logoutChallengesSlice(state, action) {
-      (state.challenges = []), (state.singleChallenge = []);
+      state.challenges = [];
+      state.singleChallenge = [];
     },
     setChallenges(state, action) {
       state.challenges = action.payload;

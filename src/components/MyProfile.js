@@ -4,6 +4,9 @@ import { useParams } from "react-router-dom";
 import { getUserProfile, updateUserProfile } from "../store/slices/userSlice";
 import axios from "axios";
 import fetchToken from "../utils/fetchToken";
+import Loader from "./Loader";
+import { Box, Button, Input, InputLabel } from "@mui/material";
+import { CloudUploadOutlined } from "@mui/icons-material";
 
 const UserProfile = () => {
   const { id } = fetchToken();
@@ -44,7 +47,7 @@ const UserProfile = () => {
   };
 
   const handleImageUpload = async (e) => {
-    if (id != user?._id) {
+    if (id !== user?._id) {
       alert("You can't edit someone else's profile");
       return;
     }
@@ -108,7 +111,7 @@ const UserProfile = () => {
   return (
     <div className="container mt-4">
       {loading ? (
-        <h1>Loading...</h1>
+        <Loader />
       ) : (
         <div className="row">
           <div className="col-md-4">
@@ -123,14 +126,35 @@ const UserProfile = () => {
               }}
             />
             <div className="mt-3">
-              <label htmlFor="picture " className="fw-bolder">
-                Change Profile Picture?
-              </label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-              />
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <InputLabel htmlFor="image-upload" className="fw-bolder">
+                  Change Profile Picture
+                </InputLabel>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  id="image-upload"
+                  onChange={handleImageUpload}
+                />
+                <Button
+                  variant="contained"
+                  component="span"
+                  startIcon={<CloudUploadOutlined />}
+                  className="ms-2"
+                  width="50%"
+                  onClick={() =>
+                    document.getElementById("image-upload").click()
+                  } 
+                >
+                  Upload
+                </Button>
+              </Box>
               {uploadProgress && (
                 <div>
                   {uploadProgress === 100

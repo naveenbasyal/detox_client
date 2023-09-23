@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUsers } from "../store/slices/userSlice";
 import { Link } from "react-router-dom";
+import Loader from "../components/Loader";
 
 const LeaderBoard = () => {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ const LeaderBoard = () => {
     <div className="container">
       <h2 className="mt-4 mb-3 fw-bold">LeaderBoard</h2>
       {loading ? (
-        <h1>Loading...</h1>
+        <Loader />
       ) : (
         <table className="table">
           <thead>

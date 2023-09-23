@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPublicEntries } from "../../store/slices/dailyEntriesSlice";
 import { Link } from "react-router-dom";
-import { formatDistanceToNow } from "date-fns"; 
-
+import { formatDistanceToNow } from "date-fns";
+import { ThreeDots } from "react-loader-spinner";
 
 const moodEmojis = {
   excited: "😃",
@@ -23,6 +23,7 @@ const PublicEntries = () => {
     ({ dailyEntries }) => dailyEntries
   );
 
+  
   useEffect(() => {
     dispatch(getAllPublicEntries());
   }, []);
@@ -30,7 +31,16 @@ const PublicEntries = () => {
   return (
     <div className="container mt-4">
       {loading ? (
-        <h1>Loading...</h1>
+        <ThreeDots
+          height="64"
+          width="64"
+          radius="9"
+          color="#B9B4C7"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          wrapperClassName=""
+          visible={true}
+        />
       ) : (
         publicEntries?.map(
           ({
@@ -41,7 +51,6 @@ const PublicEntries = () => {
             _id,
             userId: { username, picture, level, points, _id: userId },
           }) => {
-            
             const timeAgo = formatDistanceToNow(new Date(createdAt), {
               addSuffix: true,
             });
@@ -77,7 +86,7 @@ const PublicEntries = () => {
                   <p className="mb-0">
                     <strong>
                       <i class="fa-regular fa-clock"></i>&nbsp;
-                    </strong>{" "}
+                    </strong>
                     {timeAgo}
                   </p>
                   <p className="mb-0">
@@ -86,6 +95,7 @@ const PublicEntries = () => {
                     </strong>
                     {"  "}
                     {content}
+                    
                   </p>
                 </div>
               </div>
