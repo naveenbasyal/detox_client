@@ -113,116 +113,169 @@ const Challenges = () => {
   };
 
   return (
-    <div>
-      <h1>Challenges</h1>
-
+    <div className="container mt-4">
       {/* Create Challenge */}
-      <form onSubmit={handleCreateChallenge}>
-        <label htmlFor="title">Title: </label>
-        <input
-          type="text"
-          name="title"
-          id="title"
-          value={newChallenge.title}
-          onChange={handleChange}
-          placeholder="Enter Challenge title"
-        />
-        <br />
-        <label htmlFor="description">Description: </label>
-        <textarea
-          type="text"
-          rows={5}
-          cols={50}
-          name="description"
-          id="description"
-          value={newChallenge.description}
-          onChange={handleChange}
-          placeholder="Enter Challenge description"
-        />
-        <br />
-        <label htmlFor="points">Points: </label>
-        <input
-          type="number"
-          name="points"
-          id="points"
-          value={newChallenge.points}
-          onChange={handleChange}
-          placeholder="Enter Challenge points"
-        />
-        <br />
-        <br />
-        <label htmlFor="enddate">End Date: </label>
-        <input
-          type="date"
-          name="enddate"
-          id="enddate"
-          value={newChallenge.enddate}
-          onChange={handleChange}
-          placeholder="Enter Challenge end date"
-        />
-        <br />
-        <button type="submit">
-          {loading ? "Creating ..." : "Create Challenge"}
-        </button>
-      </form>
+      <div
+        className="row justify-content-between
+      "
+      >
+        <div className="col-lg-4 col-md-6 col-sm-12">
+          <h2 className="fw-bolder">Create Challenge</h2>
+          <form onSubmit={handleCreateChallenge} className="mb-4">
+            <TextField
+              label="Title"
+              variant="standard"
+              fullWidth
+              name="title"
+              value={newChallenge.title}
+              onChange={handleChange}
+            />
+            <TextField
+              label="Description"
+              variant="standard"
+              fullWidth
+              multiline
+              rows={4}
+              name="description"
+              value={newChallenge.description}
+              onChange={handleChange}
+            />
+            <TextField
+              label="Points"
+              variant="standard"
+              fullWidth
+              type="number"
+              name="points"
+              value={newChallenge.points}
+              onChange={handleChange}
+            />
+            <TextField
+              label="End Date"
+              variant="standard"
+              fullWidth
+              type="date"
+              name="enddate"
+              value={newChallenge.enddate}
+              onChange={handleChange}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={loading}
+              className="mt-2"
+            >
+              {loading ? "Creating..." : "Create Challenge"}
+            </Button>
+          </form>
+        </div>
+        <div className="col-lg-5 col-md-6 col-sm-12">
+          {/* Display All Challenges */}
+          <h2 className="fw-bolder">All Challenges</h2>
+          {challenges?.map((challenge) => {
+            if (challenge) {
+              var {
+                _id,
+                title,
+                description,
+                createdAt: startdate,
+                enddate,
+                points,
+              } = challenge;
+            }
+            return (
+              <div key={_id} className="mb-4">
+                <h4>
+                  <strong>Title: </strong>
+                  {title}
+                </h4>
+                <p>
+                  <strong>Description: </strong>
+                  {description}
+                </p>
+                <p>Start Date: {startdate}</p>
+                <p>End Date: {enddate}</p>
+                <p>Points: {points}</p>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleEditChallenge(_id)}
+                  className="me-2"
+                >
+                  Edit
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => openDeleteModal(_id)}
+                >
+                  Delete
+                </Button>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Edit Challenge Modal */}
       <Dialog open={editModalOpen} onClose={handleCloseEditModal}>
         <DialogTitle>Edit Challenge</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmitEditedChallenge}>
-            <label htmlFor="title">Title: </label>
-            <input
-              type="text"
+            <TextField
+              label="Title"
+              variant="standard"
+              fullWidth
               name="title"
-              id="title"
               value={editChallenge.title}
               onChange={handleEditChange}
-              placeholder="Enter Challenge title"
             />
-            <br />
-            <label htmlFor="description">Description: </label>
-            <textarea
-              type="text"
-              rows={5}
-              cols={50}
+            <TextField
+              label="Description"
+              variant="standard"
+              fullWidth
+              multiline
+              rows={4}
               name="description"
-              id="description"
               value={editChallenge.description}
               onChange={handleEditChange}
-              placeholder="Enter Challenge description"
             />
-            <br />
-            <label htmlFor="points">Points: </label>
-            <input
+            <TextField
+              label="Points"
+              variant="standard"
+              fullWidth
               type="number"
               name="points"
-              id="points"
               value={editChallenge.points}
               onChange={handleEditChange}
-              placeholder="Enter Challenge points"
             />
-            <br />
-            <br />
-            <label htmlFor="enddate">End Date: </label>
-            <input
+            <TextField
+              label="End Date"
+              variant="standard"
+              fullWidth
               type="date"
               name="enddate"
-              id="enddate"
               value={editChallenge.enddate}
               onChange={handleEditChange}
-              placeholder="Enter Challenge end date"
             />
-            <br />
-            <button type="submit">
-              {editLoading ? "Updating ..." : "Update "}
-            </button>
+            <DialogActions>
+              <Button onClick={handleCloseEditModal} color="secondary">
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                disabled={editLoading}
+              >
+                {editLoading ? "Updating..." : "Update"}
+              </Button>
+            </DialogActions>
           </form>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseEditModal}>Cancel</Button>
-        </DialogActions>
       </Dialog>
 
-      {/* Deleting Modal */}
+      {/* Delete Challenge Modal */}
       <Dialog open={deleteModalOpen} onClose={handleCloseDeleteModal}>
         <DialogTitle>Confirm Delete</DialogTitle>
         <DialogContent>
@@ -231,49 +284,19 @@ const Challenges = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDeleteModal} color="primary">
+          <Button onClick={handleCloseDeleteModal} color="secondary">
             Cancel
           </Button>
           <Button
             onClick={() => handleDeleteChallenge(deleteChallengeId)}
+            variant="contained"
             color="primary"
+            disabled={deleteLoading}
           >
-            {deleteLoading ? "Deleting ..." : "Delete"}
+            {deleteLoading ? "Deleting..." : "Delete"}
           </Button>
         </DialogActions>
       </Dialog>
-
-      {/* __________ All Challenges -------- */}
-
-      {challenges?.map((challenge) => {
-        if (challenge) {
-          var { _id, title, description, startdate, enddate, points } =
-            challenge;
-        }
-        return (
-          <div key={_id}>
-            <p>
-              <strong>Name:</strong> {title}
-            </p>
-            <p>
-              <strong>Description:</strong> {description}
-            </p>
-            <p>
-              <strong>startdate:</strong> {startdate}
-            </p>
-            <p>
-              <strong>enddate:</strong> {enddate}
-            </p>
-            <p>
-              <strong>points:</strong> {points}
-            </p>
-            <button onClick={() => handleEditChallenge(_id)}>Edit</button>
-            <button onClick={() => openDeleteModal(_id)}>Delete</button>
-
-            <hr />
-          </div>
-        );
-      })}
     </div>
   );
 };

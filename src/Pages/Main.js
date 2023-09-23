@@ -5,22 +5,30 @@ import Explore from "../components/challenges/ExploreChallenges";
 
 const Main = () => {
   return (
-    <div>
-      <br />
-      <br />
-      <br />
-
+    <div className="container mt-4">
       <CreateEntry />
-      <br />
-      <br />
-      <div style={{ display: "flex" }}>
-        <div>
-          <h2>People's experiences</h2>
-          <PublicEntries />
+
+      <div className="row mt-4">
+        <div className="col-md-6">
+          <div className="card">
+            <div className="card-header">
+              <h2 className="mb-0">People's experiences</h2>
+            </div>
+            <div className="card-body">
+              <PublicEntries />
+            </div>
+          </div>
         </div>
-        <div>
-          <h2>Challenges</h2>
-          <Explore />
+
+        <div className="col-md-6">
+          <div className="card">
+            <div className="card-header">
+              <h2 className="mb-0">Challenges</h2>
+            </div>
+            <div className="card-body">
+              <Explore />
+            </div>
+          </div>
         </div>
       </div>
     </div>

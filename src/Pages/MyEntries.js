@@ -4,6 +4,18 @@ import {
   getDailyEntries,
   updateEntryById,
 } from "../store/slices/dailyEntriesSlice";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 
 const MyEntries = () => {
   const dispatch = useDispatch();
@@ -20,8 +32,9 @@ const MyEntries = () => {
     mood: "",
     visibility: "",
   });
+
   useEffect(() => {
-    if (isLogin && entries.length == 0) {
+    if (isLogin && entries.length === 0) {
       dispatch(getDailyEntries());
     }
   }, [isLogin]);
@@ -36,62 +49,85 @@ const MyEntries = () => {
       visibility: entry.visibility,
     });
   };
+
   const handleEditChange = (e) => {
     setEditValues({
       ...editValues,
       [e.target.name]: e.target.value,
     });
   };
+
   const handleSubmitEditedEntry = async (e) => {
     e.preventDefault();
     const response = await dispatch(updateEntryById(editValues));
-    // toast lgaayiyo isko ⬇️
     alert(response?.payload?.message);
     setEditing(false);
   };
+
   return (
-    <div>
-      <h1>MyEntries</h1>
-      {/* ⬇️isko overlay  bnade model editing wale ko */}
+    <div className="container my-4">
+      <h1 className="fw-bold mb-3">MyEntries</h1>
       {editing && (
-        <div>
-          <h2>Edit Entry</h2>
-          <form onSubmit={handleSubmitEditedEntry}>
-            <input
-              type="text"
-              placeholder="content"
-              value={editValues?.content}
-              onChange={handleEditChange}
-            />
-            <select
-              name="mood"
-              value={editValues?.mood}
-              onChange={handleEditChange}
-            >
-              <option value="">Please Choose your mood</option>
-              <option value="happy">Happy</option>
-              <option value="sad">Sad</option>
-              <option value="angry">Angry</option>
-              <option value="excited">Excited</option>
-              <option value="tired">Tired</option>
-              <option value="bored">Bored</option>
-              <option value="relaxed">Relaxed</option>
-              <option value="stressed">Stressed</option>
-            </select>
-            <select
-              name="visibility"
-              value={editValues?.visibility}
-              onChange={handleEditChange}
-            >
-              <option value="">Please Choose your visibility</option>
-              <option value="public">Public</option>
-              <option value="private">Private</option>
-            </select>
-            <button type="submit">
-              {updateEntryLoading ? "Loading..." : "Submit"}
-            </button>
-          </form>
-        </div>
+        <Dialog open={editing} onClose={() => setEditing(false)}>
+          <DialogTitle>Edit Entry</DialogTitle>
+          <DialogContent>
+            <form onSubmit={handleSubmitEditedEntry}>
+              <TextField
+                label="Content"
+                variant="standard"
+                fullWidth
+                name="content"
+                value={editValues?.content}
+                onChange={handleEditChange}
+              />
+              <FormControl fullWidth variant="standard">
+                <InputLabel>Mood</InputLabel>
+                <Select
+                  label="Mood"
+                  name="mood"
+                  value={editValues?.mood}
+                  onChange={handleEditChange}
+                >
+                  <MenuItem value="">Please Choose your mood</MenuItem>
+                  <MenuItem value="happy">Happy</MenuItem>
+                  <MenuItem value="sad">Sad</MenuItem>
+                  <MenuItem value="angry">Angry</MenuItem>
+                  <MenuItem value="excited">Excited</MenuItem>
+                  <MenuItem value="tired">Tired</MenuItem>
+                  <MenuItem value="bored">Bored</MenuItem>
+                  <MenuItem value="relaxed">Relaxed</MenuItem>
+                  <MenuItem value="stressed">Stressed</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl fullWidth variant="standard">
+                <InputLabel>Visibility</InputLabel>
+                <Select
+                  label="Visibility"
+                  name="visibility"
+                  value={editValues?.visibility}
+                  onChange={handleEditChange}
+                >
+                  <MenuItem value="">Please Choose your visibility</MenuItem>
+                  <MenuItem value="public">Public</MenuItem>
+                  <MenuItem value="private">Private</MenuItem>
+                </Select>
+              </FormControl>
+              <DialogActions>
+                <Button onClick={() => setEditing(false)} color="secondary">
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  disabled={updateEntryLoading}
+                >
+                  {updateEntryLoading ? "Updating..." : "Submit"}
+                </Button>
+              </DialogActions>
+            </form>
+          </DialogContent>
+        </Dialog>
       )}
       {loading ? (
         <p>Loading...</p>
@@ -111,7 +147,14 @@ const MyEntries = () => {
               <p>
                 <strong>Visibility:</strong> {visibility}
               </p>
-              <button onClick={() => handleEditEntry(_id)}>Edit</button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => handleEditEntry(_id)}
+                className="me-2"
+              >
+                Edit
+              </Button>
               <br />
               <hr />
               <br />

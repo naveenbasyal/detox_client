@@ -23,16 +23,16 @@ const GetSingleChallenge = () => {
   });
 
   useEffect(() => {
-    GetSingleChallenge();
+    getSingleChallenge();
   }, [isSubmitted]);
 
-  const GetSingleChallenge = async () => {
+  const getSingleChallenge = async () => {
     const data = await dispatch(getChallengeById(id));
     if (data?.payload) {
-      console.log(data?.payload);
       setIsSubmitted(data?.payload?.isSubmitted);
     }
   };
+
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
@@ -52,58 +52,84 @@ const GetSingleChallenge = () => {
   };
 
   return (
-    <div>
-      {/* Challenge ke Details */}
-      {singleChallenge?.challenge && (
-        <div>
-          <h3>Challenge Points : {singleChallenge?.challenge?.points}</h3>
-          <p>Name:{singleChallenge?.challenge?.title}</p>
-          <p>description:{singleChallenge?.challenge?.description}</p>
-          <p>startdate:{singleChallenge?.challenge?.startdate}</p>
-          <p>enddate:{singleChallenge?.challenge?.enddate}</p>
+    <div className="container mt-4">
+      <div className="row justify-content-between">
+        <div className="col-lg-5 col-md-5 col-sm-12">
+          {singleChallenge?.challenge && (
+            <div>
+              <h3 className="mb-3">
+                Challenge Points: {singleChallenge?.challenge?.points}
+              </h3>
+              <p>
+                <strong>Name:</strong> {singleChallenge?.challenge?.title}
+              </p>
+              <p>
+                <strong>Description:</strong>{" "}
+                {singleChallenge?.challenge?.description}
+              </p>
+              <p>
+                <strong>Start Date:</strong>{" "}
+                {singleChallenge?.challenge?.startdate}
+              </p>
+              <p>
+                <strong>End Date:</strong> {singleChallenge?.challenge?.enddate}
+              </p>
+            </div>
+          )}
         </div>
-      )}
-
-      {isSubmitted ? (
-        <h4>You have submitted this challenge</h4>
-      ) : (
-        // {/* write the content for the challenge */}
-        <form onSubmit={handleSubmitChallenge}>
-          <textarea
-            onChange={handleChange}
-            name="content"
-            cols="30"
-            rows="10"
-            placeholder="write your experience here..."
-          ></textarea>
-          <br />
-          <span>Mood: </span>
-          <select name="mood" onChange={handleChange}>
-            <option value="">Choose your Mood</option>
-            <option value="excited">Excited</option>
-            <option value="normal">Normal</option>
-            <option value="happy">Happy</option>
-            <option value="sad">Sad</option>
-            <option value="angry">Angry</option>
-            <option value="tired">Tired</option>
-            <option value="bored">Bored</option>
-            <option value="relaxed">Relaxed</option>
-            <option value="stressed">Stressed</option>
-          </select>
-          <br />
-          <span>Visibility: </span>
-
-          <select name="visibility" onChange={handleChange}>
-            <option value="">Choose visibility</option>
-            <option value="public">Public</option>
-            <option value="private">Private</option>
-          </select>
-          <br />
-          <button type="submit">
-            {createEntryLoading ? "Loading..." : "Submit "}
-          </button>
-        </form>
-      )}
+        <div className="col-lg-5 col-md-5 col-sm-12">
+          {isSubmitted ? (
+            <h4>You have submitted this challenge</h4>
+          ) : (
+            <form onSubmit={handleSubmitChallenge} className="mt-4">
+              <div className="mb-3">
+                <textarea
+                  className="form-control"
+                  onChange={handleChange}
+                  name="content"
+                  cols="30"
+                  rows="10"
+                  placeholder="Write your experience here..."
+                ></textarea>
+              </div>
+              <div className="mb-3">
+                <span>Mood: </span>
+                <select
+                  className="form-select"
+                  name="mood"
+                  onChange={handleChange}
+                >
+                  <option value="">Choose your Mood</option>
+                  <option value="excited">Excited</option>
+                  <option value="normal">Normal</option>
+                  <option value="happy">Happy</option>
+                  <option value="sad">Sad</option>
+                  <option value="angry">Angry</option>
+                  <option value="tired">Tired</option>
+                  <option value="bored">Bored</option>
+                  <option value="relaxed">Relaxed</option>
+                  <option value="stressed">Stressed</option>
+                </select>
+              </div>
+              <div className="mb-3">
+                <span>Visibility: </span>
+                <select
+                  className="form-select"
+                  name="visibility"
+                  onChange={handleChange}
+                >
+                  <option value="">Choose visibility</option>
+                  <option value="public">Public</option>
+                  <option value="private">Private</option>
+                </select>
+              </div>
+              <button type="submit" className="btn btn-primary">
+                {createEntryLoading ? "Loading..." : "Submit"}
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

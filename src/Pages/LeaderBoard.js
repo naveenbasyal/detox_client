@@ -14,32 +14,61 @@ const LeaderBoard = () => {
   }, [users]);
 
   return (
-    <div>
-      <h2>LeaderBoard</h2>
+    <div className="container">
+      <h2 className="mt-4 mb-3 fw-bold">LeaderBoard</h2>
       {loading ? (
         <h1>Loading...</h1>
       ) : (
-        <ol>
-          {users?.map((user) => {
-            return (
-              <Link to={`/user/${user._id}`} key={user._id}>
-                <li >
-                  <img src={user.picture} alt="" style={{ width: "4rem" }} />
-                  <p>
-                    <strong>Name:</strong> {user.username}
-                  </p>
-                  <p>
-                    <strong>Level:</strong> {user.level}
-                  </p>
-                  <p>
-                    <strong>Score:</strong> {user.points}
-                  </p>
-                  <hr />
-                </li>
-              </Link>
-            );
-          })}
-        </ol>
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">User</th>
+              <th scope="col">Level</th>
+              <th scope="col">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users?.map((user, index) => (
+              <tr key={user._id}>
+                <td className="d-flex align-items-center">
+                  <img
+                    src={user.picture}
+                    alt={user.username}
+                    className="me-3 rounded-circle"
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <Link
+                    to={`/user/${user._id}`}
+                    className="text-decoration-none text-black"
+                  >
+                    <h5 className="me-5">{user.username}</h5>
+                  </Link>
+                </td>
+                <td>{user.level}</td>
+                <td>
+                  {user.points}{" "}
+                  {index === 0 ? (
+                    <span role="img" aria-label="star">
+                      🥇
+                    </span>
+                  ) : index === 1 ? (
+                    <span role="img" aria-label="star">
+                      🥈
+                    </span>
+                  ) : (
+                    <span role="img" aria-label="star">
+                      ⚡
+                    </span>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   );

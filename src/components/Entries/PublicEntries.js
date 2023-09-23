@@ -2,6 +2,20 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPublicEntries } from "../../store/slices/dailyEntriesSlice";
 import { Link } from "react-router-dom";
+import { formatDistanceToNow } from "date-fns"; 
+
+
+const moodEmojis = {
+  excited: "😃",
+  normal: "😐",
+  happy: "😊",
+  sad: "😢",
+  angry: "😡",
+  tired: "😴",
+  bored: "😕",
+  relaxed: "😌",
+  stressed: "😓",
+};
 
 const PublicEntries = () => {
   const dispatch = useDispatch();
@@ -14,7 +28,7 @@ const PublicEntries = () => {
   }, []);
 
   return (
-    <div>
+    <div className="container mt-4">
       {loading ? (
         <h1>Loading...</h1>
       ) : (
@@ -25,42 +39,55 @@ const PublicEntries = () => {
             mood,
             visibility,
             _id,
-            userId: { username, picture, level, points,_id:userId },
+            userId: { username, picture, level, points, _id: userId },
           }) => {
+            
+            const timeAgo = formatDistanceToNow(new Date(createdAt), {
+              addSuffix: true,
+            });
+
             return (
-              <div key={_id}>
-                <div className="userInfo" style={{ display: "flex",alignItems:"center" }}>
-                  <Link to={`/profile/${userId}`}>
+              <div key={_id} className="card mb-3">
+                <div className="card-body">
+                  <div className="d-flex align-items-center">
+                    <Link
+                      to={`/user/${userId}`}
+                      className="text-decoration-none d-flex align-items-center"
+                    >
                       <img
                         src={picture}
                         alt="userImage"
-                        loading="lazy"
-                        style={{ width: "2.5rem", borderRadius: "50%" }}
+                        className="rounded-circle me-3"
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          objectFit: "cover",
+                        }}
                       />
-                      <p>
-                        <strong>{username}</strong> feeling <strong>{mood}</strong>
+                      <p className="mb-0">
+                        <strong className="text-black">{username}</strong>
+                        <strong className="text-secondary">
+                          &nbsp;is feeling {moodEmojis[mood.toLowerCase()]}{" "}
+                          {mood}
+                        </strong>
                       </p>
-                  </Link>
-                  {/* <p>&nbsp;
-                    <strong>Level:</strong> {level}
+                    </Link>
+                  </div>
+                  <hr />
+                  <p className="mb-0">
+                    <strong>
+                      <i class="fa-regular fa-clock"></i>&nbsp;
+                    </strong>{" "}
+                    {timeAgo}
                   </p>
-                  <p>&nbsp;
-                    <strong>Points:</strong> {points}
-                  </p> */}
+                  <p className="mb-0">
+                    <strong>
+                      <i class="fa-solid fa-message"></i>&nbsp;{" "}
+                    </strong>
+                    {"  "}
+                    {content}
+                  </p>
                 </div>
-                <p>
-                  <strong>Date:</strong> {createdAt}
-                </p>
-                <p>
-                  <strong>Message:</strong> {content}
-                </p>
-                {/* <p>
-                  <strong>Mood:</strong> {mood}
-                </p> */}
-                {/* <p>
-                  <strong>Visibility:</strong> {visibility}
-                </p> */}
-                <hr />
               </div>
             );
           }

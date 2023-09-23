@@ -37,62 +37,68 @@ const ExploreChallenges = () => {
   }, []);
 
   return (
-    <div>
-      {loading
-        ? "Loading..."
-        : challenges?.map((challenge, index) => {
-            if (challenge) {
-              var {
-                _id,
-                title,
-                description,
-                points,
-                createdAt: startdate,
-                enddate,
-                participants,
-              } = challenge;
-            }
-            const notStarted = isChallengeNotStarted(startdate);
-            const expired = isChallengeExpired(enddate);
+    <div className="container">
+      <h3 className="my-4">Explore Challenges</h3>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        challenges?.map((challenge, index) => {
+          if (challenge) {
+            var {
+              _id,
+              title,
+              description,
+              points,
+              createdAt: startdate,
+              enddate,
+              participants,
+            } = challenge;
+          }
+          const notStarted = isChallengeNotStarted(startdate);
+          const expired = isChallengeExpired(enddate);
 
-            return (
-              <div key={index}>
-                <h5 style={{ display: "flex", flexWrap: "wrap" }}>
-                  {/* show Except me */}
-                  {participants?.map((p) => {
+          return (
+            <div key={index} className="card m-4">
+              <div className="card-body bg-light">
+                <h5 className="card-title">
+                  {participants?.map((p, idx) => {
                     return (
                       <span key={p}>
                         <Link to={`/user/${p}`}>{p === myId ? "You " : p}</Link>
-                        ,&nbsp;
+                        {idx < participants.length - 1 && ", "}
                       </span>
                     );
                   })}
-                  {participants.length > 0 && (
-                    <span>&nbsp; accepted the challenge</span>
-                  )}
+                  {participants.length > 0 && "accepted the challenge"}
                 </h5>
-                <h4>Challenge Points: {points}</h4>
-                <p>Name: {title}</p>
-                <p>description: {description}</p>
-                <p>
-                  startdate:{" "}
+                <h4 className="card-subtitle mb-2 text-muted">
+                  Challenge Points: {points}
+                </h4>
+                <p className="card-text">
+                  <strong>Name:</strong> {title}
+                </p>
+                <p className="card-text">
+                  <strong>Description:</strong> {description}
+                </p>
+                <p className="card-text">
+                  <strong>Start Date:</strong>{" "}
                   {new Date(startdate).toLocaleString("en-US", {
                     timeZone: "Asia/Kolkata",
                   })}
                 </p>
-                <p>
-                  enddate:{" "}
+                <p className="card-text">
+                  <strong>End Date:</strong>{" "}
                   {new Date(enddate).toLocaleString("en-US", {
                     timeZone: "Asia/Kolkata",
                   })}
                 </p>
 
                 {notStarted ? (
-                  <p style={{ color: "green", fontWeight: "bold" }}>
+                  <p className="text-success font-weight-bold">
                     Challenge yet to start
                   </p>
                 ) : expired ? (
-                  <p style={{ color: "red", fontWeight: "bold" }}>
+                  <p className="text-danger font-weight-bold">
                     Challenge expired
                   </p>
                 ) : (
@@ -108,10 +114,14 @@ const ExploreChallenges = () => {
                       completed,
                     }) => {
                       if (completed) {
-                        return <p>Challenge expired</p>;
+                        return (
+                          <p className="text-danger font-weight-bold">
+                            Challenge expired
+                          </p>
+                        );
                       } else {
                         return (
-                          <p>
+                          <p className="text-danger">
                             Ends in {days} days, {hours} hours, {minutes}{" "}
                             minutes, {seconds} seconds
                           </p>
@@ -122,19 +132,20 @@ const ExploreChallenges = () => {
                 )}
 
                 {!notStarted && !expired && (
-                  <button style={{ background: "green", color: "white" }}>
+                  <button className="btn btn-success">
                     <Link
-                      style={{ color: "white" }}
                       to={`/explore/challenge/${_id}`}
+                      className="text-white text-decoration-none"
                     >
                       Accept challenge
                     </Link>
                   </button>
                 )}
-                <hr />
               </div>
-            );
-          })}
+            </div>
+          );
+        })
+      )}
     </div>
   );
 };

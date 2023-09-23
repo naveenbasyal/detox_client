@@ -46,7 +46,6 @@ const UserProfile = () => {
   const handleImageUpload = async (e) => {
     if (id != user?._id) {
       alert("You can't edit someone else's profile");
-
       return;
     }
 
@@ -70,7 +69,7 @@ const UserProfile = () => {
           },
         }
       );
-      console.log(response?.data?.url);
+
       dispatch(
         updateUserProfile({
           id,
@@ -107,57 +106,95 @@ const UserProfile = () => {
   };
 
   return (
-    <div>
+    <div className="container mt-4">
       {loading ? (
         <h1>Loading...</h1>
       ) : (
-        <>
-          <h2>User Profile</h2>
-          <img src={userValues?.picture} alt="" style={{ width: "4rem" }} />
-          {/* ____ Upload New Image _____ */}
-          <div>
-            <label htmlFor="picture">Change Profile Picture?</label>
-            <input type="file" accept="image/*" onChange={handleImageUpload} />
-          </div>
-          <br />
-          {uploadProgress && (
-            <div>
-              {uploadProgress === 100
-                ? "Image Uploaded Successfully"
-                : "Uploading Image.."}
-              <progress value={uploadProgress} max="100" />{" "}
-              {uploadProgress && `${uploadProgress}%`}
+        <div className="row">
+          <div className="col-md-4">
+            <img
+              src={userValues?.picture}
+              alt=""
+              className="img-fluid rounded-circle"
+              style={{
+                width: "200px",
+                height: "200px",
+                objectFit: "cover",
+              }}
+            />
+            <div className="mt-3">
+              <label htmlFor="picture " className="fw-bolder">
+                Change Profile Picture?
+              </label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+              />
+              {uploadProgress && (
+                <div>
+                  {uploadProgress === 100
+                    ? "Image Uploaded Successfully"
+                    : "Uploading Image.."}
+                  <progress value={uploadProgress} max="100" className="mt-2" />
+                  {uploadProgress && `${uploadProgress}%`}
+                </div>
+              )}
             </div>
-          )}
-          <h3>Level: {user?.level}</h3>
-          <h3>Points: {user?.points}</h3>
-          <div>
-            {isEditing ? (
-              <>
-                <label htmlFor="username">Username: </label>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  value={userValues?.username}
-                  onChange={handleEditChange}
-                />
-                <button onClick={handleSubmit} disabled={editprofileLoading}>
-                  Save
-                </button>
-                <button onClick={() => setIsEditing(false)}>Cancel</button>
-              </>
-            ) : (
-              <>
-                <p>Username: {user?.username}</p>
-                <button onClick={() => setIsEditing(true)}>
-                  Edit Username
-                </button>
-              </>
-            )}
           </div>
-          <p>Email: {user?.email}</p>
-        </>
+          <div className="col-md-8">
+            <h2 className="mb-3 fw-bolder">User Profile</h2>
+            <div>
+              {isEditing ? (
+                <>
+                  <label htmlFor="username">Username:</label>
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    value={userValues?.username}
+                    onChange={handleEditChange}
+                    className="form-control"
+                  />
+                  <button
+                    onClick={handleSubmit}
+                    disabled={editprofileLoading}
+                    className="btn btn-primary mt-2"
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() => setIsEditing(false)}
+                    className="btn btn-secondary mt-2 ms-2"
+                  >
+                    Cancel
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p>
+                    <strong>Username:</strong> {user?.username}
+                  </p>
+                  <button
+                    onClick={() => setIsEditing(true)}
+                    className="btn btn-outline-primary my-3"
+                  >
+                    Edit Username
+                  </button>
+                </>
+              )}
+            </div>
+            <p>
+              <strong>Level:</strong> {user?.level}
+            </p>
+            <p>
+              <strong>Points:</strong> {user?.points}
+            </p>
+            <p>
+              <strong>Email:</strong> {user?.email}
+            </p>
+          </div>
+        </div>
       )}
     </div>
   );

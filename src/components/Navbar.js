@@ -12,6 +12,10 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLogin } = useSelector((state) => state?.auth);
+  const { userProfile } = useSelector((state) => state?.user);
+
+  const userImage = userProfile?.picture;
+
   const [admin, setAdmin] = useState(null);
 
   const id = fetchToken()?.id;
@@ -29,6 +33,7 @@ const Navbar = () => {
       setAdmin(true);
     }
   };
+
   const handleLogout = () => {
     dispatch(logoutAuthSlice());
     dispatch(logoutUserSlice());
@@ -43,22 +48,93 @@ const Navbar = () => {
   }, [id]);
 
   return (
-    <div>
-      {isLogin && (
-        <>
-          <Link to={`/`}>Home</Link> --------
-          <Link to={`/myentries`}>My Entries</Link>--------
-          <Link to={`/profile/${id}`}>MyProfile</Link>--------
-          <Link to={`/leaderboard`}>LeaderBoard</Link>---------
-          <Link to={`/explore`}>Explore</Link>---------
-          {admin === true && (
-            <Link to={`/challenges`}>Admin(only for Admin)</Link>
-          )}
-          -------
-          <button onClick={handleLogout}>Logout</button>
-        </>
-      )}
-    </div>
+    <nav
+      className="navbar navbar-expand-lg navbar-light"
+      style={{
+        position: "sticky",
+        top: "0",
+        zIndex: "100",
+        backdropFilter: "blur(10px)",
+      }}
+    >
+      <div className="container">
+        <Link className="navbar-brand fw-bold" to="/">
+          DeToxifyMe
+        </Link>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav ms-auto fw-bold">
+            {isLogin && (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/">
+                    Home
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/myentries">
+                    My Entries
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to={`/profile/${id}`}>
+                    My Profile
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/leaderboard">
+                    LeaderBoard
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/explore">
+                    Explore
+                  </Link>
+                </li>
+                {admin === true && (
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/challenges">
+                      Admin (only for Admin)
+                    </Link>
+                  </li>
+                )}
+                <Link
+                  className="nav-item mx-4"
+                  to={`/profile/${userProfile?._id}`}
+                >
+                  <img
+                    src={userImage} // Display the user's image here
+                    alt="User Profile"
+                    className="me-3 rounded-circle"
+                    style={{
+                      width: "34px",
+                      height: "34px",
+                      cursor: "pointer",
+                      objectFit: "cover",
+                    }}
+                  />
+                </Link>
+                <li className="nav-item">
+                  <button className="btn btn-danger" onClick={handleLogout}>
+                    Logout
+                  </button>
+                </li>
+              </>
+            )}
+          </ul>
+        </div>
+      </div>
+    </nav>
   );
 };
 
