@@ -49,6 +49,30 @@ export const getAllPublicEntries = createAsyncThunk(
     }
   }
 );
+// ____________ GEt Public Entries of Particular User while inspecting  ________________
+export const getPublicEntriesById = createAsyncThunk(
+  "getPublicEntriesById",
+  async (userId, { rejectWithValue, dispatch }) => {
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/daily-entries/publicEntry/${userId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const data = await res.json();
+
+      return data?.publicEntry;
+    } catch (error) {
+      console.log(error);
+      rejectWithValue(error.response);
+    }
+  }
+);
 export const createDailyEntries = createAsyncThunk(
   "createDailyEntries",
   async (values, { rejectWithValue, dispatch }) => {
@@ -104,8 +128,10 @@ const initialState = {
   dailyEntries: [],
   loading: false,
   publicEntries: [],
+  userPublicEntries: [],
   createEntryLoading: false,
   updateEntryLoading: false,
+  publicEntryLoading: false,
   error: null,
 };
 
@@ -116,6 +142,7 @@ const dailyEntriesSlice = createSlice({
     logoutEntrySlice(state) {
       state.dailyEntries = [];
       state.publicEntries = [];
+      state.userPublicEntries = [];
     },
   },
   extraReducers: (builder) => {
@@ -172,7 +199,19 @@ const dailyEntriesSlice = createSlice({
       .addCase(updateEntryById.rejected, (state, action) => {
         state.updateEntryLoading = false;
         state.error = action.payload;
+      })
+      .addCase(getPublicEntriesById.pending, (state) => {
+        state.publicEntryLoading = true;
+      })
+      .addCase(getPublicEntriesById.fulfilled, (state, action) => {
+        state.publicEntryLoading = false;
+        state.userPublicEntries = action.payload;
+      })
+      .addCase(getPublicEntriesById.rejected, (state, action) => {
+        state.publicEntryLoading = false;
+        state.error = action.payload;
       });
+    // ________ GET PUBLIC ENTRIES BY ID _______
   },
 });
 export const { logoutEntrySlice } = dailyEntriesSlice.actions;

@@ -14,10 +14,10 @@ const Main = () => {
             <div className="card-header">
               <h2 className="mb-0">People's experiences</h2>
             </div>
-            <div className="card-body">
-              <PublicEntries />
-            </div>
+            {/* <div className="card-body"> */}
+            {/* </div> */}
           </div>
+          <PublicEntries />
         </div>
 
         <div className="col-md-6">
@@ -25,10 +25,8 @@ const Main = () => {
             <div className="card-header">
               <h2 className="mb-0">Challenges</h2>
             </div>
-            <div className="card-body">
-              <Explore />
-            </div>
           </div>
+          <Explore />
         </div>
       </div>
     </div>

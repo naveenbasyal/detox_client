@@ -17,6 +17,7 @@ import {
   InputLabel,
 } from "@mui/material";
 import Loader from "../components/Loader";
+import { formatDistanceToNow } from "date-fns";
 
 const MyEntries = () => {
   const dispatch = useDispatch();
@@ -131,13 +132,18 @@ const MyEntries = () => {
         </Dialog>
       )}
       {loading ? (
-        <Loader/>
+        <Loader />
       ) : (
         entries?.map(({ createdAt, _id, content, mood, visibility }) => {
+          if (createdAt) {
+            var timeAgo = formatDistanceToNow(new Date(createdAt), {
+              addSuffix: true,
+            });
+          }
           return (
             <div key={_id}>
               <p>
-                <strong>Date:</strong> {createdAt}
+                <strong>Date:</strong> {timeAgo}
               </p>
               <p>
                 <strong>Content:</strong> {content}

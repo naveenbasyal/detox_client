@@ -29,7 +29,7 @@ const PublicEntries = () => {
   }, []);
 
   return (
-    <div className="container mt-4">
+    <div className=" mt-4">
       {loading ? (
         <ThreeDots
           height="64"
@@ -85,13 +85,13 @@ const PublicEntries = () => {
                   <hr />
                   <p className="mb-0">
                     <strong>
-                      <i class="fa-regular fa-clock"></i>&nbsp;
+                      <i className="fa-regular fa-clock"></i>&nbsp;
                     </strong>
                     {timeAgo}
                   </p>
                   <p className="mb-0">
                     <strong>
-                      <i class="fa-solid fa-message"></i>&nbsp;{" "}
+                      <i className="fa-solid fa-message"></i>&nbsp;{" "}
                     </strong>
                     {"  "}
                     {content}

@@ -114,7 +114,7 @@ const UserProfile = () => {
         <Loader />
       ) : (
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-md-4 mt-3 d-flex flex-column ">
             <img
               src={userValues?.picture}
               alt=""
@@ -130,11 +130,13 @@ const UserProfile = () => {
                 sx={{
                   display: "flex",
                   alignItems: "center",
+
+                  // flexDirection: "column",
                 }}
               >
-                <InputLabel htmlFor="image-upload" className="fw-bolder">
-                  Change Profile Picture
-                </InputLabel>
+                {/* <strong htmlFor="image-upload" className="fw-bolder">
+                  Change Profile Picture?
+                </strong> */}
                 <Input
                   type="file"
                   accept="image/*"
@@ -146,13 +148,13 @@ const UserProfile = () => {
                   variant="contained"
                   component="span"
                   startIcon={<CloudUploadOutlined />}
-                  className="ms-2"
+                  className="ms-2 text-capitalize"
                   width="50%"
                   onClick={() =>
                     document.getElementById("image-upload").click()
-                  } 
+                  }
                 >
-                  Upload
+                  Upload new image?
                 </Button>
               </Box>
               {uploadProgress && (
@@ -166,7 +168,7 @@ const UserProfile = () => {
               )}
             </div>
           </div>
-          <div className="col-md-8">
+          <div className="col-md-8 mt-3">
             <h2 className="mb-3 fw-bolder">User Profile</h2>
             <div>
               {isEditing ? (
@@ -197,11 +199,11 @@ const UserProfile = () => {
               ) : (
                 <>
                   <p>
-                    <strong>Username:</strong> {user?.username}
+                    <strong>Username : </strong> {user?.username}
                   </p>
                   <button
                     onClick={() => setIsEditing(true)}
-                    className="btn btn-outline-primary my-3"
+                    className="btn btn-outline-primary my-2"
                   >
                     Edit Username
                   </button>
@@ -209,13 +211,13 @@ const UserProfile = () => {
               )}
             </div>
             <p>
-              <strong>Level:</strong> {user?.level}
+              <strong>Level :</strong> {user?.level}
             </p>
             <p>
-              <strong>Points:</strong> {user?.points}
+              <strong>Points :</strong> {user?.points}
             </p>
             <p>
-              <strong>Email:</strong> {user?.email}
+              <strong>Email :</strong> {user?.email}
             </p>
           </div>
         </div>
