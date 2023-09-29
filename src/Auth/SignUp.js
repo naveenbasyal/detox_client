@@ -15,6 +15,8 @@ import {
 import { LockOutlined } from "@mui/icons-material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -49,11 +51,25 @@ const SignUp = () => {
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      const success = dispatch(registerUser(values));
+    onSubmit: async (values) => {
+      const success = await dispatch(registerUser(values));
       if (success) {
         navigate("/login");
         formik.resetForm();
+        toast.success("Registration successful!", {
+          position: "top-center",
+          autoClose: 5000, 
+          hideProgressBar: true,
+          theme: "light",
+        });
+      } else {
+        formik.setFieldError("password", "Invalid credentials");
+        toast.error("Invalid credentials. Registration failed.", {
+          position: "top-center",
+          autoClose: 5000, // Optional: Close the toast after 5 seconds
+          hideProgressBar: true,
+          theme: "light", // Optional: Use a light theme
+        });
       }
     },
   });

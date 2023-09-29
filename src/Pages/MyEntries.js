@@ -6,18 +6,24 @@ import {
 } from "../store/slices/dailyEntriesSlice";
 import {
   Button,
+  Card,
+  CardContent,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  TextField,
-  Select,
-  MenuItem,
   FormControl,
   InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
 } from "@mui/material";
 import Loader from "../components/Loader";
 import { formatDistanceToNow } from "date-fns";
+import EditIcon from "@mui/icons-material/Edit";
+import MoodIcon from "@mui/icons-material/Mood";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const MyEntries = () => {
   const dispatch = useDispatch();
@@ -68,7 +74,7 @@ const MyEntries = () => {
 
   return (
     <div className="container my-4">
-      <h1 className="fw-bold mb-3">MyEntries</h1>
+      <h1 className="fw-bold card-header mb-4">My Entries</h1>
       {editing && (
         <Dialog open={editing} onClose={() => setEditing(false)}>
           <DialogTitle>Edit Entry</DialogTitle>
@@ -140,32 +146,77 @@ const MyEntries = () => {
               addSuffix: true,
             });
           }
+
+          const moodEmoji =
+            mood === "happy"
+              ? "😄"
+              : mood === "sad"
+              ? "😢"
+              : mood === "angry"
+              ? "😠"
+              : mood === "excited"
+              ? "🤩"
+              : mood === "tired"
+              ? "😴"
+              : mood === "bored"
+              ? "😐"
+              : mood === "relaxed"
+              ? "😌"
+              : mood === "stressed"
+              ? "😫"
+              : "";
+
+          const visibilityEmoji =
+            visibility === "public"
+              ? "🌎"
+              : visibility === "private"
+              ? "🔒"
+              : "";
+
           return (
-            <div key={_id}>
-              <p>
-                <strong>Date:</strong> {timeAgo}
-              </p>
-              <p>
-                <strong>Content:</strong> {content}
-              </p>
-              <p>
-                <strong>Mood:</strong> {mood}
-              </p>
-              <p>
-                <strong>Visibility:</strong> {visibility}
-              </p>
+            <Card key={_id} className="my-3">
+              <CardContent>
+                <Typography variant="body2" color="text.secondary">
+                  <strong>
+                    <VisibilityIcon /> Visibility:
+                  </strong>
+                  <span className="ms-1">
+                    {visibility} {visibilityEmoji}
+                  </span>
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  <strong>
+                    <EditIcon /> Content:
+                  </strong>
+                  <span className="ms-1">{content}</span>
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  <strong>
+                    <MoodIcon /> Mood:
+                  </strong>
+                  <span className="ms-1">
+                    {mood} {moodEmoji}
+                  </span>
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  <strong>
+                    <span role="img" aria-label="Date Posted">
+                      📅
+                    </span>
+                    Date Posted:
+                  </strong>
+                  <span className="ms-1">{timeAgo}</span>
+                </Typography>
+              </CardContent>
               <Button
                 variant="contained"
                 color="primary"
                 onClick={() => handleEditEntry(_id)}
-                className="me-2"
+                className="mb-3  ms-4 text-sm"
               >
                 Edit
               </Button>
-              <br />
-              <hr />
-              <br />
-            </div>
+            </Card>
           );
         })
       )}

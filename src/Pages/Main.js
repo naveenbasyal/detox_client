@@ -5,31 +5,33 @@ import Explore from "../components/challenges/ExploreChallenges";
 
 const Main = () => {
   return (
-    <div className="container mt-4">
-      <CreateEntry />
+    <section className="main">
+      <div className="container">
+        <CreateEntry />
 
-      <div className="row mt-4">
-        <div className="col-md-6">
-          <div className="card">
-            <div className="card-header">
-              <h2 className="mb-0">People's experiences</h2>
+        <div className="row mt-4">
+          <div className="col-md-6">
+            <div className="card">
+              <div className="card-header">
+                <h2 className="mb-0">People's experiences</h2>
+              </div>
+              {/* <div className="card-body"> */}
+              {/* </div> */}
             </div>
-            {/* <div className="card-body"> */}
-            {/* </div> */}
+            <PublicEntries />
           </div>
-          <PublicEntries />
-        </div>
 
-        <div className="col-md-6">
-          <div className="card">
-            <div className="card-header">
-              <h2 className="mb-0">Challenges</h2>
+          <div className="col-md-6">
+            <div className="card">
+              <div className="card-header">
+                <h2 className="mb-0">Challenges</h2>
+              </div>
             </div>
+            <Explore />
           </div>
-          <Explore />
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

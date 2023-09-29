@@ -14,9 +14,25 @@ import GetSingleChallenge from "./components/challenges/getSingleChallenge";
 import MyEntries from "./Pages/MyEntries";
 import InspectUser from "./components/leaderboard/InspectUser";
 import NotFoundPage from "./Pages/NotFoundPage";
+import { useEffect, useState } from "react";
+import MainLoader from "./components/MainLoader";
 const App = () => {
   const { isLogin } = useSelector((state) => state?.auth);
   const { admin } = useSelector((state) => state?.user);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <MainLoader />;
+  }
+
   return (
     <Router>
       {isLogin && <Navbar />}
@@ -85,7 +101,7 @@ const App = () => {
           }
         />
         {/* ___404 Routes */}
-        <Route path="*" element={<NotFoundPage/>} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );

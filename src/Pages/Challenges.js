@@ -15,6 +15,15 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
+import { format } from "date-fns";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const formattedDate = format(date, "MMM d, yyyy HH'h' mm'm' ss's'");
+  return formattedDate;
+};
 
 const Challenges = () => {
   const dispatch = useDispatch();
@@ -25,12 +34,7 @@ const Challenges = () => {
   useEffect(() => {
     dispatch(getAllChallenges());
   }, []);
-  const [newChallenge, setNewChallenge] = useState({
-    title: "",
-    description: "",
-    points: 10,
-    enddate: "2023-12-20",
-  });
+
   const [editChallenge, setEditChallenge] = useState({
     id: "",
     title: "",
@@ -41,27 +45,6 @@ const Challenges = () => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteChallengeId, setDeleteChallengeId] = useState(null);
-
-  // _____________ CREATION PART _____________
-
-  const handleChange = (e) => {
-    setNewChallenge({
-      ...newChallenge,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleCreateChallenge = async (e) => {
-    e.preventDefault();
-    const res = await dispatch(createChallenge(newChallenge));
-    alert(res?.payload?.message);
-    setNewChallenge({
-      title: "",
-      description: "",
-      points: 10,
-      enddate: "",
-    });
-  };
 
   // _____________ EDITING PART _____________
   const handleEditChange = (e) => {
@@ -81,10 +64,8 @@ const Challenges = () => {
       enddate: challenge.enddate,
     });
   };
-  const handleSubmitEditedChallenge = async (e) => {
-    e.preventDefault();
-    console.log(editChallenge);
-    const response = await dispatch(updateChallenge(editChallenge));
+  const handleSubmitEditedChallenge = async (values) => {
+    const response = await dispatch(updateChallenge(values));
     alert(response?.payload?.message);
     setEditModalOpen(false);
   };
@@ -112,6 +93,14 @@ const Challenges = () => {
     setDeleteChallengeId(null);
   };
 
+  const validationSchema = Yup.object().shape({
+    title: Yup.string().required("Title is required"),
+    description: Yup.string().required("Description is required"),
+    points: Yup.number()
+      .min(5, "Points must be at least 5")
+      .required("Points is required"),
+  });
+
   return (
     <div className="container mt-4">
       {/* Create Challenge */}
@@ -120,58 +109,96 @@ const Challenges = () => {
       "
       >
         <div className="col-lg-4 col-md-6 col-sm-12">
-          <h2 className="fw-bolder">Create Challenge</h2>
-          <form onSubmit={handleCreateChallenge} className="mb-4">
-            <TextField
-              label="Title"
-              variant="standard"
-              fullWidth
-              name="title"
-              value={newChallenge.title}
-              onChange={handleChange}
-            />
-            <TextField
-              label="Description"
-              variant="standard"
-              fullWidth
-              multiline
-              rows={4}
-              name="description"
-              value={newChallenge.description}
-              onChange={handleChange}
-            />
-            <TextField
-              label="Points"
-              variant="standard"
-              fullWidth
-              type="number"
-              name="points"
-              value={newChallenge.points}
-              onChange={handleChange}
-            />
-            <TextField
-              label="End Date"
-              variant="standard"
-              fullWidth
-              type="date"
-              name="enddate"
-              value={newChallenge.enddate}
-              onChange={handleChange}
-            />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              disabled={loading}
-              className="mt-2"
-            >
-              {loading ? "Creating..." : "Create Challenge"}
-            </Button>
-          </form>
+          <h2 className="fw-bolder border card-header mb-2">
+            Create Challenge
+          </h2>
+          <Formik
+            initialValues={{
+              title: "",
+              description: "",
+              points: 10,
+              enddate: "31-Dec-2023",
+            }}
+            validationSchema={validationSchema}
+            onSubmit={async (values, { resetForm }) => {
+              const res = await dispatch(createChallenge(values));
+              alert(res?.payload?.message);
+              resetForm();
+            }}
+          >
+            <Form className="mb-4 border p-2">
+              <div className="mb-2">
+                <label htmlFor="title" className="form-label">
+                  Title
+                </label>
+                <Field
+                  type="text"
+                  id="title"
+                  name="title"
+                  className="form-control"
+                />
+                <ErrorMessage
+                  name="title"
+                  component="div"
+                  className="text-danger"
+                />
+              </div>
+              <div className="mb-2">
+                <label htmlFor="description" className="form-label">
+                  Description
+                </label>
+                <Field
+                  as="textarea"
+                  id="description"
+                  name="description"
+                  className="form-control"
+                />
+                <ErrorMessage
+                  name="description"
+                  component="div"
+                  className="text-danger"
+                />
+              </div>
+              <div className="mb-2">
+                <label htmlFor="points" className="form-label">
+                  Points
+                </label>
+                <Field
+                  type="number"
+                  id="points"
+                  name="points"
+                  className="form-control"
+                />
+                <ErrorMessage
+                  name="points"
+                  component="div"
+                  className="text-danger"
+                />
+              </div>
+              <div className="mb-2">
+                <label htmlFor="enddate" className="form-label">
+                  End Date
+                </label>
+                <Field
+                  type="date"
+                  id="enddate"
+                  name="enddate"
+                  className="form-control"
+                />
+              </div>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={loading}
+              >
+                {loading ? "Creating..." : "Create Challenge"}
+              </button>
+            </Form>
+          </Formik>
         </div>
         <div className="col-lg-5 col-md-6 col-sm-12">
           {/* Display All Challenges */}
-          <h2 className="fw-bolder">All Challenges</h2>
+          <h2 className="fw-bolder card-header">All Challenges</h2>
           {challenges?.map((challenge) => {
             if (challenge) {
               var {
@@ -184,8 +211,8 @@ const Challenges = () => {
               } = challenge;
             }
             return (
-              <div key={_id} className="mb-4">
-                <h4>
+              <div key={_id} className="my-4 p-3 border">
+                <h4 className="mb-4 border-bottom pb-2">
                   <strong>Title: </strong>
                   {title}
                 </h4>
@@ -193,8 +220,8 @@ const Challenges = () => {
                   <strong>Description: </strong>
                   {description}
                 </p>
-                <p>Start Date: {startdate}</p>
-                <p>End Date: {enddate}</p>
+                <p>Start Date: {formatDate(startdate)}</p>
+                <p>End Date: {formatDate(enddate)}</p>
                 <p>Points: {points}</p>
                 <Button
                   variant="contained"
@@ -218,65 +245,102 @@ const Challenges = () => {
       </div>
 
       {/* Edit Challenge Modal */}
-      <Dialog open={editModalOpen} onClose={handleCloseEditModal}>
+      <Dialog
+        open={editModalOpen}
+        onClose={handleCloseEditModal}
+        fullWidth
+        maxWidth="sm"
+      >
         <DialogTitle>Edit Challenge</DialogTitle>
         <DialogContent>
-          <form onSubmit={handleSubmitEditedChallenge}>
-            <TextField
-              label="Title"
-              variant="standard"
-              fullWidth
-              name="title"
-              value={editChallenge.title}
-              onChange={handleEditChange}
-            />
-            <TextField
-              label="Description"
-              variant="standard"
-              fullWidth
-              multiline
-              rows={4}
-              name="description"
-              value={editChallenge.description}
-              onChange={handleEditChange}
-            />
-            <TextField
-              label="Points"
-              variant="standard"
-              fullWidth
-              type="number"
-              name="points"
-              value={editChallenge.points}
-              onChange={handleEditChange}
-            />
-            <TextField
-              label="End Date"
-              variant="standard"
-              fullWidth
-              type="date"
-              name="enddate"
-              value={editChallenge.enddate}
-              onChange={handleEditChange}
-            />
-            <DialogActions>
-              <Button onClick={handleCloseEditModal} color="secondary">
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                disabled={editLoading}
-              >
-                {editLoading ? "Updating..." : "Update"}
-              </Button>
-            </DialogActions>
-          </form>
+          <Formik
+            initialValues={editChallenge}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmitEditedChallenge}
+          >
+            <Form>
+              <div className="mb-2">
+                <label htmlFor="title" className="form-label">
+                  Title
+                </label>
+                <Field
+                  type="text"
+                  id="title"
+                  name="title"
+                  className="form-control"
+                />
+                <ErrorMessage
+                  name="title"
+                  component="div"
+                  className="text-danger"
+                />
+              </div>
+              <div className="mb-2">
+                <label htmlFor="description" className="form-label">
+                  Description
+                </label>
+                <Field
+                  as="textarea"
+                  id="description"
+                  name="description"
+                  className="form-control"
+                />
+                <ErrorMessage
+                  name="description"
+                  component="div"
+                  className="text-danger"
+                />
+              </div>
+              <div className="mb-2">
+                <label htmlFor="points" className="form-label">
+                  Points
+                </label>
+                <Field
+                  type="number"
+                  id="points"
+                  name="points"
+                  className="form-control"
+                />
+                <ErrorMessage
+                  name="points"
+                  component="div"
+                  className="text-danger"
+                />
+              </div>
+              <div className="mb-2">
+                <label htmlFor="enddate" className="form-label">
+                  End Date
+                </label>
+                <Field
+                  type="date"
+                  id="enddate"
+                  name="enddate"
+                  className="form-control"
+                />
+              </div>
+              <DialogActions>
+                <Button onClick={handleCloseEditModal} color="secondary">
+                  Cancel
+                </Button>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={editLoading}
+                >
+                  {editLoading ? "Updating..." : "Update"}
+                </button>
+              </DialogActions>
+            </Form>
+          </Formik>
         </DialogContent>
       </Dialog>
 
       {/* Delete Challenge Modal */}
-      <Dialog open={deleteModalOpen} onClose={handleCloseDeleteModal}>
+      <Dialog
+        open={deleteModalOpen}
+        onClose={handleCloseDeleteModal}
+        style={{ width: "50%" }}
+      >
         <DialogTitle>Confirm Delete</DialogTitle>
         <DialogContent>
           <DialogContentText>
