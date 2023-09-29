@@ -10,7 +10,7 @@
 
 ## For Naveen
 
-- Forgot password
+- Forgot password - ✅
 - react-calendar-heatmap
 - chartjs
 - Notification sytem

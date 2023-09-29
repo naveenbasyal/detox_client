@@ -14,6 +14,8 @@ import GetSingleChallenge from "./components/challenges/getSingleChallenge";
 import MyEntries from "./Pages/MyEntries";
 import InspectUser from "./components/leaderboard/InspectUser";
 import NotFoundPage from "./Pages/NotFoundPage";
+import ForgotPassword from "./Auth/ForgotPassword";
+import ResetPassword from "./Auth/ResetPassword";
 const App = () => {
   const { isLogin } = useSelector((state) => state?.auth);
   const { admin } = useSelector((state) => state?.user);
@@ -84,8 +86,24 @@ const App = () => {
             </AuthGuard>
           }
         />
+        <Route
+          path="/forgot-password"
+          element={
+            <AuthGuard authRequired={false}>
+              <ForgotPassword />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="/resetpassword/:id/:token"
+          element={
+            <AuthGuard authRequired={false}>
+              <ResetPassword />
+            </AuthGuard>
+          }
+        />
         {/* ___404 Routes */}
-        <Route path="*" element={<NotFoundPage/>} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );

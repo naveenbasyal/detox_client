@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../store/slices/authSlice";
 import { useNavigate, Link } from "react-router-dom";
@@ -12,9 +12,16 @@ import {
   Avatar,
   Grid,
   Paper,
-  Snackbar
+  Snackbar,
+  InputAdornment,
 } from "@mui/material";
-import { LockOutlined } from "@mui/icons-material";
+import {
+  Email,
+  LockOutlined,
+  Mail,
+  Visibility,
+  VisibilityOff,
+} from "@mui/icons-material";
 import { ThreeDots } from "react-loader-spinner";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -24,7 +31,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { loading } = useSelector((state) => state?.auth);
   const [loginSuccess, setLoginSuccess] = useState(false); // State to manage the success message
-
+  const [show, setShow] = useState(false); // State to manage the password visibility
   const handleCloseSuccess = () => {
     setLoginSuccess(false);
   };
@@ -76,25 +83,52 @@ const Login = () => {
             <Typography component="h1" variant="h5" sx={{ mt: 2 }}>
               Login
             </Typography>
-            <form onSubmit={formik.handleSubmit} style={{ width: "100%", marginTop: "20px" }}>
+            <form
+              onSubmit={formik.handleSubmit}
+              style={{ width: "100%", marginTop: "20px" }}
+            >
               <TextField
                 type="email"
                 label="Email"
                 fullWidth
                 variant="outlined"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Mail />
+                    </InputAdornment>
+                  ),
+                }}
                 margin="normal"
                 {...formik.getFieldProps("email")}
                 error={formik.touched.email && Boolean(formik.errors.email)}
                 helperText={formik.touched.email && formik.errors.email}
               />
               <TextField
-                type="password"
+                type={show ? "text" : "password"}
                 label="Password"
                 fullWidth
                 variant="outlined"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment
+                      onClick={() => setShow(!show)}
+                      position="end"
+                      style={{ cursor: "pointer" }}
+                    >
+                      {show ? (
+                        <VisibilityOff color="primary" />
+                      ) : (
+                        <Visibility />
+                      )}
+                    </InputAdornment>
+                  ),
+                }}
                 margin="normal"
                 {...formik.getFieldProps("password")}
-                error={formik.touched.password && Boolean(formik.errors.password)}
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
                 helperText={formik.touched.password && formik.errors.password}
               />
               <Button
@@ -112,7 +146,7 @@ const Login = () => {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link to="#" variant="body2">
+                  <Link to="/forgot-password" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>
