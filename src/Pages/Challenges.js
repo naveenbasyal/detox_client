@@ -104,7 +104,7 @@ const Challenges = () => {
       .required("Points is required"),
     enddate: Yup.date().required("End Date is required"),
   });
-
+  
   return (
     <div className="container mt-4">
       {/* Create Challenge */}
@@ -277,7 +277,7 @@ const Challenges = () => {
                       __html: description,
                     }}
                   ></div>
-                  <p>Start Date: {formatDate(startdate,"dd/MM/yyyy")}</p>
+                  <p>Start Date: {formatDate(startdate, "dd/MM/yyyy")}</p>
                   <p>End Date: {formatDate(enddate)}</p>
                   <p>Points: {points}</p>
                   <Button

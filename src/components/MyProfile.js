@@ -121,65 +121,54 @@ const UserProfile = () => {
       ) : (
         <>
           <div className="row">
-            <div className="col-md-4 mt-3 d-flex flex-column ">
+            <div className="col-lg-3 col-sm-12 col-md-4 mt-3 d-flex flex-column align-items-center ">
               <img
                 src={userValues?.picture}
                 alt=""
-                className="img-fluid rounded-circle"
+                className="img-fluid rounded-circle my-1"
                 style={{
                   width: "200px",
                   height: "200px",
                   objectFit: "cover",
                 }}
               />
-              <div className="mt-3">
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-
-                    // flexDirection: "column",
-                  }}
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Input
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  id="image-upload"
+                  onChange={handleImageUpload}
+                />
+                <Button
+                  variant="contained"
+                  component="span"
+                  startIcon={<CloudUploadOutlined />}
+                  className="ms-2 text-capitalize"
+                  width="50%"
+                  onClick={() =>
+                    document.getElementById("image-upload").click()
+                  }
                 >
-                  {/* <strong htmlFor="image-upload" className="fw-bolder">
-                  Change Profile Picture?
-                </strong> */}
-                  <Input
-                    type="file"
-                    accept="image/*"
-                    style={{ display: "none" }}
-                    id="image-upload"
-                    onChange={handleImageUpload}
-                  />
-                  <Button
-                    variant="contained"
-                    component="span"
-                    startIcon={<CloudUploadOutlined />}
-                    className="ms-2 text-capitalize"
-                    width="50%"
-                    onClick={() =>
-                      document.getElementById("image-upload").click()
-                    }
-                  >
-                    Upload new image?
-                  </Button>
-                </Box>
-                {uploadProgress && (
-                  <div>
-                    {uploadProgress === 100
-                      ? "Image Uploaded Successfully"
-                      : "Uploading Image.."}
-                    <progress
-                      value={uploadProgress}
-                      max="100"
-                      className="mt-2"
-                    />
-                    {uploadProgress && `${uploadProgress}%`}
-                  </div>
-                )}
-              </div>
+                  Upload new image?
+                </Button>
+              </Box>
+              {uploadProgress && (
+                <div>
+                  {uploadProgress === 100
+                    ? "Image Uploaded Successfully"
+                    : "Uploading Image.."}
+                  <progress value={uploadProgress} max="100" className="mt-2" />
+                  {uploadProgress && `${uploadProgress}%`}
+                </div>
+              )}
             </div>
-            <div className="col-md-8 mt-3 d-flex flex-column justify-content-center">
+            <div className="col-lg-4 col-md-5 col-sm-12 mt-3 d-flex flex-column justify-content-center">
               <div>
                 {isEditing ? (
                   <>

@@ -16,7 +16,7 @@ export const createChallenge = createAsyncThunk(
         }
       );
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       if (data) {
         return data;
       }
@@ -41,7 +41,7 @@ export const getAllChallenges = createAsyncThunk(
         }
       );
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       if (data && data.challenges) {
         dispatch(setChallenges(data.challenges));
       }
@@ -68,7 +68,7 @@ export const getChallengeById = createAsyncThunk(
       );
       const data = await res.json();
 
-      console.log(data);
+      // console.log(data);
       return data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -92,7 +92,7 @@ export const updateChallenge = createAsyncThunk(
         }
       );
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       if (data && data.challenge) {
         return data;
       }
@@ -117,7 +117,7 @@ export const deleteChallenge = createAsyncThunk(
         }
       );
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       if (data) {
         return data;
       }
@@ -142,7 +142,7 @@ export const submitChallenge = createAsyncThunk(
         }
       );
       const data = await res.json();
-      data && console.log("submit", data);
+      // data && console.log("submit", data);
       if (data) {
         return data;
       }
