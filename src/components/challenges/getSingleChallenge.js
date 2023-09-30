@@ -72,15 +72,15 @@ const GetSingleChallenge = () => {
                     <strong>Name:</strong> {singleChallenge?.challenge?.title}
                   </p>
                   <p>
-                    <strong>Description:</strong>{" "}
+                    <strong>Description:</strong>
                     {singleChallenge?.challenge?.description}
                   </p>
                   <p>
-                    <strong>Started : </strong>{" "}
+                    <strong>Started : </strong>
                     {timeAgo(singleChallenge?.challenge?.createdAt)}
                   </p>
                   <p>
-                    <strong>End Date : </strong>{" "}
+                    <strong>End Date : </strong>
                     {new Date(
                       singleChallenge?.challenge?.enddate
                     ).toLocaleDateString("en-US", { timeZone: "Asia/Kolkata" })}

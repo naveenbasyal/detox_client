@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { registerUser } from "../store/slices/authSlice";
@@ -15,11 +15,16 @@ import {
 import { LockOutlined } from "@mui/icons-material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ThreeDots } from "react-loader-spinner";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state?.auth);
+  const [show, setShow] = useState(false);
+  const [message, setMessage] = useState("");
 
   const validationSchema = Yup.object({
     username: Yup.string()
@@ -49,11 +54,26 @@ const SignUp = () => {
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      const success = dispatch(registerUser(values));
+    onSubmit: async (values) => {
+      const success = await dispatch(registerUser(values));
       if (success) {
-        navigate("/login");
+        // navigate("/login");
+        setMessage(success?.payload?.message);
         formik.resetForm();
+        toast.success("Registration successful!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: true,
+          theme: "light",
+        });
+      } else {
+        formik.setFieldError("password", "Invalid credentials");
+        toast.error("Invalid credentials. Registration failed.", {
+          position: "top-center",
+          autoClose: 5000, // Optional: Close the toast after 5 seconds
+          hideProgressBar: true,
+          theme: "light", // Optional: Use a light theme
+        });
       }
     },
   });
@@ -113,11 +133,32 @@ const SignUp = () => {
               />
               <TextField
                 variant="outlined"
+                InputProps={
+                  show
+                    ? {
+                        endAdornment: (
+                          <i
+                            className="fa-solid fa-eye-slash text-primary"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => setShow(!show)}
+                          ></i>
+                        ),
+                      }
+                    : {
+                        endAdornment: (
+                          <i
+                            className="fa-solid fa-eye"
+                            style={{ cursor: "pointer" }}
+                            onClick={() => setShow(!show)}
+                          ></i>
+                        ),
+                      }
+                }
                 margin="normal"
                 fullWidth
                 name="password"
                 label="Password"
-                type="password"
+                type={show ? "text" : "password"}
                 id="password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
@@ -126,14 +167,25 @@ const SignUp = () => {
                 }
                 helperText={formik.touched.password && formik.errors.password}
               />
+              {message && (
+                <div className="form-group">
+                  <div className="alert alert-success" role="alert">
+                    {message}
+                  </div>
+                </div>
+              )}
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
-                disabled={loading}
+                disabled={!!loading || !!message}
               >
-                {loading ? "Loading..." : "Sign Up"}
+                {loading ? (
+                  <ThreeDots height={24} width={24} color="#000000" />
+                ) : (
+                  "Sign Up"
+                )}
               </Button>
               <Grid container justifyContent="flex-end" mt={1}>
                 <Grid item>

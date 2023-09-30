@@ -17,9 +17,9 @@ const Navbar = () => {
 
   const userImage = userProfile?.picture;
 
-  const [admin, setAdmin] = useState(null);
-
+  
   const id = fetchToken()?.id;
+  const [admin, setAdmin] = useState(null);
 
   useEffect(() => {
     checkAdminStatus();

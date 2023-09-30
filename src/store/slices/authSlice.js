@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import bcrypt from "bcryptjs";
 import fetchToken from "../../utils/fetchToken";
+import { toast } from "react-toastify";
 
 export const registerUser = createAsyncThunk(
   "registerUser",
@@ -17,10 +18,8 @@ export const registerUser = createAsyncThunk(
       );
       const data = await response.json();
       console.log(data);
-      if (data?.token && data?.user) {
-        return true;
-      } else {
-        return false;
+      if(data){
+        return data;
       }
     } catch (error) {
       console.log(error);
@@ -42,10 +41,10 @@ export const loginUser = createAsyncThunk(
       );
       const data = await response.json();
       console.log(data);
-      data?.message && alert(data?.message);
-      if (!data?.user) {
-        return;
-      }
+      // data?.message && toast(data?.message);
+      // if (!data?.user) {
+      //   return;
+      // }
       data?.token && localStorage.setItem("token", data.token);
       if (data?.user && data?.user?.admin) {
         const adminStatus = "true";

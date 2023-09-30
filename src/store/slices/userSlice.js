@@ -100,6 +100,33 @@ export const updateUserProfile = createAsyncThunk(
     }
   }
 );
+export const deleteUserProfile = createAsyncThunk(
+  "deleteUserProfile",
+  async (id, { rejectWithValue, dispatch }) => {
+    console.log(id);
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/users/`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({id}),
+        }
+      );
+      const data = await res.json();
+      
+      if (data) {
+        return data;
+      }
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response);
+    }
+  }
+);
 
 const initialState = {
   userProfile: null,
@@ -108,6 +135,7 @@ const initialState = {
   leaderboard: null,
   loading: false,
   editprofileLoading: false,
+  deleteUserLoading: false,
   admin: false,
   error: null,
 };
@@ -168,6 +196,22 @@ const userSlice = createSlice({
       })
       .addCase(updateUserProfile.rejected, (state, action) => {
         state.editprofileLoading = false;
+        state.error = action.payload;
+      });
+    // _______ Delete USER PROFILE_______________
+    builder
+      .addCase(deleteUserProfile.pending, (state, action) => {
+        state.deleteUserLoading = true;
+      })
+      .addCase(deleteUserProfile.fulfilled, (state, action) => {
+        state.deleteUserLoading = false;
+        
+        state.leaderboard = state.leaderboard.filter(
+          (user) => user._id !== action.payload?.user?._id
+        );
+      })
+      .addCase(deleteUserProfile.rejected, (state, action) => {
+        state.deleteUserLoading = false;
         state.error = action.payload;
       });
   },

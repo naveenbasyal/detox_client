@@ -127,8 +127,9 @@ const CreateEntry = () => {
 
           <button
             type="submit"
-            className="btn btn-success"
+            className="btn btn-success mt-2"
             disabled={createEntryLoading || !formik.isValid}
+            
           >
             {createEntryLoading ? "Posting..." : "Post"}
           </button>

@@ -16,12 +16,31 @@ import InspectUser from "./components/leaderboard/InspectUser";
 import NotFoundPage from "./Pages/NotFoundPage";
 import ForgotPassword from "./Auth/ForgotPassword";
 import ResetPassword from "./Auth/ResetPassword";
+import { useEffect, useState } from "react";
+import MainLoader from "./components/MainLoader";
+import VerifyEmail from "./Auth/VerifyEmail";
+import { ToastContainer } from "react-toastify";
 const App = () => {
   const { isLogin } = useSelector((state) => state?.auth);
   const { admin } = useSelector((state) => state?.user);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <MainLoader />;
+  }
+
   return (
     <Router>
       {isLogin && <Navbar />}
+      <ToastContainer />
       <Routes>
         <Route
           path="/"
@@ -99,6 +118,14 @@ const App = () => {
           element={
             <AuthGuard authRequired={false}>
               <ResetPassword />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="/verify/:id/:token"
+          element={
+            <AuthGuard authRequired={false}>
+              <VerifyEmail />
             </AuthGuard>
           }
         />

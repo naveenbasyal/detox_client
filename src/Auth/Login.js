@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../store/slices/authSlice";
 import { useNavigate, Link } from "react-router-dom";
@@ -25,6 +25,7 @@ import {
 import { ThreeDots } from "react-loader-spinner";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ const Login = () => {
   const { loading } = useSelector((state) => state?.auth);
   const [loginSuccess, setLoginSuccess] = useState(false); // State to manage the success message
   const [show, setShow] = useState(false); // State to manage the password visibility
+  const [message, setMessage] = useState("");
   const handleCloseSuccess = () => {
     setLoginSuccess(false);
   };
@@ -51,6 +53,10 @@ const Login = () => {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       const success = await dispatch(loginUser(values));
+
+      if (success?.payload?.message) {
+        setMessage(success?.payload?.message);
+      }
       if (success?.payload?.user) {
         setLoginSuccess(true);
         navigate("/");
@@ -131,6 +137,7 @@ const Login = () => {
                 }
                 helperText={formik.touched.password && formik.errors.password}
               />
+              {message && <Typography color="error">{message}</Typography>}
               <Button
                 type="submit"
                 fullWidth
