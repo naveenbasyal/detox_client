@@ -34,7 +34,10 @@ const PublicEntries = () => {
   };
 
   return (
-    <div className="mt-4" style={{ height: "65vh", overflow: "scroll" }}>
+    <div
+      className="mt-4"
+      // style={{ height: "65vh", overflow: "scroll" }}
+    >
       {loading ? (
         <ThreeDots
           height="64"
@@ -42,88 +45,104 @@ const PublicEntries = () => {
           radius="9"
           color="#B9B4C7"
           ariaLabel="three-dots-loading"
-          wrapperStyle={{}}
+          wrapperStyle={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
           wrapperClassName=""
           visible={true}
         />
       ) : (
         <>
           {publicEntries?.length === 0 ? (
-            <p className="text-center">You're all caught up!</p>
+            <p className="text-center">No Posts to show !!</p>
           ) : (
-            publicEntries?.slice(0, visibleEntries).map(
-              ({
-                content,
-                createdAt,
-                mood,
-                visibility,
-                _id,
-                userId: { username, picture, level, points, _id: userId },
-              }, index) => {
-                const timeAgo = formatDistanceToNow(new Date(createdAt), {
-                  addSuffix: true,
-                });
+            publicEntries
+              ?.slice(0, visibleEntries)
+              .map(
+                ({
+                  content,
+                  createdAt,
+                  mood,
+                  _id,
+                  userId: { username, picture, _id: userId },
+                }) => {
+                  const timeAgo = formatDistanceToNow(new Date(createdAt), {
+                    addSuffix: true,
+                  });
 
-                return (
-                  <div key={_id} className="card mb-3">
-                    <div className="card-body">
-                      <div className="d-flex align-items-center">
-                        <Link
-                          to={`/user/${userId}`}
-                          className="text-decoration-none d-flex align-items-center"
-                        >
-                          <img
-                            src={picture}
-                            alt="userImage"
-                            className="rounded-circle me-3"
-                            style={{
-                              width: "50px",
-                              height: "50px",
-                              objectFit: "cover",
-                            }}
-                          />
-                          <p className="mb-0">
-                            <strong className="text-black">{username}</strong>
-                            <strong className="text-secondary">
-                              &nbsp;is feeling{" "}
-                              {moodEmojis[mood.toLowerCase()]} {mood}
-                            </strong>
-                          </p>
-                        </Link>
+                  return (
+                    <div key={_id} className="card mb-3">
+                      <div className="card-body">
+                        <div className="d-flex align-items-center">
+                          <Link
+                            to={`/user/${userId}`}
+                            className="text-decoration-none d-flex align-items-center"
+                          >
+                            <img
+                              src={picture}
+                              alt="userImage"
+                              className="rounded-circle me-3"
+                              style={{
+                                width: "50px",
+                                height: "50px",
+                                objectFit: "cover",
+                              }}
+                            />
+                            <p className="mb-0">
+                              <strong className="text-black">{username}</strong>
+                              <strong className="text-secondary">
+                                &nbsp;is feeling{" "}
+                                {moodEmojis[mood.toLowerCase()]} {mood}
+                              </strong>
+                            </p>
+                          </Link>
+                        </div>
+                        <hr />
+                        <p className="mb-0">
+                          <strong>
+                            <i className="fa-regular fa-clock"></i>&nbsp;
+                          </strong>
+                          {timeAgo}
+                        </p>
+                        <p className="mb-0">
+                          <strong>
+                            <i className="fa-solid fa-message"></i>&nbsp;{" "}
+                          </strong>
+
+                          {content}
+                        </p>
                       </div>
-                      <hr />
-                      <p className="mb-0">
-                        <strong>
-                          <i className="fa-regular fa-clock"></i>&nbsp;
-                        </strong>
-                        {timeAgo}
-                      </p>
-                      <p className="mb-0">
-                        <strong>
-                          <i className="fa-solid fa-message"></i>&nbsp;{" "}
-                        </strong>
-
-                        {content}
-                      </p>
                     </div>
-                  </div>
-                );
-              }
-            )
+                  );
+                }
+              )
           )}
 
-          {visibleEntries >= publicEntries.length && (
-            <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-              <p className="text-center">You're all caught up!</p>
-            </div>
-          )}
-
-          {visibleEntries < publicEntries.length && (
-            <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-              <button
-                onClick={handleShowMore}
-                className="btn btn-primary mb-2"
+          {publicEntries?.length > 0 &&
+            visibleEntries >= publicEntries?.length && (
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
               >
+                <p className="text-center">You're all caught up!</p>
+              </div>
+            )}
+
+          {visibleEntries < publicEntries?.length && (
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <button onClick={handleShowMore} className="btn btn-primary mb-2">
                 Show More
               </button>
             </div>

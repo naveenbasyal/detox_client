@@ -38,23 +38,24 @@ const ExploreChallenges = () => {
       {location.pathname === "/explore" && (
         <h3 className="my-4 text-center fw-bolder">Explore Challenges</h3>
       )}
-
+      {challenges?.length === 0 && (
+        <p className="text-center">No Challenges to show !!</p>
+      )}
       {loading ? (
-        <ThreeDots color="#B9B4C7" width="64px" height={"64px"} />
+        <ThreeDots
+          color="#B9B4C7"
+          width="64px"
+          height={"64px"}
+          wrapperStyle={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+        />
       ) : (
         challenges?.map(
-          (
-            {
-              _id,
-              title,
-              description,
-              points,
-              createdAt,
-              enddate,
-              participants,
-            },
-            index
-          ) => {
+          ({ _id, title, points, createdAt, enddate, participants }, index) => {
             const expired = isChallengeExpired(enddate);
             const timeago = formatDistanceToNow(new Date(createdAt), {
               addSuffix: true,
