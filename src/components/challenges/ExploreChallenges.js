@@ -19,7 +19,7 @@ const ExploreChallenges = () => {
       timeZone: "Asia/Kolkata",
     });
     return (
-      currentTime >
+      currentTime <
       new Date(enddate).toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
     );
   };
@@ -55,12 +55,11 @@ const ExploreChallenges = () => {
             return (
               <div key={index} className="card m-2">
                 <div className="card-body bg-light">
-                  <p className="fw-bold text-danger">
-                    You will get extra {points} points if you complete this
-                    challenge.
-                  </p>
                   <p className="card-text">
                     <strong>Challenge Name : </strong> {title}
+                  </p>
+                  <p className="card-text">
+                    <strong>Challenge Points : </strong> {points}
                   </p>
                   <p className="text-muted">
                     <span>Started {timeago} </span>

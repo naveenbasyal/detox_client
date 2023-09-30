@@ -4,11 +4,12 @@ import { useParams } from "react-router-dom";
 import { getUserProfile, updateUserProfile } from "../store/slices/userSlice";
 import axios from "axios";
 import fetchToken from "../utils/fetchToken";
-import Loader from "./Loader";
+
 import { Box, Button, Input, InputLabel } from "@mui/material";
 import { CloudUploadOutlined } from "@mui/icons-material";
 import MainLoader from "./MainLoader";
 import Calendar from "./Entries/Calendar";
+import { getDailyEntries } from "../store/slices/dailyEntriesSlice";
 
 const UserProfile = () => {
   const { id } = fetchToken();
@@ -30,6 +31,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     dispatch(getUserProfile(id));
+    dispatch(getDailyEntries());
   }, [id]);
 
   useEffect(() => {

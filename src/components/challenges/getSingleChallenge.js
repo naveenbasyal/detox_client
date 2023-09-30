@@ -9,6 +9,7 @@ import {
 import { createDailyEntries } from "../../store/slices/dailyEntriesSlice";
 import Loader from "../Loader";
 import { formatDistanceToNow } from "date-fns";
+import MainLoader from "../MainLoader";
 
 const GetSingleChallenge = () => {
   const id = useParams().id;
@@ -58,7 +59,7 @@ const GetSingleChallenge = () => {
   return (
     <div className="container mt-4">
       {loading ? (
-        <Loader />
+        <MainLoader />
       ) : (
         <>
           <div className="row justify-content-between">
@@ -71,10 +72,12 @@ const GetSingleChallenge = () => {
                   <p>
                     <strong>Name:</strong> {singleChallenge?.challenge?.title}
                   </p>
-                  <p>
-                    <strong>Description:</strong>
-                    {singleChallenge?.challenge?.description}
-                  </p>
+                  <strong>Description:</strong>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: singleChallenge?.challenge?.description,
+                    }}
+                  ></div>
                   <p>
                     <strong>Started : </strong>
                     {timeAgo(singleChallenge?.challenge?.createdAt)}

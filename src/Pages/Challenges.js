@@ -15,14 +15,17 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import MainLoader from "../components/MainLoader";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { toast } from "react-toastify";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
-  const formattedDate = format(date, "MMM d, yyyy HH'h' mm'm' ss's'");
+  const formattedDate = format(date, "dd/MM/yyyy HH:mm a  ");
   return formattedDate;
 };
 
@@ -99,6 +102,7 @@ const Challenges = () => {
     points: Yup.number()
       .min(5, "Points must be at least 5")
       .required("Points is required"),
+    enddate: Yup.date().required("End Date is required"),
   });
 
   return (
@@ -120,83 +124,126 @@ const Challenges = () => {
                 title: "",
                 description: "",
                 points: 10,
-                enddate: "31-Dec-2023",
+                enddate: "",
               }}
               validationSchema={validationSchema}
               onSubmit={async (values, { resetForm }) => {
                 const res = await dispatch(createChallenge(values));
-                alert(res?.payload?.message);
+                toast(res?.payload?.message);
                 resetForm();
               }}
             >
-              <Form className="mb-4 border p-2">
-                <div className="mb-2">
-                  <label htmlFor="title" className="form-label">
-                    Title
-                  </label>
-                  <Field
-                    type="text"
-                    id="title"
-                    name="title"
-                    className="form-control"
-                  />
-                  <ErrorMessage
-                    name="title"
-                    component="div"
-                    className="text-danger"
-                  />
-                </div>
-                <div className="mb-2">
-                  <label htmlFor="description" className="form-label">
-                    Description
-                  </label>
-                  <Field
-                    as="textarea"
-                    id="description"
-                    name="description"
-                    className="form-control"
-                  />
-                  <ErrorMessage
-                    name="description"
-                    component="div"
-                    className="text-danger"
-                  />
-                </div>
-                <div className="mb-2">
-                  <label htmlFor="points" className="form-label">
-                    Points
-                  </label>
-                  <Field
-                    type="number"
-                    id="points"
-                    name="points"
-                    className="form-control"
-                  />
-                  <ErrorMessage
-                    name="points"
-                    component="div"
-                    className="text-danger"
-                  />
-                </div>
-                <div className="mb-2">
-                  <label htmlFor="enddate" className="form-label">
-                    End Date
-                  </label>
-                  <Field
-                    type="date"
-                    id="enddate"
-                    name="enddate"
-                    className="form-control"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={createLoading}
-                >
-                  {createLoading ? "Creating..." : "Create Challenge"}
-                </button>
-              </Form>
+              {({ values, handleChange, setFieldValue }) => (
+                <Form className="mb-4 border p-2">
+                  <div className="mb-2">
+                    <label htmlFor="title" className="form-label">
+                      Title
+                    </label>
+                    <Field
+                      type="text"
+                      id="title"
+                      name="title"
+                      className="form-control"
+                    />
+                    <ErrorMessage
+                      name="title"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <label htmlFor="description" className="form-label">
+                      Description
+                    </label>
+
+                    <ReactQuill
+                      name="description"
+                      id="description"
+                      theme="snow"
+                      onChange={(value) => setFieldValue("description", value)}
+                      modules={{
+                        toolbar: [
+                          [{ header: [1, 2, false] }],
+                          [
+                            "bold",
+                            "italic",
+                            "underline",
+                            "strike",
+                            "blockquote",
+                          ],
+                          [
+                            { list: "ordered" },
+                            { list: "bullet" },
+                            { indent: "-1" },
+                            { indent: "+1" },
+                          ],
+                          ["link", "image"],
+                          ["clean"],
+                        ],
+                      }}
+                      formats={[
+                        "header",
+                        "bold",
+                        "italic",
+                        "underline",
+                        "strike",
+                        "blockquote",
+                        "list",
+                        "bullet",
+                        "indent",
+                        "link",
+                        "image",
+                      ]}
+                    />
+
+                    <ErrorMessage
+                      name="description"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <label htmlFor="points" className="form-label">
+                      Points
+                    </label>
+                    <Field
+                      type="number"
+                      id="points"
+                      name="points"
+                      className="form-control"
+                    />
+                    <ErrorMessage
+                      name="points"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <label htmlFor="enddate" className="form-label">
+                      End Date
+                    </label>
+                    <Field
+                      type="date"
+                      id="enddate"
+                      name="enddate"
+                      className="form-control"
+                    />
+
+                    <ErrorMessage
+                      name="enddate"
+                      component="div"
+                      className="text-danger"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    disabled={createLoading}
+                  >
+                    {createLoading ? "Creating..." : "Create Challenge"}
+                  </button>
+                </Form>
+              )}
             </Formik>
           </div>
           <div className="col-lg-5 col-md-6 col-sm-12">
@@ -224,11 +271,13 @@ const Challenges = () => {
                     <strong>Title: </strong>
                     {title}
                   </h4>
-                  <p>
-                    <strong>Description: </strong>
-                    {description}
-                  </p>
-                  <p>Start Date: {formatDate(startdate)}</p>
+                  <strong className="text-muted">Description: </strong>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: description,
+                    }}
+                  ></div>
+                  <p>Start Date: {formatDate(startdate,"dd/MM/yyyy")}</p>
                   <p>End Date: {formatDate(enddate)}</p>
                   <p>Points: {points}</p>
                   <Button
@@ -347,7 +396,7 @@ const Challenges = () => {
       <Dialog
         open={deleteModalOpen}
         onClose={handleCloseDeleteModal}
-        style={{ width: "50%" }}
+        style={{ width: "100%" }}
       >
         <DialogTitle>Confirm Delete</DialogTitle>
         <DialogContent>
