@@ -38,7 +38,10 @@ const CreateEntry = () => {
     <div className="container mt-4">
       <button
         className="btn btn-primary"
-        onClick={() => setToggleWriteEntries(!toggleWriteEntries)}
+        onClick={() => {
+          setToggleWriteEntries(!toggleWriteEntries);
+          formik.resetForm();
+        }}
       >
         {toggleWriteEntries ? "Cancel" : "Write a post"}
       </button>
@@ -111,7 +114,9 @@ const CreateEntry = () => {
           </div>
           <textarea
             className={`form-control ${
-              formik.touched.content && formik.errors.content ? "is-invalid" : ""
+              formik.touched.content && formik.errors.content
+                ? "is-invalid"
+                : ""
             }`}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -129,7 +134,6 @@ const CreateEntry = () => {
             type="submit"
             className="btn btn-success mt-2"
             disabled={createEntryLoading || !formik.isValid}
-            
           >
             {createEntryLoading ? "Posting..." : "Post"}
           </button>

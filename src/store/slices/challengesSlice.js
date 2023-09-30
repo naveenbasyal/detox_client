@@ -156,6 +156,7 @@ const initialState = {
   challenges: [],
   singleChallenge: [],
   loading: false,
+  createLoading: false,
   editLoading: false,
   deleteLoading: false,
   error: null,
@@ -176,14 +177,14 @@ const challengesSlice = createSlice({
   extraReducers: (builder) => {
     // ------- createChallenge -----------
     builder.addCase(createChallenge.pending, (state) => {
-      state.loading = true;
+      state.createLoading = true;
     });
     builder.addCase(createChallenge.fulfilled, (state, action) => {
-      state.loading = false;
+      state.createLoading = false;
       state.challenges = [action.payload?.challenge, ...state.challenges];
     });
     builder.addCase(createChallenge.rejected, (state, action) => {
-      state.loading = false;
+      state.createLoading = false;
       state.error = action.payload;
     });
     // ------- getAllChallenges -----------

@@ -6,6 +6,7 @@ import Countdown from "react-countdown";
 import fetchToken from "../../utils/fetchToken";
 import { ThreeDots } from "react-loader-spinner";
 import { formatDistanceToNow } from "date-fns";
+import MainLoader from "../MainLoader";
 
 const ExploreChallenges = () => {
   const dispatch = useDispatch();
@@ -38,21 +39,11 @@ const ExploreChallenges = () => {
       {location.pathname === "/explore" && (
         <h3 className="my-4 text-center fw-bolder">Explore Challenges</h3>
       )}
-      {challenges?.length === 0 && (
-        <p className="text-center">No Challenges to show !!</p>
-      )}
+
       {loading ? (
-        <ThreeDots
-          color="#B9B4C7"
-          width="64px"
-          height={"64px"}
-          wrapperStyle={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-          }}
-        />
+        <MainLoader />
+      ) : challenges?.length === 0 ? (
+        <p className="text-center my-5">No Challenges to show !!</p>
       ) : (
         challenges?.map(
           ({ _id, title, points, createdAt, enddate, participants }, index) => {

@@ -57,7 +57,7 @@ const PublicEntries = () => {
       ) : (
         <>
           {publicEntries?.length === 0 ? (
-            <p className="text-center">No Posts to show !!</p>
+            <p className="text-center my-5">No Posts to show !!</p>
           ) : (
             publicEntries
               ?.slice(0, visibleEntries)

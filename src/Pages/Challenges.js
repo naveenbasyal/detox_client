@@ -18,6 +18,7 @@ import {
 import { format } from "date-fns";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import MainLoader from "../components/MainLoader";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -27,9 +28,8 @@ const formatDate = (dateString) => {
 
 const Challenges = () => {
   const dispatch = useDispatch();
-  const { loading, challenges, editLoading, deleteLoading } = useSelector(
-    (state) => state?.challenges
-  );
+  const { loading, createLoading, challenges, editLoading, deleteLoading } =
+    useSelector((state) => state?.challenges);
 
   useEffect(() => {
     dispatch(getAllChallenges());
@@ -104,146 +104,154 @@ const Challenges = () => {
   return (
     <div className="container mt-4">
       {/* Create Challenge */}
-      <div
-        className="row justify-content-between
+      {loading ? (
+        <MainLoader />
+      ) : (
+        <div
+          className="row justify-content-between
       "
-      >
-        <div className="col-lg-4 col-md-6 col-sm-12">
-          <h2 className="fw-bolder border card-header mb-2">
-            Create Challenge
-          </h2>
-          <Formik
-            initialValues={{
-              title: "",
-              description: "",
-              points: 10,
-              enddate: "31-Dec-2023",
-            }}
-            validationSchema={validationSchema}
-            onSubmit={async (values, { resetForm }) => {
-              const res = await dispatch(createChallenge(values));
-              alert(res?.payload?.message);
-              resetForm();
-            }}
-          >
-            <Form className="mb-4 border p-2">
-              <div className="mb-2">
-                <label htmlFor="title" className="form-label">
-                  Title
-                </label>
-                <Field
-                  type="text"
-                  id="title"
-                  name="title"
-                  className="form-control"
-                />
-                <ErrorMessage
-                  name="title"
-                  component="div"
-                  className="text-danger"
-                />
-              </div>
-              <div className="mb-2">
-                <label htmlFor="description" className="form-label">
-                  Description
-                </label>
-                <Field
-                  as="textarea"
-                  id="description"
-                  name="description"
-                  className="form-control"
-                />
-                <ErrorMessage
-                  name="description"
-                  component="div"
-                  className="text-danger"
-                />
-              </div>
-              <div className="mb-2">
-                <label htmlFor="points" className="form-label">
-                  Points
-                </label>
-                <Field
-                  type="number"
-                  id="points"
-                  name="points"
-                  className="form-control"
-                />
-                <ErrorMessage
-                  name="points"
-                  component="div"
-                  className="text-danger"
-                />
-              </div>
-              <div className="mb-2">
-                <label htmlFor="enddate" className="form-label">
-                  End Date
-                </label>
-                <Field
-                  type="date"
-                  id="enddate"
-                  name="enddate"
-                  className="form-control"
-                />
-              </div>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                disabled={loading}
-              >
-                {loading ? "Creating..." : "Create Challenge"}
-              </button>
-            </Form>
-          </Formik>
-        </div>
-        <div className="col-lg-5 col-md-6 col-sm-12">
-          {/* Display All Challenges */}
-          <h2 className="fw-bolder card-header">All Challenges</h2>
-          {challenges?.map((challenge) => {
-            if (challenge) {
-              var {
-                _id,
-                title,
-                description,
-                createdAt: startdate,
-                enddate,
-                points,
-              } = challenge;
-            }
-            return (
-              <div key={_id} className="my-4 p-3 border">
-                <h4 className="mb-4 border-bottom pb-2">
-                  <strong>Title: </strong>
-                  {title}
-                </h4>
-                <p>
-                  <strong>Description: </strong>
-                  {description}
-                </p>
-                <p>Start Date: {formatDate(startdate)}</p>
-                <p>End Date: {formatDate(enddate)}</p>
-                <p>Points: {points}</p>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => handleEditChallenge(_id)}
-                  className="me-2"
+        >
+          <div className="col-lg-4 col-md-6 col-sm-12">
+            <h2 className="fw-bolder border card-header mb-2">
+              Create Challenge
+            </h2>
+            <Formik
+              initialValues={{
+                title: "",
+                description: "",
+                points: 10,
+                enddate: "31-Dec-2023",
+              }}
+              validationSchema={validationSchema}
+              onSubmit={async (values, { resetForm }) => {
+                const res = await dispatch(createChallenge(values));
+                alert(res?.payload?.message);
+                resetForm();
+              }}
+            >
+              <Form className="mb-4 border p-2">
+                <div className="mb-2">
+                  <label htmlFor="title" className="form-label">
+                    Title
+                  </label>
+                  <Field
+                    type="text"
+                    id="title"
+                    name="title"
+                    className="form-control"
+                  />
+                  <ErrorMessage
+                    name="title"
+                    component="div"
+                    className="text-danger"
+                  />
+                </div>
+                <div className="mb-2">
+                  <label htmlFor="description" className="form-label">
+                    Description
+                  </label>
+                  <Field
+                    as="textarea"
+                    id="description"
+                    name="description"
+                    className="form-control"
+                  />
+                  <ErrorMessage
+                    name="description"
+                    component="div"
+                    className="text-danger"
+                  />
+                </div>
+                <div className="mb-2">
+                  <label htmlFor="points" className="form-label">
+                    Points
+                  </label>
+                  <Field
+                    type="number"
+                    id="points"
+                    name="points"
+                    className="form-control"
+                  />
+                  <ErrorMessage
+                    name="points"
+                    component="div"
+                    className="text-danger"
+                  />
+                </div>
+                <div className="mb-2">
+                  <label htmlFor="enddate" className="form-label">
+                    End Date
+                  </label>
+                  <Field
+                    type="date"
+                    id="enddate"
+                    name="enddate"
+                    className="form-control"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={createLoading}
                 >
-                  Edit
-                </Button>
-                <Button
-                  variant="contained"
-                  color="error"
-                  onClick={() => openDeleteModal(_id)}
-                >
-                  Delete
-                </Button>
-              </div>
-            );
-          })}
+                  {createLoading ? "Creating..." : "Create Challenge"}
+                </button>
+              </Form>
+            </Formik>
+          </div>
+          <div className="col-lg-5 col-md-6 col-sm-12">
+            {/* Display All Challenges */}
+            <h2 className="fw-bolder card-header">All Challenges</h2>
+            {challenges?.length === 0 && (
+              <p className="text-center my-4">
+                You have no challenges yet. Please create one.
+              </p>
+            )}
+            {challenges?.map((challenge) => {
+              if (challenge) {
+                var {
+                  _id,
+                  title,
+                  description,
+                  createdAt: startdate,
+                  enddate,
+                  points,
+                } = challenge;
+              }
+              return (
+                <div key={_id} className="my-4 p-3 border">
+                  <h4 className="mb-4 border-bottom pb-2">
+                    <strong>Title: </strong>
+                    {title}
+                  </h4>
+                  <p>
+                    <strong>Description: </strong>
+                    {description}
+                  </p>
+                  <p>Start Date: {formatDate(startdate)}</p>
+                  <p>End Date: {formatDate(enddate)}</p>
+                  <p>Points: {points}</p>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleEditChallenge(_id)}
+                    className="me-2"
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => openDeleteModal(_id)}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
-
+      )}
       {/* Edit Challenge Modal */}
       <Dialog
         open={editModalOpen}

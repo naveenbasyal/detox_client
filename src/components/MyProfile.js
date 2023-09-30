@@ -7,6 +7,7 @@ import fetchToken from "../utils/fetchToken";
 import Loader from "./Loader";
 import { Box, Button, Input, InputLabel } from "@mui/material";
 import { CloudUploadOutlined } from "@mui/icons-material";
+import MainLoader from "./MainLoader";
 
 const UserProfile = () => {
   const { id } = fetchToken();
@@ -110,8 +111,10 @@ const UserProfile = () => {
 
   return (
     <div className="container mt-4">
+      <h2 className="mb-3 fw-bolder text-center">User Profile</h2>
+
       {loading ? (
-        <Loader />
+        <MainLoader />
       ) : (
         <div className="row">
           <div className="col-md-4 mt-3 d-flex flex-column ">
@@ -168,8 +171,7 @@ const UserProfile = () => {
               )}
             </div>
           </div>
-          <div className="col-md-8 mt-3">
-            <h2 className="mb-3 fw-bolder">User Profile</h2>
+          <div className="col-md-8 mt-3 d-flex flex-column justify-content-center">
             <div>
               {isEditing ? (
                 <>

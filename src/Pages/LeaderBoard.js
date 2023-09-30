@@ -16,6 +16,7 @@ import {
   Button,
 } from "@mui/material";
 import { ThreeDots } from "react-loader-spinner";
+import MainLoader from "../components/MainLoader";
 
 const LeaderBoard = () => {
   const dispatch = useDispatch();
@@ -69,7 +70,7 @@ const LeaderBoard = () => {
     <div className="container">
       <h2 className="mt-4 mb-3 fw-bold">LeaderBoard</h2>
       {loading ? (
-        <Loader />
+        <MainLoader />
       ) : (
         <table className="table">
           <thead>

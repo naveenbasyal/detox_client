@@ -24,6 +24,8 @@ import { formatDistanceToNow } from "date-fns";
 import EditIcon from "@mui/icons-material/Edit";
 import MoodIcon from "@mui/icons-material/Mood";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import CreateEntry from "../components/CreateEntry";
+import MainLoader from "../components/MainLoader";
 
 const MyEntries = () => {
   const dispatch = useDispatch();
@@ -74,7 +76,9 @@ const MyEntries = () => {
 
   return (
     <div className="container my-4">
-      <h1 className="fw-bold card-header mb-4">My Entries</h1>
+      <h1 className="fw-bolder ms-2 mb-4">My Entries</h1>
+      {}
+      <CreateEntry />
       {editing && (
         <Dialog open={editing} onClose={() => setEditing(false)}>
           <DialogTitle>Edit Entry</DialogTitle>
@@ -138,7 +142,11 @@ const MyEntries = () => {
         </Dialog>
       )}
       {loading ? (
-        <Loader />
+        <MainLoader />
+      ) : entries.length === 0 ? (
+        <div className="text-muted text-center my-4">
+          You have no entries yet. Please add one.
+        </div>
       ) : (
         <div className="row ">
           {entries?.map(({ createdAt, _id, content, mood, visibility }) => {
@@ -178,13 +186,13 @@ const MyEntries = () => {
               <Card key={_id} className="m-2 col-lg-3 col-md-5 col-sm-12">
                 <CardContent>
                   <Typography variant="body2" color="text.secondary">
-                    <span style={{fontSize:"1rem"}}>
+                    <span style={{ fontSize: "1.1rem" }}>
                       <strong>You</strong> were feeling <strong>{mood}</strong>{" "}
                       {moodEmoji} <strong>{timeAgo}</strong>
                     </span>
                     <span className="ms-1">{visibilityEmoji}</span>
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary" className="my-3">
                     <span className="">- {content}</span>
                   </Typography>
                 </CardContent>
@@ -192,7 +200,7 @@ const MyEntries = () => {
                   variant="outlined"
                   color="primary"
                   onClick={() => handleEditEntry(_id)}
-                  className="mb-3  ms-4 text-sm"
+                  className="mb-3  ms-3 text-sm"
                 >
                   Edit
                 </Button>

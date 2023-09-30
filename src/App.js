@@ -25,17 +25,17 @@ const App = () => {
   const { admin } = useSelector((state) => state?.user);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setIsLoading(false);
+  //   }, 2000);
 
-    return () => clearTimeout(timer);
-  }, []);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
-  if (isLoading) {
-    return <MainLoader />;
-  }
+  // if (isLoading) {
+  //   return <MainLoader />;
+  // }
 
   return (
     <Router>
