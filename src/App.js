@@ -20,22 +20,10 @@ import { useEffect, useState } from "react";
 import MainLoader from "./components/MainLoader";
 import VerifyEmail from "./Auth/VerifyEmail";
 import { ToastContainer } from "react-toastify";
+import Chat from "./Pages/Chat"
 const App = () => {
   const { isLogin } = useSelector((state) => state?.auth);
   const { admin } = useSelector((state) => state?.user);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 2000);
-
-  //   return () => clearTimeout(timer);
-  // }, []);
-
-  // if (isLoading) {
-  //   return <MainLoader />;
-  // }
 
   return (
     <Router>
@@ -55,6 +43,14 @@ const App = () => {
           element={
             <AuthGuard authRequired={true}>
               <MyEntries />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="/chat"
+          element={
+            <AuthGuard authRequired={true}>
+              <Chat />
             </AuthGuard>
           }
         />
