@@ -19,17 +19,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Loader from "../components/Loader";
 import { formatDistanceToNow } from "date-fns";
-import EditIcon from "@mui/icons-material/Edit";
-import MoodIcon from "@mui/icons-material/Mood";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import CreateEntry from "../components/CreateEntry";
 import MainLoader from "../components/MainLoader";
+import { toast } from "react-toastify";
+import Calendar from "../components/Entries/Calendar";
 
 const MyEntries = () => {
   const dispatch = useDispatch();
   const { isLogin } = useSelector((state) => state.auth);
+
   const {
     dailyEntries: entries,
     loading,
@@ -70,14 +69,13 @@ const MyEntries = () => {
   const handleSubmitEditedEntry = async (e) => {
     e.preventDefault();
     const response = await dispatch(updateEntryById(editValues));
-    alert(response?.payload?.message);
+    toast(response?.payload?.message);
     setEditing(false);
   };
 
   return (
     <div className="container my-4">
       <h1 className="fw-bolder ms-2 mb-4">My Entries</h1>
-      {}
       <CreateEntry />
       {editing && (
         <Dialog open={editing} onClose={() => setEditing(false)}>
@@ -148,7 +146,7 @@ const MyEntries = () => {
           You have no entries yet. Please add one.
         </div>
       ) : (
-        <div className="row ">
+        <div className="row">
           {entries?.map(({ createdAt, _id, content, mood, visibility }) => {
             if (createdAt) {
               var timeAgo = formatDistanceToNow(new Date(createdAt), {
@@ -192,7 +190,11 @@ const MyEntries = () => {
                     </span>
                     <span className="ms-1">{visibilityEmoji}</span>
                   </Typography>
-                  <Typography variant="body2" color="text.secondary" className="my-3">
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    className="my-3"
+                  >
                     <span className="">- {content}</span>
                   </Typography>
                 </CardContent>
@@ -200,7 +202,7 @@ const MyEntries = () => {
                   variant="outlined"
                   color="primary"
                   onClick={() => handleEditEntry(_id)}
-                  className="mb-3  ms-3 text-sm"
+                  className="mb-3 ms-3 text-sm"
                 >
                   Edit
                 </Button>
@@ -209,6 +211,7 @@ const MyEntries = () => {
           })}
         </div>
       )}
+     
     </div>
   );
 };

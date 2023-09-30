@@ -6,6 +6,7 @@ import Loader from "../Loader";
 // format createdAt
 import { formatDistance, formatDistanceToNow } from "date-fns";
 import { getPublicEntriesById } from "../../store/slices/dailyEntriesSlice";
+import MainLoader from "../MainLoader";
 
 const InspectUser = () => {
   const moodEmojis = {
@@ -41,7 +42,7 @@ const InspectUser = () => {
   return (
     <div className="container mt-4">
       {loading ? (
-        <Loader />
+        <MainLoader />
       ) : (
         user && (
           <div className="card">
@@ -86,10 +87,15 @@ const InspectUser = () => {
 
       {userPublicEntries?.length > 0 && (
         <div>
-          <div class="my-4 text-center fs-5">
+          <div className="my-4 text-center fs-5">
             <strong>Entries by {user?.username}</strong>
           </div>
           <div className="row justify-content-around">
+            {userPublicEntries.length === 0 && (
+              <div className="text-muted text-center my-4">
+                No public entries yet.
+              </div>
+            )}
             {userPublicEntries?.map(
               ({ content, mood, visibility, createdAt, _id }) => {
                 const timeAgo = formatDistanceToNow(new Date(createdAt), {

@@ -8,6 +8,7 @@ import Loader from "./Loader";
 import { Box, Button, Input, InputLabel } from "@mui/material";
 import { CloudUploadOutlined } from "@mui/icons-material";
 import MainLoader from "./MainLoader";
+import Calendar from "./Entries/Calendar";
 
 const UserProfile = () => {
   const { id } = fetchToken();
@@ -116,113 +117,124 @@ const UserProfile = () => {
       {loading ? (
         <MainLoader />
       ) : (
-        <div className="row">
-          <div className="col-md-4 mt-3 d-flex flex-column ">
-            <img
-              src={userValues?.picture}
-              alt=""
-              className="img-fluid rounded-circle"
-              style={{
-                width: "200px",
-                height: "200px",
-                objectFit: "cover",
-              }}
-            />
-            <div className="mt-3">
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-
-                  // flexDirection: "column",
+        <>
+          <div className="row">
+            <div className="col-md-4 mt-3 d-flex flex-column ">
+              <img
+                src={userValues?.picture}
+                alt=""
+                className="img-fluid rounded-circle"
+                style={{
+                  width: "200px",
+                  height: "200px",
+                  objectFit: "cover",
                 }}
-              >
-                {/* <strong htmlFor="image-upload" className="fw-bolder">
+              />
+              <div className="mt-3">
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+
+                    // flexDirection: "column",
+                  }}
+                >
+                  {/* <strong htmlFor="image-upload" className="fw-bolder">
                   Change Profile Picture?
                 </strong> */}
-                <Input
-                  type="file"
-                  accept="image/*"
-                  style={{ display: "none" }}
-                  id="image-upload"
-                  onChange={handleImageUpload}
-                />
-                <Button
-                  variant="contained"
-                  component="span"
-                  startIcon={<CloudUploadOutlined />}
-                  className="ms-2 text-capitalize"
-                  width="50%"
-                  onClick={() =>
-                    document.getElementById("image-upload").click()
-                  }
-                >
-                  Upload new image?
-                </Button>
-              </Box>
-              {uploadProgress && (
-                <div>
-                  {uploadProgress === 100
-                    ? "Image Uploaded Successfully"
-                    : "Uploading Image.."}
-                  <progress value={uploadProgress} max="100" className="mt-2" />
-                  {uploadProgress && `${uploadProgress}%`}
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="col-md-8 mt-3 d-flex flex-column justify-content-center">
-            <div>
-              {isEditing ? (
-                <>
-                  <label htmlFor="username">Username:</label>
-                  <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    value={userValues?.username}
-                    onChange={handleEditChange}
-                    className="form-control"
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    id="image-upload"
+                    onChange={handleImageUpload}
                   />
-                  <button
-                    onClick={handleSubmit}
-                    disabled={editprofileLoading}
-                    className="btn btn-primary mt-2"
+                  <Button
+                    variant="contained"
+                    component="span"
+                    startIcon={<CloudUploadOutlined />}
+                    className="ms-2 text-capitalize"
+                    width="50%"
+                    onClick={() =>
+                      document.getElementById("image-upload").click()
+                    }
                   >
-                    Save
-                  </button>
-                  <button
-                    onClick={() => setIsEditing(false)}
-                    className="btn btn-secondary mt-2 ms-2"
-                  >
-                    Cancel
-                  </button>
-                </>
-              ) : (
-                <>
-                  <p>
-                    <strong>Username : </strong> {user?.username}
-                  </p>
-                  <button
-                    onClick={() => setIsEditing(true)}
-                    className="btn btn-outline-primary my-2"
-                  >
-                    Edit Username
-                  </button>
-                </>
-              )}
+                    Upload new image?
+                  </Button>
+                </Box>
+                {uploadProgress && (
+                  <div>
+                    {uploadProgress === 100
+                      ? "Image Uploaded Successfully"
+                      : "Uploading Image.."}
+                    <progress
+                      value={uploadProgress}
+                      max="100"
+                      className="mt-2"
+                    />
+                    {uploadProgress && `${uploadProgress}%`}
+                  </div>
+                )}
+              </div>
             </div>
-            <p>
-              <strong>Level :</strong> {user?.level}
-            </p>
-            <p>
-              <strong>Points :</strong> {user?.points}
-            </p>
-            <p>
-              <strong>Email :</strong> {user?.email}
-            </p>
+            <div className="col-md-8 mt-3 d-flex flex-column justify-content-center">
+              <div>
+                {isEditing ? (
+                  <>
+                    <label htmlFor="username">Username:</label>
+                    <input
+                      type="text"
+                      id="username"
+                      name="username"
+                      value={userValues?.username}
+                      onChange={handleEditChange}
+                      className="form-control"
+                    />
+                    <button
+                      onClick={handleSubmit}
+                      disabled={editprofileLoading}
+                      className="btn btn-primary mt-2"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => setIsEditing(false)}
+                      className="btn btn-secondary mt-2 ms-2"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <p>
+                      <strong>Username : </strong> {user?.username}
+                    </p>
+                    <button
+                      onClick={() => setIsEditing(true)}
+                      className="btn btn-outline-primary my-2"
+                    >
+                      Edit Username
+                    </button>
+                  </>
+                )}
+              </div>
+              <p>
+                <strong>Level :</strong> {user?.level}
+              </p>
+              <p>
+                <strong>Points :</strong> {user?.points}
+              </p>
+              <p>
+                <strong>Email :</strong> {user?.email}
+              </p>
+            </div>
           </div>
-        </div>
+
+          {/*  _________ Calendar HeatMap _______ */}
+          <div className="my-4">
+            <Calendar />
+          </div>
+        </>
       )}
     </div>
   );
