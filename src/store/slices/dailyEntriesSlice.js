@@ -25,7 +25,32 @@ export const getDailyEntries = createAsyncThunk(
     }
   }
 );
-// ____________ ALL Public Entries ________________
+// ____________ Get Entries for Calendar ________________
+
+export const getAllEntriesForCalendar = createAsyncThunk(
+  "getAllEntriesForCalendar",
+  async (id, { rejectWithValue, dispatch }) => {
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/daily-entries/calendar/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const data = await res.json();
+      console.log(data);
+      return data.entries;
+    } catch (error) {
+      console.log(error);
+      rejectWithValue(error.response);
+    }
+  }
+);
+// ____________ ALL Public Entries for the main page  ________________
 export const getAllPublicEntries = createAsyncThunk(
   "getAllPublicEntries",
   async (_, { rejectWithValue, dispatch }) => {
@@ -129,6 +154,7 @@ const initialState = {
   loading: false,
   publicEntries: [],
   userPublicEntries: [],
+  entriesForCalendar: [],
   createEntryLoading: false,
   updateEntryLoading: false,
   publicEntryLoading: false,
@@ -157,6 +183,18 @@ const dailyEntriesSlice = createSlice({
         state.dailyEntries = action.payload;
       })
       .addCase(getDailyEntries.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      // ________ GET ALL ENTRIES FOR CALENDAR ________
+      .addCase(getAllEntriesForCalendar.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getAllEntriesForCalendar.fulfilled, (state, action) => {
+        state.loading = false;
+        state.entriesForCalendar = action.payload;
+      })
+      .addCase(getAllEntriesForCalendar.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

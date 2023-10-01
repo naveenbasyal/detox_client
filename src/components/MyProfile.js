@@ -19,6 +19,8 @@ const UserProfile = () => {
     loading,
     editprofileLoading,
   } = useSelector((state) => state?.user);
+  const { dailyEntries: entries } = useSelector((state) => state?.dailyEntries);
+
 
   const [userValues, setUserValues] = useState({
     username: "",
@@ -231,7 +233,7 @@ const UserProfile = () => {
 
           {/*  _________ Calendar HeatMap _______ */}
           <div className="my-4">
-            <Calendar />
+            <Calendar userProfile={user} entries={entries} />
           </div>
         </>
       )}

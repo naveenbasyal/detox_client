@@ -1,13 +1,10 @@
 import React from "react";
-import { useSelector } from "react-redux";
+
 import { addMonths, format, startOfMonth } from "date-fns";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
 
-const Calendar = () => {
-  const { userProfile } = useSelector((state) => state.user);
-  const { dailyEntries: entries } = useSelector((state) => state?.dailyEntries);
-
+const Calendar = ({ userProfile, entries }) => {
   const heatmapValues = entries
     .map((entry) => new Date(entry.createdAt).toISOString().slice(0, 10)) // Extract dates
     .filter((date, index, self) => self.indexOf(date) === index) // Get unique dates

@@ -5,7 +5,10 @@ import Loader from "../components/Loader";
 import { toast } from "react-toastify";
 import notifySound from "../assets/notify.mp3";
 import { Link } from "react-router-dom";
-
+import { Tooltip } from "react-tooltip";
+import "../Styles/chat.css";
+import "react-tooltip/dist/react-tooltip.css";
+import { format } from "date-fns";
 const Chat = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -74,6 +77,7 @@ const Chat = () => {
       userId: user?._id,
       username: user?.username,
       userImage: user?.picture,
+      timestamp: Date.now(),
     });
     setMessage("");
   };
@@ -83,6 +87,14 @@ const Chat = () => {
 
   return (
     <div className="container mt-3">
+      <Tooltip
+        place="top"
+        type="light"
+        effect="solid"
+        className="tooltip"
+        backgroundColor="#fff"
+        id="myTooltip"
+      />
       <div className="row justify-content-center">
         <div className="col-md-8 col-sm-12 col-lg-5 mt-2 mb-1">
           <div className="card">
@@ -91,7 +103,12 @@ const Chat = () => {
             </div>
             <div
               className="card-body"
-              style={{ height: "70vh", overflowY: "scroll" }}
+              style={{
+                height: "70vh",
+                overflowY: "scroll",
+                background:
+                  " #efe7dd url(https://cloud.githubusercontent.com/assets/398893/15136779/4e765036-1639-11e6-9201-67e728e86f39.jpg) repeat",
+              }}
               ref={chatContainerRef}
             >
               <ul className="list-unstyled">
@@ -111,26 +128,90 @@ const Chat = () => {
                           : "align-items-center"
                       }`}
                     >
+                      {/*  ------------- Image ----------- */}
                       {messageData?.userId !== user?._id && (
-                        <Link to={`/user/${messageData?.userId}`} className="text-decoration-none">
-                        <img
-                          src={messageData?.userImage}
-                          className="mr-3 rounded-circle"
-                          alt={messageData?.username}
-                          style={{ width: "50px", height: "50px" }}
+                        <Link
+                          to={`/user/${messageData?.userId}`}
+                          className="text-decoration-none"
+                        >
+                          <img
+                            src={messageData?.userImage}
+                            className="mr-3 rounded-circle"
+                            alt={messageData?.username}
+                            style={{
+                              width: "40px",
+                              height: "40px",
+                              border: "1px solid #000",
+                              objectFit: "cover",
+                            }}
                           />
-                          </Link>
+                        </Link>
                       )}
                       <div
-                        style={{ maxWidth: "60%" }}
-                        className="media-body d-flex flex-column ms-2 bg-light p-2 border-1 border-dark"
+                        style={{ maxWidth: "60%", minWidth: "30%" }}
+                        className="media-body d-flex flex-column ms-2  p-2 border-1 border-dark"
                       >
-                        {messageData?.userId !== user?._id && (
-                          <span className="mt-0 text-muted">
-                            {messageData?.username}
-                          </span>
-                        )}
-                        <span>{messageData?.message}</span>
+                        <span
+                          data-tooltip-content={format(
+                            new Date(messageData?.timestamp),
+                            "MMMM dd, yyyy h:mm a"
+                          )}
+                          data-tooltip-id="myTooltip"
+                          style={{
+                            background:
+                              messageData?.userId === user?._id
+                                ? "#e1ffc7"
+                                : "#fff",
+
+                            borderRadius: "5px 0px 5px 5px",
+                            padding: "0.3rem 0.5rem",
+                          }}
+                          className={`d-flex flex-column ${
+                            messageData?.userId === user?._id
+                              ? "received"
+                              : "sent"
+                          }`}
+                        >
+                          {/* _____ USERNAME _____ */}
+                          {messageData?.userId !== user?._id && (
+                            <span className="mt-0 text-muted">
+                              {messageData?.username}
+                            </span>
+                          )}
+                          {/* _____ Message _____ */}
+
+                          <span>{messageData?.message}</span>
+
+                          <p
+                            style={{
+                              position: "relative",
+                            }}
+                          >
+                            <span
+                              className="text-muted"
+                              style={{
+                                fontSize: "0.7rem",
+                                position: "absolute",
+                                right: "0",
+                              }}
+                            >
+                              {new Date(messageData?.timestamp).toLocaleString(
+                                "en-US",
+                                {
+                                  hour: "numeric",
+                                  minute: "numeric",
+                                  hour12: true,
+                                }
+                              )}
+                              &nbsp;
+                              <i
+                                style={{ fontSize: ".6rem" }}
+                                className="fa-regular fa-clock fa-spin"
+                              ></i>
+                              &nbsp;{" "}
+                            </span>
+                          </p>
+                        </span>
                       </div>
                     </li>
                   ))

@@ -5,8 +5,12 @@ import { InspectUserProfile } from "../../store/slices/userSlice";
 import Loader from "../Loader";
 // format createdAt
 import { formatDistance, formatDistanceToNow } from "date-fns";
-import { getPublicEntriesById } from "../../store/slices/dailyEntriesSlice";
+import {
+  getAllEntriesForCalendar,
+  getPublicEntriesById,
+} from "../../store/slices/dailyEntriesSlice";
 import MainLoader from "../MainLoader";
+import Calendar from "../Entries/Calendar";
 
 const InspectUser = () => {
   const moodEmojis = {
@@ -25,12 +29,15 @@ const InspectUser = () => {
   const { inspectUserProfile: user, loading } = useSelector(
     (state) => state?.user
   );
-  const { userPublicEntries, publicEntryLoading } = useSelector(
-    ({ dailyEntries }) => dailyEntries
-  );
+  const {
+    userPublicEntries,
+    publicEntryLoading,
+    entriesForCalendar: entries,
+  } = useSelector(({ dailyEntries }) => dailyEntries);
 
   useEffect(() => {
     dispatch(InspectUserProfile(id));
+    dispatch(getAllEntriesForCalendar(id));
     dispatch(getPublicEntriesById(id));
   }, [id]);
 
@@ -45,43 +52,52 @@ const InspectUser = () => {
         <MainLoader />
       ) : (
         user && (
-          <div className="card">
-            <div className="card-body">
-              <div className="d-flex align-items-center">
-                <img
-                  src={user?.picture}
-                  alt=""
-                  className="rounded-circle me-3"
-                  style={{ width: "6rem", height: "6rem", objectFit: "cover" }}
-                />
-                <div>
-                  <h2 className="card-title">{user?.username}</h2>
-                  <p className="card-subtitle text-muted">
-                    <strong>Level:</strong> {user?.level}
-                  </p>
-                  <p className="card-subtitle text-muted">
-                    <strong>Score:</strong> {user?.points}
-                  </p>
+          <>
+            <div className="card">
+              <div className="card-body">
+                <div className="d-flex align-items-center">
+                  <img
+                    src={user?.picture}
+                    alt=""
+                    className="rounded-circle me-3"
+                    style={{
+                      width: "6rem",
+                      height: "6rem",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <div>
+                    <h2 className="card-title">{user?.username}</h2>
+                    <p className="card-subtitle text-muted">
+                      <strong>Level:</strong> {user?.level}
+                    </p>
+                    <p className="card-subtitle text-muted">
+                      <strong>Score:</strong> {user?.points}
+                    </p>
+                  </div>
                 </div>
+                <hr />
+                <h3>User Details</h3>
+                <p className="card-text">
+                  <strong>Name:</strong> {user?.username}
+                </p>
+                <p className="card-text">
+                  <strong>Email:</strong> {user?.email}
+                </p>
+                <p className="card-text">
+                  <strong>Joined on : </strong>
+                  {user?.createdAt && isValidDate(user.createdAt)
+                    ? formatDistance(new Date(user.createdAt), new Date(), {
+                        addSuffix: true,
+                      })
+                    : "N/A"}
+                </p>
               </div>
-              <hr />
-              <h3>User Details</h3>
-              <p className="card-text">
-                <strong>Name:</strong> {user?.username}
-              </p>
-              <p className="card-text">
-                <strong>Email:</strong> {user?.email}
-              </p>
-              <p className="card-text">
-                <strong>Joined on : </strong>
-                {user?.createdAt && isValidDate(user.createdAt)
-                  ? formatDistance(new Date(user.createdAt), new Date(), {
-                      addSuffix: true,
-                    })
-                  : "N/A"}
-              </p>
             </div>
-          </div>
+            <div className="my-3">
+              <Calendar userProfile={user} entries={entries} />
+            </div>
+          </>
         )
       )}
 
