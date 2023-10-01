@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import { getUserProfile, updateUserProfile } from "../store/slices/userSlice";
 import axios from "axios";
 import fetchToken from "../utils/fetchToken";
@@ -10,10 +9,10 @@ import { CloudUploadOutlined } from "@mui/icons-material";
 import MainLoader from "./MainLoader";
 import Calendar from "./Entries/Calendar";
 import { getDailyEntries } from "../store/slices/dailyEntriesSlice";
+import { toast } from "react-toastify";
 
 const UserProfile = () => {
   const { id } = fetchToken();
-
   const dispatch = useDispatch();
   const {
     userProfile: user,
@@ -55,17 +54,16 @@ const UserProfile = () => {
       alert("You can't edit someone else's profile");
       return;
     }
-
     const file = e.target.files[0];
     const formData = new FormData();
     setUploadProgress(0);
     formData.append("file", file);
-    formData.append("upload_preset", "detoxifyMe");
-    formData.append("cloud_name", "dtmwcbui1");
+    formData.append("upload_preset", process.env.REACT_APP_UPLOAD_PRESET);
+    formData.append("cloud_name", process.env.REACT_APP_CLOUD_NAME);
 
     try {
       const response = await axios.post(
-        "https://api.cloudinary.com/v1_1/dtmwcbui1/image/upload",
+        `${process.env.REACT_APP_CLOUD_URL}`,
         formData,
         {
           onUploadProgress: (progressEvent) => {
@@ -104,9 +102,9 @@ const UserProfile = () => {
     const res = await dispatch(updateUserProfile({ id, ...userValues }));
 
     if (res?.payload?.message) {
-      alert(res?.payload?.message);
+      toast.success(res?.payload?.message);
     } else {
-      alert("Something went wrong");
+      toast.error("Something went wrong");
     }
     setIsEditing(false);
     setUploadProgress(null);
@@ -159,12 +157,22 @@ const UserProfile = () => {
                 </Button>
               </Box>
               {uploadProgress && (
-                <div>
-                  {uploadProgress === 100
-                    ? "Image Uploaded Successfully"
-                    : "Uploading Image.."}
-                  <progress value={uploadProgress} max="100" className="mt-2" />
-                  {uploadProgress && `${uploadProgress}%`}
+                <div className="my-3">
+                  {uploadProgress === 100 ? (
+                    <p className="alert-success">Image Uploaded Successfully</p>
+                  ) : (
+                    <p className="alert alert-info">
+                      Uploading Image..Please do not go back or refresh!!
+                    </p>
+                  )}
+                  <div className="d-flex">
+                    <progress
+                      value={uploadProgress}
+                      max="100"
+                      className="mt-2"
+                    />
+                    <span>{uploadProgress && `${uploadProgress}%`}</span>
+                  </div>
                 </div>
               )}
             </div>

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUserProfile, getAllUsers } from "../store/slices/userSlice";
 import { Link } from "react-router-dom";
-import Loader from "../components/Loader";
 import bcrypt from "bcryptjs";
 import { AdminPanelSettings, Delete } from "@mui/icons-material";
 import fetchToken from "../utils/fetchToken";

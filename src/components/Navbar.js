@@ -1,27 +1,59 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAuthSlice } from "../store/slices/authSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import fetchToken from "../utils/fetchToken";
 import { getUserProfile, logoutUserSlice } from "../store/slices/userSlice";
 import { logoutEntrySlice } from "../store/slices/dailyEntriesSlice";
 import bcrypt from "bcryptjs";
 import { logoutChallengesSlice } from "../store/slices/challengesSlice";
 import brand_logo from "../assets/images/brand.png";
+import io from "socket.io-client";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // for chats
+  const [unreadMessageCount, setUnreadMessageCount] = useState(0); // State to store unread message count
+  const socket = io(process.env.REACT_APP_SERVER_PORT, {
+    transports: ["websocket"],
+  });
+
+  // auth
   const { isLogin } = useSelector((state) => state?.auth);
   const { userProfile } = useSelector((state) => state?.user);
 
   const userImage = userProfile?.picture;
 
-  
   const id = fetchToken()?.id;
   const [admin, setAdmin] = useState(null);
 
   useEffect(() => {
+    // Retrieve unread message count from local storage
+    const storedUnreadMessageCount = localStorage.getItem("unreadMessageCount");
+    if (storedUnreadMessageCount !== null) {
+      setUnreadMessageCount(parseInt(storedUnreadMessageCount, 10));
+    }
+
+    socket.on("chat message", (messageData) => {
+      if (
+        messageData.userId !== userProfile?._id &&
+        location.pathname !== "/chat"
+      ) {
+        setUnreadMessageCount((prevCount) => prevCount + 1);
+        // Save updated unread message count to local storage
+        localStorage.setItem("unreadMessageCount", unreadMessageCount + 1);
+      }
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, [userProfile, location.pathname]);
+
+  useEffect(() => {
+ 
     checkAdminStatus();
   }, []);
 
@@ -41,13 +73,15 @@ const Navbar = () => {
     dispatch(logoutEntrySlice());
     dispatch(logoutChallengesSlice());
     localStorage.removeItem("admin");
+    // Clear the unread message count from local storage on logout
+    localStorage.removeItem("unreadMessageCount");
+    setUnreadMessageCount(0); // Reset the unread message count in state
     navigate("/login");
   };
 
   useEffect(() => {
     id && dispatch(getUserProfile(id));
   }, [id]);
-
   return (
     <nav
       className="navbar navbar-expand-lg navbar-light"
@@ -60,7 +94,7 @@ const Navbar = () => {
     >
       <div className="container">
         <Link className="navbar-brand fw-bold" to="/">
-        <img src={brand_logo} alt="DeToxifyMe" style={{height:"42px"}}/>
+          <img src={brand_logo} alt="DeToxifyMe" style={{ height: "42px" }} />
         </Link>
         <button
           className="navbar-toggler"
@@ -103,8 +137,20 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/chat">
-                    Chat
+                  <Link
+                    className="nav-link"
+                    to="/chat"
+                    onClick={() => {
+                      setUnreadMessageCount(0);
+                      localStorage.removeItem("unreadMessageCount");
+                    }}
+                  >
+                    Chat{" "}
+                    {unreadMessageCount > 0 && ( // Display unread message count
+                      <span className="badge bg-danger ms-2">
+                        {unreadMessageCount}
+                      </span>
+                    )}
                   </Link>
                 </li>
                 {admin === true && (

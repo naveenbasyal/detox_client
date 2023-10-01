@@ -23,7 +23,6 @@ import { formatDistanceToNow } from "date-fns";
 import CreateEntry from "../components/CreateEntry";
 import MainLoader from "../components/MainLoader";
 import { toast } from "react-toastify";
-import Calendar from "../components/Entries/Calendar";
 
 const MyEntries = () => {
   const dispatch = useDispatch();

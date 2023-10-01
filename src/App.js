@@ -16,11 +16,9 @@ import InspectUser from "./components/leaderboard/InspectUser";
 import NotFoundPage from "./Pages/NotFoundPage";
 import ForgotPassword from "./Auth/ForgotPassword";
 import ResetPassword from "./Auth/ResetPassword";
-import { useEffect, useState } from "react";
-import MainLoader from "./components/MainLoader";
 import VerifyEmail from "./Auth/VerifyEmail";
 import { ToastContainer } from "react-toastify";
-import Chat from "./Pages/Chat"
+import Chat from "./Pages/Chat";
 const App = () => {
   const { isLogin } = useSelector((state) => state?.auth);
   const { admin } = useSelector((state) => state?.user);

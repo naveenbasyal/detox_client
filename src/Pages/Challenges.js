@@ -104,17 +104,14 @@ const Challenges = () => {
       .required("Points is required"),
     enddate: Yup.date().required("End Date is required"),
   });
-  
+
   return (
     <div className="container mt-4">
       {/* Create Challenge */}
       {loading ? (
         <MainLoader />
       ) : (
-        <div
-          className="row justify-content-between
-      "
-        >
+        <div className="row justify-content-between">
           <div className="col-lg-4 col-md-6 col-sm-12">
             <h2 className="fw-bolder border card-header mb-2">
               Create Challenge
@@ -246,8 +243,8 @@ const Challenges = () => {
               )}
             </Formik>
           </div>
+
           <div className="col-lg-5 col-md-6 col-sm-12">
-            {/* Display All Challenges */}
             <h2 className="fw-bolder card-header">All Challenges</h2>
             {challenges?.length === 0 && (
               <p className="text-center my-4">

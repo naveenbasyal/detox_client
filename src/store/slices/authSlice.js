@@ -17,7 +17,6 @@ export const registerUser = createAsyncThunk(
         }
       );
       const data = await response.json();
-      console.log(data);
       if(data){
         return data;
       }
@@ -40,7 +39,6 @@ export const loginUser = createAsyncThunk(
         }
       );
       const data = await response.json();
-      console.log(data);
       // data?.message && toast(data?.message);
       // if (!data?.user) {
       //   return;

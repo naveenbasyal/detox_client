@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { createDailyEntries } from "../store/slices/dailyEntriesSlice";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const CreateEntry = () => {
   const dispatch = useDispatch();
@@ -27,10 +29,20 @@ const CreateEntry = () => {
       visibility: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      dispatch(createDailyEntries(values));
-      formik.resetForm();
-      setToggleWriteEntries(false);
+    onSubmit: async (values) => {
+      const res = await dispatch(createDailyEntries(values));
+      if (res?.payload) {
+        toast.success(
+          <>
+            Entry created !!
+            <Link to="/myentries" className="text-primary text-decoration-none"> Go to My Entries</Link>
+          </>
+        );
+        formik.resetForm();
+        setToggleWriteEntries(false);
+      } else {
+        toast.error("Entry creation failed");
+      }
     },
   });
 

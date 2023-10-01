@@ -89,7 +89,7 @@ export const createDailyEntries = createAsyncThunk(
         }
       );
       const data = await res.json();
-      console.log("new Entry Added", data?.entry);
+      console.log("new Entry Added", data);
       data?.entry && dispatch(getAllPublicEntries());
       return data?.entry;
     } catch (error) {

@@ -4,7 +4,6 @@ import { getAllChallenges } from "../../store/slices/challengesSlice";
 import { Link, useLocation } from "react-router-dom";
 import Countdown from "react-countdown";
 import fetchToken from "../../utils/fetchToken";
-import { ThreeDots } from "react-loader-spinner";
 import { formatDistanceToNow } from "date-fns";
 import MainLoader from "../MainLoader";
 
@@ -15,13 +14,11 @@ const ExploreChallenges = () => {
   const myId = fetchToken()?.id;
 
   const isChallengeExpired = (enddate) => {
-    const currentTime = new Date().toLocaleString("en-US", {
-      timeZone: "Asia/Kolkata",
-    });
-    return (
-      currentTime <
-      new Date(enddate).toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
-    );
+    const currentTime = new Date().getTime(); // Current time in milliseconds
+    const endDateTime = new Date(enddate).getTime(); // End date time in milliseconds
+
+    // Compare the two times
+    return currentTime >= endDateTime;
   };
 
   useEffect(() => {

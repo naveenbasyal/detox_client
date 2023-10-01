@@ -15,8 +15,6 @@ const Main = () => {
               <div className="card-header">
                 <h2 className="mb-0">People's experiences</h2>
               </div>
-              {/* <div className="card-body"> */}
-              {/* </div> */}
             </div>
             <PublicEntries />
           </div>
