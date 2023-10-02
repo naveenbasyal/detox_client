@@ -89,14 +89,13 @@ const Chat = () => {
       timestamp: Date.now(),
     });
     setMessage("");
-    
   };
   useEffect(() => {
     chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
   }, [messages]);
 
   return (
-    <div className="container mt-3">
+    <div className="container mt-2 mb-5">
       <Tooltip
         place="top"
         type="light"
@@ -109,10 +108,10 @@ const Chat = () => {
         <div className="col-md-8 col-sm-12 col-lg-5 mt-2 mb-1">
           <div className="card">
             <div className="card-header">
-              <h3 className="mb-0">Welcome, {user?.username}!</h3>
+              <h3 className="mb-0 text-white">Welcome, {user?.username}!</h3>
             </div>
             <div
-              className="card-body"
+              className="card-body chat-body"
               style={{
                 height: "70vh",
                 overflowY: "scroll",
@@ -191,7 +190,7 @@ const Chat = () => {
                           )}
                           {/* _____ Message _____ */}
 
-                          <span>{messageData?.message}</span>
+                          <span className="text-dark">{messageData?.message}</span>
 
                           <p
                             style={{
@@ -230,7 +229,7 @@ const Chat = () => {
                 )}
               </ul>
             </div>
-            <div className="card-footer">
+            <div className="card-footer mb-3">
               <div className="input-group">
                 <input
                   type="text"

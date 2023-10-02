@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 const Main = () => {
   const { loading } = useSelector(({ dailyEntries }) => dailyEntries);
   return (
-    <section className="main">
+    <section className="main mb-5">
       <div className="container">
         <CreateEntry />
 

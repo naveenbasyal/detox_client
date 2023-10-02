@@ -38,7 +38,7 @@ const PublicEntries = () => {
 
   return (
     <div
-      className="mt-4"
+      className="my-4"
       // style={{ height: "65vh", overflow: "scroll" }}
     >
       {loading ? (
@@ -96,10 +96,11 @@ const PublicEntries = () => {
                               }}
                             />
                             <p className="mb-0 ms-2">
-                              <strong className="text-black">{username}</strong>
-                              <strong className="text-secondary">
+                              <strong>{username}</strong>&nbsp;
+                              <strong>
                                 &nbsp;is feeling{" "}
                                 {moodEmojis[mood.toLowerCase()]} {mood}
+                                &nbsp;&nbsp;
                               </strong>
                             </p>
                           </Link>
@@ -111,6 +112,7 @@ const PublicEntries = () => {
                           </strong>
                           {timeAgo}
                         </p>
+                        <hr />
                         <p className="mb-0">
                           <strong>
                             <i className="fa-solid fa-message"></i>&nbsp;{" "}
@@ -134,7 +136,7 @@ const PublicEntries = () => {
                   justifyContent: "center",
                 }}
               >
-                <p className="text-center">You're all caught up!</p>
+                <p className="text-center fw-bold">You're all caught up!</p>
               </div>
             )}
 

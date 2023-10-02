@@ -19,14 +19,16 @@ import ResetPassword from "./Auth/ResetPassword";
 import VerifyEmail from "./Auth/VerifyEmail";
 import { ToastContainer } from "react-toastify";
 import Chat from "./Pages/Chat";
+
 const App = () => {
   const { isLogin } = useSelector((state) => state?.auth);
   const { admin } = useSelector((state) => state?.user);
 
   return (
     <Router>
-      {isLogin && <Navbar />}
       <ToastContainer />
+
+      {isLogin && <Navbar />}
       <Routes>
         <Route
           path="/"

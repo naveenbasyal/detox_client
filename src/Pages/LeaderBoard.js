@@ -69,7 +69,7 @@ const LeaderBoard = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container mb-5">
       <h2 className="mt-4 mb-3 fw-bold">LeaderBoard</h2>
       {loading || entryLoading ? (
         <MainLoader />
@@ -93,8 +93,8 @@ const LeaderBoard = () => {
                         src={user.picture}
                         alt={user.username}
                         className="me-3 rounded-circle"
-                        width="50px"
-                        height="50px"
+                        width="44px"
+                        height="44px"
                         effect="blur"
                         style={{
                           objectFit: "cover",
@@ -104,7 +104,7 @@ const LeaderBoard = () => {
                         to={`/user/${user._id}`}
                         className="text-decoration-none text-black ms-3 d-flex"
                       >
-                        <h5 className="me-1">{user.username}</h5>
+                        <span className="me-1">{user.username}</span>
                       </Link>
                     </td>
 
@@ -127,11 +127,11 @@ const LeaderBoard = () => {
                     </td>
                     {user?.admin ? (
                       <td>
-                        <AdminPanelSettings color="primary" />
+                        <AdminPanelSettings color="primary" className="text-primary" />
                       </td>
                     ) : (
                       <td onClick={() => deleteUser(user._id)}>
-                        <Delete style={{ cursor: "pointer", color: "red" }} />
+                        <Delete style={{ cursor: "pointer", color: "red" }} color="red" className="text-danger"/>
                       </td>
                     )}
                   </tr>
@@ -149,16 +149,16 @@ const LeaderBoard = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenDialog(false)} color="primary">
+          <Button onClick={() => setOpenDialog(false)} className="text-dark">
             Cancel
           </Button>
-          <Button onClick={handleConfirmation} color="primary">
+          <button onClick={handleConfirmation} className="btn btn-danger text-white">
             {deleteUserLoading ? (
               <ThreeDots height={24} width={24} color="#000" />
             ) : (
               "Delete"
             )}
-          </Button>
+          </button>
         </DialogActions>
       </Dialog>
     </div>

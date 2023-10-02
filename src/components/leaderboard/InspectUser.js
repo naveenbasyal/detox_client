@@ -53,7 +53,7 @@ const InspectUser = () => {
   }
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4 mb-5">
       {inspectLoading ? (
         <MainLoader />
       ) : (
@@ -75,23 +75,24 @@ const InspectUser = () => {
                   />
                   <div className="ms-4">
                     <h2 className="card-title">{user?.username}</h2>
-                    <p className="card-subtitle text-muted">
+                    <p className="card-subtitle fs-5">
                       <strong>Level:</strong> {user?.level}
                     </p>
-                    <p className="card-subtitle text-muted">
+                    <p className="card-subtitle fs-5">
                       <strong>Score:</strong> {user?.points}
                     </p>
                   </div>
                 </div>
                 <hr />
-                <h3>User Details</h3>
-                <p className="card-text">
-                  <strong>Name:</strong> {user?.username}
+                <h3 className="text-white fs-4 fw-lighter">User Details</h3>
+                <p className="card-text fs-5">
+                  <strong>Name : </strong> {user?.username}
                 </p>
-                <p className="card-text">
-                  <strong>Email:</strong> {user?.email}
+                <p className="card-text fs-5">
+                  <strong>Email : </strong> &nbsp;
+                  <a href="mailto:">{user?.email}</a>
                 </p>
-                <p className="card-text">
+                <p className="card-text fs-5">
                   <strong>Joined on : </strong>
                   {user?.createdAt && isValidDate(user.createdAt)
                     ? formatDistance(new Date(user.createdAt), new Date(), {
@@ -128,7 +129,7 @@ const InspectUser = () => {
                           <div className="card-body">
                             <div className="d-flex align-items-center">
                               <p className="mb-0">
-                                <strong className="text-secondary d-flex align-items-center">
+                                <strong className=" d-flex align-items-center">
                                   &nbsp;Feeling {moodEmojis[mood.toLowerCase()]}{" "}
                                   {mood}
                                   &nbsp;&nbsp;
@@ -138,9 +139,7 @@ const InspectUser = () => {
                               </p>
                             </div>
                             <hr />
-                            <p className="mb-0">
-                              <strong></strong>
-                            </p>
+
                             <p className="mb-0">
                               <strong>
                                 <i className="fa-solid fa-message"></i>&nbsp;{" "}

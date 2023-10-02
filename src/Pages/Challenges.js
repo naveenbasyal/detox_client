@@ -69,14 +69,15 @@ const Challenges = () => {
   };
   const handleSubmitEditedChallenge = async (values) => {
     const response = await dispatch(updateChallenge(values));
-    alert(response?.payload?.message);
+
+    toast.success(response?.payload?.message);
     setEditModalOpen(false);
   };
   // _____________ DELETION PART _____________
 
   const handleDeleteChallenge = async (id) => {
     const res = await dispatch(deleteChallenge(id));
-    alert(res?.payload?.message);
+    toast.success(res?.payload?.message);
     setDeleteModalOpen(false);
     setDeleteChallengeId(null);
   };
@@ -113,9 +114,7 @@ const Challenges = () => {
       ) : (
         <div className="row justify-content-between">
           <div className="col-lg-4 col-md-6 col-sm-12">
-            <h2 className="fw-bolder border card-header mb-2">
-              Create Challenge
-            </h2>
+            <h2 className="fw-bolder mb-2">Create Challenge</h2>
             <Formik
               initialValues={{
                 title: "",
@@ -131,14 +130,15 @@ const Challenges = () => {
               }}
             >
               {({ values, handleChange, setFieldValue }) => (
-                <Form className="mb-4 border p-2">
+                <Form className="mb-4 py-4 px-3 card">
                   <div className="mb-2">
-                    <label htmlFor="title" className="form-label">
+                    <label htmlFor="title" className=" form-label text-light">
                       Title
                     </label>
                     <Field
                       type="text"
                       id="title"
+                      placeholder="Enter title"
                       name="title"
                       className="form-control"
                     />
@@ -148,14 +148,20 @@ const Challenges = () => {
                       className="text-danger"
                     />
                   </div>
+                  <hr />
                   <div className="mb-2">
-                    <label htmlFor="description" className="form-label">
+                    <label
+                      htmlFor="description"
+                      className=" form-label text-light"
+                    >
                       Description
                     </label>
 
                     <ReactQuill
-                      name="description"
+                      className="text-white"
+                      name="description "
                       id="description"
+                      placeholder="Enter Description properly"
                       theme="snow"
                       onChange={(value) => setFieldValue("description", value)}
                       modules={{
@@ -199,15 +205,18 @@ const Challenges = () => {
                       className="text-danger"
                     />
                   </div>
+                  <hr />
+
                   <div className="mb-2">
-                    <label htmlFor="points" className="form-label">
+                    <label htmlFor="points" className=" form-label text-light">
                       Points
                     </label>
                     <Field
                       type="number"
+                      placeholder="Enter points"
                       id="points"
                       name="points"
-                      className="form-control"
+                      className="form-control text-dark"
                     />
                     <ErrorMessage
                       name="points"
@@ -215,15 +224,17 @@ const Challenges = () => {
                       className="text-danger"
                     />
                   </div>
+                  <hr />
+
                   <div className="mb-2">
-                    <label htmlFor="enddate" className="form-label">
+                    <label htmlFor="enddate" className=" form-label text-light">
                       End Date
                     </label>
                     <Field
                       type="date"
                       id="enddate"
                       name="enddate"
-                      className="form-control"
+                      className="form-control text-dark"
                     />
 
                     <ErrorMessage
@@ -232,6 +243,8 @@ const Challenges = () => {
                       className="text-danger"
                     />
                   </div>
+                  <hr />
+
                   <button
                     type="submit"
                     className="btn btn-primary"
@@ -244,10 +257,10 @@ const Challenges = () => {
             </Formik>
           </div>
 
-          <div className="col-lg-5 col-md-6 col-sm-12">
+          <div className="col-lg-5 col-md-6 col-sm-12 challenge ">
             <h2 className="fw-bolder card-header">All Challenges</h2>
             {challenges?.length === 0 && (
-              <p className="text-center my-4">
+              <p className="text-center mb-4">
                 You have no challenges yet. Please create one.
               </p>
             )}
@@ -263,35 +276,53 @@ const Challenges = () => {
                 } = challenge;
               }
               return (
-                <div key={_id} className="my-4 p-3 border">
-                  <h4 className="mb-4 border-bottom pb-2">
+                <div key={_id} className="mb-4 p-3 card">
+                  <h4 className="pb-2">
                     <strong>Title: </strong>
                     {title}
                   </h4>
+                  <hr />
                   <strong className="text-muted">Description: </strong>
                   <div
                     dangerouslySetInnerHTML={{
                       __html: description,
                     }}
                   ></div>
-                  <p>Start Date: {formatDate(startdate, "dd/MM/yyyy")}</p>
-                  <p>End Date: {formatDate(enddate)}</p>
-                  <p>Points: {points}</p>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => handleEditChallenge(_id)}
-                    className="me-2"
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    onClick={() => openDeleteModal(_id)}
-                  >
-                    Delete
-                  </Button>
+                  <hr />
+
+                  <p>
+                    <strong>Start Date : </strong>{" "}
+                    {formatDate(startdate, "dd/MM/yyyy")}
+                  </p>
+                  <hr />
+
+                  <p>
+                    <strong>End Date : </strong> {formatDate(enddate)}
+                  </p>
+                  <hr />
+
+                  <p>
+                    <strong>Points:</strong> {points}
+                  </p>
+                  <hr />
+
+                  <div className="d-flex">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleEditChallenge(_id)}
+                      className="me-2"
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      onClick={() => openDeleteModal(_id)}
+                    >
+                      Delete
+                    </Button>
+                  </div>
                 </div>
               );
             })}
@@ -313,15 +344,15 @@ const Challenges = () => {
             onSubmit={handleSubmitEditedChallenge}
           >
             <Form>
-              <div className="mb-2">
-                <label htmlFor="title" className="form-label">
+              <div className="mb-2 ">
+                <label htmlFor="title" className="form-label text-dark">
                   Title
                 </label>
                 <Field
                   type="text"
                   id="title"
                   name="title"
-                  className="form-control"
+                  className="form-control text-dark"
                 />
                 <ErrorMessage
                   name="title"
@@ -330,14 +361,15 @@ const Challenges = () => {
                 />
               </div>
               <div className="mb-2">
-                <label htmlFor="description" className="form-label">
+                <label htmlFor="description" className="form-label text-dark">
                   Description
                 </label>
                 <Field
                   as="textarea"
+                  rows="5"
                   id="description"
                   name="description"
-                  className="form-control"
+                  className="form-control text-dark"
                 />
                 <ErrorMessage
                   name="description"
@@ -346,14 +378,14 @@ const Challenges = () => {
                 />
               </div>
               <div className="mb-2">
-                <label htmlFor="points" className="form-label">
+                <label htmlFor="points" className="form-label text-dark">
                   Points
                 </label>
                 <Field
                   type="number"
                   id="points"
                   name="points"
-                  className="form-control"
+                  className="form-control text-dark"
                 />
                 <ErrorMessage
                   name="points"
@@ -362,18 +394,18 @@ const Challenges = () => {
                 />
               </div>
               <div className="mb-2">
-                <label htmlFor="enddate" className="form-label">
+                <label htmlFor="enddate" className="form-label text-dark">
                   End Date
                 </label>
                 <Field
                   type="date"
                   id="enddate"
                   name="enddate"
-                  className="form-control"
+                  className="form-control text-dark"
                 />
               </div>
               <DialogActions>
-                <Button onClick={handleCloseEditModal} color="secondary">
+                <Button onClick={handleCloseEditModal} className="text-dark">
                   Cancel
                 </Button>
                 <button
@@ -402,7 +434,7 @@ const Challenges = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDeleteModal} color="secondary">
+          <Button onClick={handleCloseDeleteModal} className="text-dark">
             Cancel
           </Button>
           <Button

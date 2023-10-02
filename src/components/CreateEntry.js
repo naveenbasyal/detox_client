@@ -64,11 +64,11 @@ const CreateEntry = () => {
             {/* ______ Mood ______ */}
             <div className="col-lg-4 col-md-5 col-sm-12">
               <div className="mb-3">
-                <label htmlFor="mood" className="form-label">
+                <label htmlFor="mood" className="form-label text-white">
                   Mood:
                 </label>
                 <select
-                  className={`form-select ${
+                  className={`form-select  ${
                     formik.touched.mood && formik.errors.mood
                       ? "is-invalid"
                       : ""
@@ -98,7 +98,7 @@ const CreateEntry = () => {
 
             <div className="col-lg-4 col-md-5 col-sm-12">
               <div className="mb-3">
-                <label htmlFor="visibility" className="form-label">
+                <label htmlFor="visibility" className="form-label text-white">
                   Visibility:
                 </label>
                 <select
@@ -144,7 +144,7 @@ const CreateEntry = () => {
 
           <button
             type="submit"
-            className="btn btn-success mt-2"
+            className="btn btn-success mt-2 text-white"
             disabled={createEntryLoading || !formik.isValid}
           >
             {createEntryLoading ? "Posting..." : "Post"}

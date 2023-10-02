@@ -6,6 +6,7 @@ import Countdown from "react-countdown";
 import fetchToken from "../../utils/fetchToken";
 import { formatDistanceToNow } from "date-fns";
 import MainLoader from "../MainLoader";
+import { ThreeDots } from "react-loader-spinner";
 
 const ExploreChallenges = () => {
   const dispatch = useDispatch();
@@ -34,11 +35,25 @@ const ExploreChallenges = () => {
   return (
     <div className={`my-4 ${location.pathname === "/explore" && "container"}`}>
       {location.pathname === "/explore" && (
-        <h3 className="my-4 text-center fw-bolder">Explore Challenges</h3>
+        <h2 className="my-4 text-center text-white fw-bolder">Explore Challenges</h2>
       )}
 
       {loading ? (
-        <MainLoader />
+        <ThreeDots
+          height="64"
+          width="64"
+          radius="9"
+          color="#B9B4C7"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+          }}
+          wrapperClassName=""
+          visible={true}
+        />
       ) : challenges?.length === 0 ? (
         <p className="text-center my-5">No Challenges to show !!</p>
       ) : (
@@ -51,7 +66,7 @@ const ExploreChallenges = () => {
 
             return (
               <div key={index} className="card m-2">
-                <div className="card-body bg-light">
+                <div className="card-body ">
                   <p className="card-text">
                     <strong>Challenge Name : </strong> {title}
                   </p>
@@ -69,7 +84,7 @@ const ExploreChallenges = () => {
                   {!expired && (
                     <button
                       className={`btn btn-${
-                        isAccepted(participants) ? "dark" : "success"
+                        isAccepted(participants) ? "primary" : "success"
                       }`}
                     >
                       <Link

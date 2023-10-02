@@ -17,6 +17,7 @@ import {
   MenuItem,
   Select,
   TextField,
+  TextareaAutosize,
   Typography,
 } from "@mui/material";
 import { formatDistanceToNow } from "date-fns";
@@ -73,17 +74,19 @@ const MyEntries = () => {
   };
 
   return (
-    <div className="container my-4">
+    <div className="container my-4 mb-5">
       <h1 className="fw-bolder ms-2 mb-4">My Entries</h1>
       <CreateEntry />
       {editing && (
         <Dialog open={editing} onClose={() => setEditing(false)}>
-          <DialogTitle>Edit Entry</DialogTitle>
+          <DialogTitle className="text-black fw-bold lev">
+            Edit Entry
+          </DialogTitle>
           <DialogContent>
             <form onSubmit={handleSubmitEditedEntry}>
-              <TextField
-                label="Content"
-                variant="standard"
+              <textarea
+                rows={5}
+                className="lev text-dark w-100 mb-3 p-2 rounded"
                 fullWidth
                 name="content"
                 value={editValues?.content}
@@ -115,6 +118,7 @@ const MyEntries = () => {
                   name="visibility"
                   value={editValues?.visibility}
                   onChange={handleEditChange}
+                  className="text-dark"
                 >
                   <MenuItem value="">Please Choose your visibility</MenuItem>
                   <MenuItem value="public">Public</MenuItem>
@@ -122,7 +126,7 @@ const MyEntries = () => {
                 </Select>
               </FormControl>
               <DialogActions>
-                <Button onClick={() => setEditing(false)} color="secondary">
+                <Button onClick={() => setEditing(false)} className="text-dark">
                   Cancel
                 </Button>
                 <Button
@@ -145,7 +149,7 @@ const MyEntries = () => {
           You have no entries yet. Please add one.
         </div>
       ) : (
-        <div className="row">
+        <div className="row m-0">
           {entries?.map(({ createdAt, _id, content, mood, visibility }) => {
             if (createdAt) {
               var timeAgo = formatDistanceToNow(new Date(createdAt), {
@@ -180,37 +184,33 @@ const MyEntries = () => {
                 : "";
 
             return (
-              <Card key={_id} className="m-2 col-lg-3 col-md-5 col-sm-12">
-                <CardContent>
-                  <Typography variant="body2" color="text.secondary">
+              <div key={_id} className="my-3 col-lg-3 col-md-5 col-sm-12">
+                <div className="card p-3">
+                  <p className="card-header">
                     <span style={{ fontSize: "1.1rem" }}>
                       <strong>You</strong> were feeling <strong>{mood}</strong>{" "}
                       {moodEmoji} <strong>{timeAgo}</strong>
                     </span>
                     <span className="ms-1">{visibilityEmoji}</span>
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    className="my-3"
-                  >
+                  </p>
+                  <hr />
+                  <p className="mb-2">
                     <span className="">- {content}</span>
-                  </Typography>
-                </CardContent>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={() => handleEditEntry(_id)}
-                  className="mb-3 ms-3 text-sm"
-                >
-                  Edit
-                </Button>
-              </Card>
+                  </p>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => handleEditEntry(_id)}
+                    className=" text-sm"
+                  >
+                    Edit
+                  </Button>
+                </div>
+              </div>
             );
           })}
         </div>
       )}
-     
     </div>
   );
 };

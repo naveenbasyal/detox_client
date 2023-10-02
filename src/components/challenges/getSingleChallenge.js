@@ -57,7 +57,7 @@ const GetSingleChallenge = () => {
     formatDistanceToNow(new Date(createdAt), { addSuffix: true });
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4 mb-5">
       {loading ? (
         <MainLoader />
       ) : (
@@ -65,37 +65,45 @@ const GetSingleChallenge = () => {
           <div className="row justify-content-between">
             <div className="col-lg-5 col-md-5 col-sm-12">
               {singleChallenge?.challenge && (
-                <div>
-                  <h3 className="mb-3">
-                    Challenge Points: {singleChallenge?.challenge?.points}
-                  </h3>
-                  <p>
-                    <strong>Name:</strong> {singleChallenge?.challenge?.title}
-                  </p>
-                  <strong>Description:</strong>
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: singleChallenge?.challenge?.description,
-                    }}
-                  ></div>
-                  <p>
-                    <strong>Started : </strong>
-                    {timeAgo(singleChallenge?.challenge?.createdAt)}
-                  </p>
-                  <p>
-                    <strong>End Date : </strong>
-                    {new Date(
-                      singleChallenge?.challenge?.enddate
-                    ).toLocaleDateString("en-US", { timeZone: "Asia/Kolkata" })}
-                  </p>
+                <div className="card">
+                  <div className="card-body">
+                    <h3 className="card-title mb-3">
+                      Challenge Points: {singleChallenge?.challenge?.points}
+                    </h3>
+                    <p className="card-text">
+                      <strong>Name:</strong> {singleChallenge?.challenge?.title}
+                    </p>
+                    <hr /> {/* Horizontal line */}
+                    <strong className="card-text">Description:</strong>
+                    <div
+                      className="card-text"
+                      dangerouslySetInnerHTML={{
+                        __html: singleChallenge?.challenge?.description,
+                      }}
+                    ></div>
+                    <hr /> {/* Horizontal line */}
+                    <p className="card-text">
+                      <strong>Started : </strong>
+                      {timeAgo(singleChallenge?.challenge?.createdAt)}
+                    </p>
+                    <hr /> {/* Horizontal line */}
+                    <p className="card-text">
+                      <strong>End Date : </strong>
+                      {new Date(
+                        singleChallenge?.challenge?.enddate
+                      ).toLocaleDateString("en-US", {
+                        timeZone: "Asia/Kolkata",
+                      })}
+                    </p>
+                  </div>
                 </div>
               )}
             </div>
             <div className="col-lg-5 col-md-5 col-sm-12">
               {isSubmitted ? (
-                <h4 className="text-center text-danger mt-5">
-                  <i class="fa-regular fa-circle-check fa-beat-fade"></i>&nbsp;
-                  You have submitted this challenge
+                <h4 className="text-center text-danger my-5">
+                  <i className="fa-regular fa-circle-check fa-beat-fade"></i>
+                  &nbsp; You have submitted this challenge
                 </h4>
               ) : (
                 <form onSubmit={handleSubmitChallenge} className="mt-4">

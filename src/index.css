@@ -1,4 +1,21 @@
+:root {
+  --primary-bg: #242526;
+  --secondary-bg: #fff;
+  --primary-text-color: #555;
+  --secondary-text-color: #cecece;
+  --border-radius: 8px;
+  --speed: 400ms;
+}
+@media (max-width: 768px) {
+  .challenge {
+    margin-bottom: 5rem !important;
+  }
+  .chat-body {
+    height: 65vh !important;
+  }
+}
 @import url("https://fonts.googleapis.com/css2?family=Livvic&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Livvic:wght@700&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -32,4 +49,58 @@ html {
   /* font-size: 62.5%; */
   box-sizing: border-box;
   scroll-behavior: smooth;
+}
+
+/* change them to dark */
+.lev {
+  font-family: "Livvic", sans-serif !important;
+}
+body,
+.card {
+  background-color: var(--primary-bg);
+  overflow-x: hidden;
+}
+.card {
+  border-color: #616161;
+  border-radius: 8px;
+}
+a,
+p,
+span,
+li,
+ul,
+button,
+div,
+strong,
+h3,
+h2,
+h1,
+h4,
+h5 svg {
+  color: var(--secondary-text-color) !important;
+}
+th,
+td {
+  color: white;
+  font-family: "Livvic", sans-serif !important;
+}
+input,
+label {
+  color: black !important;
+  font-family: "Livvic", sans-serif !important;
+}
+.css-1x51dt5-MuiInputBase-input-MuiInput-input {
+  color: #242526 !important;
+  font-family: "Livvic", sans-serif !important;
+}
+.css-1c2i806-MuiFormLabel-root-MuiInputLabel-root {
+  font-family: "Livvic", sans-serif !important;
+  margin-top: 0.2rem !important;
+  color: #656668 !important;
+  font-size: 1rem !important;
+  font-weight: bold !important;
+}
+.css-qfso29-MuiTypography-root-MuiDialogContentText-root,
+.css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
+  color: black !important;
 }
