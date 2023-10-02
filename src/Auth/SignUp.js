@@ -98,10 +98,14 @@ const SignUp = () => {
               alignItems: "center",
             }}
           >
-            <Avatar>
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main", color: "white" }}>
               <LockOutlined />
             </Avatar>
-            <Typography component="h1" variant="h5">
+            <Typography
+              component="h1"
+              variant="h5"
+              className="lev fw-bolder text-dark fs-3"
+            >
               Sign Up
             </Typography>
             <form onSubmit={formik.handleSubmit}>
@@ -187,9 +191,9 @@ const SignUp = () => {
                   "Sign Up"
                 )}
               </Button>
-              <Grid container justifyContent="flex-end" mt={1}>
+              <Grid container justifyContent="flex-end"  className="my-3">
                 <Grid item>
-                  <Link to="/login" variant="body2">
+                  <Link to="/login" variant="body2" className="text-primary">
                     Already have an account? Sign in
                   </Link>
                 </Grid>

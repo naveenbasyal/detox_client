@@ -73,6 +73,7 @@ const Login = () => {
         justifyContent: "center",
         background: "#f2f2f2",
       }}
+      className="lev"
     >
       <Container component="main" maxWidth="xs">
         <Paper elevation={3} style={{ padding: "20px" }}>
@@ -86,7 +87,12 @@ const Login = () => {
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
               <LockOutlined />
             </Avatar>
-            <Typography component="h1" variant="h5" sx={{ mt: 2 }}>
+            <Typography
+              component="h1"
+              variant="h5"
+              sx={{ mt: 2 }}
+              className="text-dark lev fw-bolder"
+            >
               Login
             </Typography>
             <form
@@ -101,7 +107,7 @@ const Login = () => {
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <Mail />
+                      <Mail color="secondary" />
                     </InputAdornment>
                   ),
                 }}
@@ -125,7 +131,7 @@ const Login = () => {
                       {show ? (
                         <VisibilityOff color="primary" />
                       ) : (
-                        <Visibility />
+                        <Visibility color="secondary" />
                       )}
                     </InputAdornment>
                   ),
@@ -142,6 +148,7 @@ const Login = () => {
                 type="submit"
                 fullWidth
                 variant="contained"
+                className="text-white"
                 sx={{ mt: 2, mb: 1, background: "#1976D2" }}
                 disabled={loading}
               >
@@ -151,15 +158,19 @@ const Login = () => {
                   "Login"
                 )}
               </Button>
-              <Grid container>
+              <Grid container className="my-2">
                 <Grid item xs>
-                  <Link to="/forgot-password" variant="body2">
+                  <Link
+                    to="/forgot-password"
+                    variant="body2"
+                    className="text-primary"
+                  >
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item xs>
-                  <Link to="/register" variant="body2">
-                    {"Don't have an account? Sign Up"}
+                  <Link to="/register" variant="body2" className="text-primary">
+                    {"Create a new Account."}
                   </Link>
                 </Grid>
               </Grid>
