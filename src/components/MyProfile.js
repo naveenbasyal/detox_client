@@ -128,9 +128,9 @@ const UserProfile = () => {
                 alt={user?.username}
                 className="img-fluid rounded-circle my-1"
                 effect="blur"
-                width="200px"
-                height="200px"
                 style={{
+                  width: "200px",
+                  height: "200px",
                   objectFit: "cover",
                 }}
               />

@@ -1,0 +1,29 @@
+{
+  "name": "DeToxify Me",
+  "short_name": "DeToxifyMe",
+  "description": "This is an interesting idea with potential for personal growth and self-improvement.Allow users to write daily entries or reflections about their experiences without using social media. Consider integrating a text editor or diary-like feature for this purpose.Designed a point system to encourage regular participation. Users can earn points for each daily entry, and these points could be used to unlock achievements or rewards.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000",
+  "theme_color": "#000",
+  "orientation": "Any",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "./maskable.png",
+      "size": "166x166",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./logo192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

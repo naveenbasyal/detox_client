@@ -42,9 +42,8 @@ export const InspectUserProfile = createAsyncThunk(
       );
       const data = await res.json();
       if (data.user) {
-        dispatch(setInspectUserProfile(data.user));
+        return data?.user;
       }
-      return data?.user;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -105,19 +104,16 @@ export const deleteUserProfile = createAsyncThunk(
   async (id, { rejectWithValue, dispatch }) => {
     console.log(id);
     try {
-      const res = await fetch(
-        `${process.env.REACT_APP_SERVER_URL}/users/`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify({id}),
-        }
-      );
+      const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/users/`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ id }),
+      });
       const data = await res.json();
-      
+
       if (data) {
         return data;
       }
@@ -129,11 +125,11 @@ export const deleteUserProfile = createAsyncThunk(
 );
 
 const initialState = {
-  userProfile: null,
-
-  inspectUserProfile: null,
-  leaderboard: null,
   loading: false,
+  userProfile: null,
+  inspectUserProfile: null,
+  inspectLoading: false,
+  leaderboard: null,
   editprofileLoading: false,
   deleteUserLoading: false,
   admin: false,
@@ -146,9 +142,6 @@ const userSlice = createSlice({
   reducers: {
     setUserProfile(state, action) {
       state.userProfile = action.payload;
-    },
-    setInspectUserProfile(state, action) {
-      state.inspectUserProfile = action.payload;
     },
     setAdmin(state, action) {
       state.admin = action.payload.admin ? true : false;
@@ -175,6 +168,19 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+      // _______ Inspect USER PROFILE _______________
+      .addCase(InspectUserProfile.pending, (state, action) => {
+        state.inspectLoading = true;
+      })
+      .addCase(InspectUserProfile.fulfilled, (state, action) => {
+        state.inspectLoading = false;
+        state.inspectUserProfile = action.payload;
+      })
+      .addCase(InspectUserProfile.rejected, (state, action) => {
+        state.inspectLoading = false;
+        state.error = action.payload;
+      })
+
       // _______GET ALL USERS_______________
       .addCase(getAllUsers.pending, (state, action) => {
         state.loading = true;
@@ -205,7 +211,7 @@ const userSlice = createSlice({
       })
       .addCase(deleteUserProfile.fulfilled, (state, action) => {
         state.deleteUserLoading = false;
-        
+
         state.leaderboard = state.leaderboard.filter(
           (user) => user._id !== action.payload?.user?._id
         );

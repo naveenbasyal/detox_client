@@ -16,7 +16,7 @@ const Calendar = ({ userProfile, entries }) => {
   return (
     <CalendarHeatmap
       startDate={startOfMonth(new Date(userProfile?.createdAt))}
-      endDate={startOfMonth(addMonths(new Date(), 12))}
+      endDate={startOfMonth(addMonths(new Date(), window.screen.width < 768 ? 4 : 12))}
       values={heatmapValues}
       classForValue={(value) => {
         if (!value) {
@@ -24,6 +24,7 @@ const Calendar = ({ userProfile, entries }) => {
         }
         return `color-github-${value.count}`;
       }}
+      
       showWeekdayLabels={true}
       showMonthLabels={true}
       showOutOfRangeDays={true}

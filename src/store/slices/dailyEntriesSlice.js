@@ -42,7 +42,7 @@ export const getAllEntriesForCalendar = createAsyncThunk(
         }
       );
       const data = await res.json();
-      console.log(data);
+      
       return data.entries;
     } catch (error) {
       console.log(error);

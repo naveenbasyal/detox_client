@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
 import "../Styles/chat.css";
 import "react-tooltip/dist/react-tooltip.css";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import "react-lazy-load-image-component/src/effects/black-and-white.css";
@@ -22,6 +22,8 @@ const Chat = () => {
   });
   const [loading, setLoading] = useState(false);
   const chatContainerRef = useRef(null);
+  const [sending, setSending] = useState(false);
+
   const fetchChatMessages = async () => {
     try {
       setLoading(true);
@@ -39,6 +41,7 @@ const Chat = () => {
 
   useEffect(() => {
     socket.on("chat message", (messageData) => {
+      setSending(false);
       if (messageData.userId !== user?._id) {
         if (Notification.permission === "granted") {
           new Notification("New Message", {
@@ -76,6 +79,8 @@ const Chat = () => {
       toast.error("Please enter a message");
       return;
     }
+    setSending(true);
+
     socket.emit("chat message", {
       message,
       userId: user?._id,
@@ -84,6 +89,7 @@ const Chat = () => {
       timestamp: Date.now(),
     });
     setMessage("");
+    
   };
   useEffect(() => {
     chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
@@ -238,8 +244,15 @@ const Chat = () => {
                     className="btn btn-primary"
                     type="button"
                     onClick={handleSendMessage}
+                    disabled={sending}
                   >
-                    Send
+                    {
+                      <i
+                        className={`fa-regular fa-paper-plane ${
+                          sending && "fa-spin"
+                        }`}
+                      ></i>
+                    }
                   </button>
                 </div>
               </div>

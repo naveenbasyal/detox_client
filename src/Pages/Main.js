@@ -2,8 +2,11 @@ import React from "react";
 import CreateEntry from "../components/CreateEntry";
 import PublicEntries from "../components/Entries/PublicEntries";
 import Explore from "../components/challenges/ExploreChallenges";
+import MainLoader from "../components/MainLoader";
+import { useSelector } from "react-redux";
 
 const Main = () => {
+  const { loading } = useSelector(({ dailyEntries }) => dailyEntries);
   return (
     <section className="main">
       <div className="container">

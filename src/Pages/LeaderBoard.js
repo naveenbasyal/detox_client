@@ -26,6 +26,7 @@ const LeaderBoard = () => {
     loading,
     deleteUserLoading,
   } = useSelector((state) => state?.user);
+  const { loading: entryLoading } = useSelector((state) => state?.dailyEntries);
   const [admin, setAdmin] = useState(null);
   const myId = fetchToken()?.id;
 
@@ -70,16 +71,16 @@ const LeaderBoard = () => {
   return (
     <div className="container">
       <h2 className="mt-4 mb-3 fw-bold">LeaderBoard</h2>
-      {loading ? (
+      {loading || entryLoading ? (
         <MainLoader />
       ) : (
         <table className="table">
           <thead>
             <tr>
               <th scope="col">User</th>
-              {admin && <th scope="col">Delete User</th>}
               <th scope="col">Level</th>
               <th scope="col">Score</th>
+              {admin && <th scope="col">Delete</th>}
             </tr>
           </thead>
           <tbody>
@@ -103,19 +104,9 @@ const LeaderBoard = () => {
                         to={`/user/${user._id}`}
                         className="text-decoration-none text-black ms-3 d-flex"
                       >
-                        <h5 className="me-5">{user.username}</h5>
+                        <h5 className="me-1">{user.username}</h5>
                       </Link>
                     </td>
-                    {admin && myId === user._id && (
-                      <td>
-                        <AdminPanelSettings color="primary" />
-                      </td>
-                    )}
-                    {admin && myId !== user._id && (
-                      <td onClick={() => deleteUser(user._id)}>
-                        <Delete style={{ cursor: "pointer", color: "red" }} />
-                      </td>
-                    )}
 
                     <td>{user.level}</td>
                     <td>
@@ -134,6 +125,15 @@ const LeaderBoard = () => {
                         </span>
                       )}
                     </td>
+                    {user?.admin ? (
+                      <td>
+                        <AdminPanelSettings color="primary" />
+                      </td>
+                    ) : (
+                      <td onClick={() => deleteUser(user._id)}>
+                        <Delete style={{ cursor: "pointer", color: "red" }} />
+                      </td>
+                    )}
                   </tr>
                 )
             )}

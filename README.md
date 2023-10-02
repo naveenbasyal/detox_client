@@ -9,3 +9,4 @@
 - My Profile Image fix
 - vip tick
 - write a post sticky
+- Typing indicator

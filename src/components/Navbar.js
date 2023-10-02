@@ -11,6 +11,11 @@ import brand_logo from "../assets/images/brand.png";
 import io from "socket.io-client";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import {
+  AccountCircleTwoTone,
+  Person2Rounded,
+  VerifiedUserRounded,
+} from "@mui/icons-material";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -162,20 +167,33 @@ const Navbar = () => {
                   </li>
                 )}
                 <Link
-                  className="nav-item mx-4"
+                  className="nav-item mx-4 d-flex align-items-center justify-content-center"
                   to={`/profile/${userProfile?._id}`}
                 >
-                  <LazyLoadImage
-                    src={userImage} // Display the user's image here
-                    alt="User Profile"
-                    className="me-3 rounded-circle"
-                    width="34px"
-                    height="34px"
-                    style={{
-                      cursor: "pointer",
-                      objectFit: "cover",
-                    }}
-                  />
+                  {userImage ? (
+                    <LazyLoadImage
+                      src={userImage}
+                      alt="User Profile"
+                      className="me-3 rounded-circle"
+                      width="34px"
+                      height="34px"
+                      style={{
+                        cursor: "pointer",
+                        objectFit: "cover",
+                      }}
+                    />
+                  ) : (
+                    <AccountCircleTwoTone
+                      color="red"
+                      className="me-3 rounded-circle"
+                      style={{
+                        width: "34px",
+                        background: "#c4c3c3",
+                        color: "#4b4b4b",
+                        height: "34px",
+                      }}
+                    />
+                  )}
                 </Link>
                 <li className="nav-item">
                   <button className="btn btn-danger" onClick={handleLogout}>

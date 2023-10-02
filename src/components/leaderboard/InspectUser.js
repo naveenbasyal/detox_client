@@ -27,10 +27,13 @@ const InspectUser = () => {
     stressed: "😓",
   };
   const id = useParams()?.id;
+
   const dispatch = useDispatch();
-  const { inspectUserProfile: user, loading } = useSelector(
-    (state) => state?.user
-  );
+  const {
+    inspectUserProfile: user,
+    loading,
+    inspectLoading,
+  } = useSelector((state) => state?.user);
   const {
     userPublicEntries,
     publicEntryLoading,
@@ -39,6 +42,7 @@ const InspectUser = () => {
 
   useEffect(() => {
     dispatch(InspectUserProfile(id));
+
     dispatch(getAllEntriesForCalendar(id));
     dispatch(getPublicEntriesById(id));
   }, [id]);
@@ -50,7 +54,7 @@ const InspectUser = () => {
 
   return (
     <div className="container mt-4">
-      {loading ? (
+      {inspectLoading ? (
         <MainLoader />
       ) : (
         user && (
@@ -100,61 +104,60 @@ const InspectUser = () => {
             <div className="my-3">
               <Calendar userProfile={user} entries={entries} />
             </div>
-          </>
-        )
-      )}
-
-      {userPublicEntries?.length > 0 && (
-        <div>
-          <div className="my-4 text-center fs-5">
-            <strong>Entries by {user?.username}</strong>
-          </div>
-          <div className="row justify-content-around">
-            {userPublicEntries.length === 0 && (
-              <div className="text-muted text-center my-4">
-                No public entries yet.
+            {userPublicEntries?.length > 0 && (
+              <div>
+                <div className="my-4 text-center fs-5">
+                  <strong>Entries by {user?.username}</strong>
+                </div>
+                <div className="row justify-content-around">
+                  {userPublicEntries.length === 0 && (
+                    <div className="text-muted text-center my-4">
+                      No public entries yet.
+                    </div>
+                  )}
+                  {userPublicEntries?.map(
+                    ({ content, mood, visibility, createdAt, _id }) => {
+                      const timeAgo = formatDistanceToNow(new Date(createdAt), {
+                        addSuffix: true,
+                      });
+                      return (
+                        <div
+                          key={_id}
+                          className="card mb-3 col-lg-5 col-md-5 col-sm-12"
+                        >
+                          <div className="card-body">
+                            <div className="d-flex align-items-center">
+                              <p className="mb-0">
+                                <strong className="text-secondary d-flex align-items-center">
+                                  &nbsp;Feeling {moodEmojis[mood.toLowerCase()]}{" "}
+                                  {mood}
+                                  &nbsp;&nbsp;
+                                  <i className="fa-regular fa-clock"></i>&nbsp;
+                                  {timeAgo}
+                                </strong>
+                              </p>
+                            </div>
+                            <hr />
+                            <p className="mb-0">
+                              <strong></strong>
+                            </p>
+                            <p className="mb-0">
+                              <strong>
+                                <i className="fa-solid fa-message"></i>&nbsp;{" "}
+                              </strong>
+                              {"  "}
+                              {content}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    }
+                  )}
+                </div>
               </div>
             )}
-            {userPublicEntries?.map(
-              ({ content, mood, visibility, createdAt, _id }) => {
-                const timeAgo = formatDistanceToNow(new Date(createdAt), {
-                  addSuffix: true,
-                });
-                return (
-                  <div
-                    key={_id}
-                    className="card mb-3 col-lg-5 col-md-5 col-sm-12"
-                  >
-                    <div className="card-body">
-                      <div className="d-flex align-items-center">
-                        <p className="mb-0">
-                          <strong className="text-secondary d-flex align-items-center">
-                            &nbsp;Feeling {moodEmojis[mood.toLowerCase()]}{" "}
-                            {mood}
-                            &nbsp;&nbsp;
-                            <i className="fa-regular fa-clock"></i>&nbsp;
-                            {timeAgo}
-                          </strong>
-                        </p>
-                      </div>
-                      <hr />
-                      <p className="mb-0">
-                        <strong></strong>
-                      </p>
-                      <p className="mb-0">
-                        <strong>
-                          <i className="fa-solid fa-message"></i>&nbsp;{" "}
-                        </strong>
-                        {"  "}
-                        {content}
-                      </p>
-                    </div>
-                  </div>
-                );
-              }
-            )}
-          </div>
-        </div>
+          </>
+        )
       )}
     </div>
   );
