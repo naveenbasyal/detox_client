@@ -4,6 +4,9 @@ import { getAllPublicEntries } from "../../store/slices/dailyEntriesSlice";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { ThreeDots } from "react-loader-spinner";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
+import "react-lazy-load-image-component/src/effects/opacity.css";
 
 const moodEmojis = {
   excited: "😃",
@@ -81,17 +84,18 @@ const PublicEntries = () => {
                             to={`/user/${userId}`}
                             className="text-decoration-none d-flex align-items-center"
                           >
-                            <img
+                            <LazyLoadImage
                               src={picture}
                               alt="userImage"
+                              effect="opacity"
                               className="rounded-circle me-3"
+                              width="50px"
+                              height="50px"
                               style={{
-                                width: "50px",
-                                height: "50px",
                                 objectFit: "cover",
                               }}
                             />
-                            <p className="mb-0">
+                            <p className="mb-0 ms-2">
                               <strong className="text-black">{username}</strong>
                               <strong className="text-secondary">
                                 &nbsp;is feeling{" "}

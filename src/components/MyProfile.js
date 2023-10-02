@@ -10,6 +10,8 @@ import MainLoader from "./MainLoader";
 import Calendar from "./Entries/Calendar";
 import { getDailyEntries } from "../store/slices/dailyEntriesSlice";
 import { toast } from "react-toastify";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const UserProfile = () => {
   const { id } = fetchToken();
@@ -20,7 +22,6 @@ const UserProfile = () => {
     editprofileLoading,
   } = useSelector((state) => state?.user);
   const { dailyEntries: entries } = useSelector((state) => state?.dailyEntries);
-
 
   const [userValues, setUserValues] = useState({
     username: "",
@@ -121,18 +122,20 @@ const UserProfile = () => {
       ) : (
         <>
           <div className="row">
-            <div className="col-lg-3 col-sm-12 col-md-4 mt-3 d-flex flex-column align-items-center ">
-              <img
+            <div className="col-lg-4 col-sm-12 col-md-4 mt-3 d-flex flex-column align-items-center ">
+              <LazyLoadImage
                 src={userValues?.picture}
-                alt=""
+                alt={user?.username}
                 className="img-fluid rounded-circle my-1"
+                effect="blur"
+                width="200px"
+                height="200px"
                 style={{
-                  width: "200px",
-                  height: "200px",
                   objectFit: "cover",
                 }}
               />
               <Box
+                className="mt-3"
                 sx={{
                   display: "flex",
                   alignItems: "center",

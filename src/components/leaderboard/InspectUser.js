@@ -11,6 +11,8 @@ import {
 } from "../../store/slices/dailyEntriesSlice";
 import MainLoader from "../MainLoader";
 import Calendar from "../Entries/Calendar";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const InspectUser = () => {
   const moodEmojis = {
@@ -56,17 +58,18 @@ const InspectUser = () => {
             <div className="card">
               <div className="card-body">
                 <div className="d-flex align-items-center">
-                  <img
+                  <LazyLoadImage
                     src={user?.picture}
-                    alt=""
-                    className="rounded-circle me-3"
+                    alt={user?.username}
+                    className="rounded-circle me-5"
+                    width="100px"
+                    height="100px"
+                    effect="blur"
                     style={{
-                      width: "6rem",
-                      height: "6rem",
                       objectFit: "cover",
                     }}
                   />
-                  <div>
+                  <div className="ms-4">
                     <h2 className="card-title">{user?.username}</h2>
                     <p className="card-subtitle text-muted">
                       <strong>Level:</strong> {user?.level}

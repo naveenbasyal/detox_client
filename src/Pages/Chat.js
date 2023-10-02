@@ -3,12 +3,16 @@ import { useSelector } from "react-redux";
 import io from "socket.io-client";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
-import notifySound from "../assets/notify.mp3";
 import { Link } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
 import "../Styles/chat.css";
 import "react-tooltip/dist/react-tooltip.css";
 import { format } from "date-fns";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
+import "react-lazy-load-image-component/src/effects/black-and-white.css";
+import "react-lazy-load-image-component/src/effects/opacity.css";
+
 const Chat = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -134,13 +138,14 @@ const Chat = () => {
                           to={`/user/${messageData?.userId}`}
                           className="text-decoration-none"
                         >
-                          <img
+                          <LazyLoadImage
                             src={messageData?.userImage}
                             className="mr-3 rounded-circle"
                             alt={messageData?.username}
+                            effect="opacity"
+                            height="40px"
+                            width="40px"
                             style={{
-                              width: "40px",
-                              height: "40px",
                               border: "1px solid #000",
                               objectFit: "cover",
                             }}
@@ -204,11 +209,12 @@ const Chat = () => {
                                 }
                               )}
                               &nbsp;
-                              <i
-                                style={{ fontSize: ".6rem" }}
-                                className="fa-regular fa-clock fa-spin"
-                              ></i>
-                              &nbsp;{" "}
+                              {messageData?.userId === user?._id && (
+                                <i
+                                  style={{ fontSize: ".6rem" }}
+                                  className="fa-regular fa-check-circle"
+                                ></i>
+                              )}
                             </span>
                           </p>
                         </span>

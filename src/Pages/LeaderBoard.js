@@ -16,6 +16,8 @@ import {
 } from "@mui/material";
 import { ThreeDots } from "react-loader-spinner";
 import MainLoader from "../components/MainLoader";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const LeaderBoard = () => {
   const dispatch = useDispatch();
@@ -86,19 +88,20 @@ const LeaderBoard = () => {
                 user.verified && (
                   <tr key={user._id}>
                     <td className="d-flex align-items-center">
-                      <img
+                      <LazyLoadImage
                         src={user.picture}
                         alt={user.username}
                         className="me-3 rounded-circle"
+                        width="50px"
+                        height="50px"
+                        effect="blur"
                         style={{
-                          width: "50px",
-                          height: "50px",
                           objectFit: "cover",
                         }}
                       />
                       <Link
                         to={`/user/${user._id}`}
-                        className="text-decoration-none text-black d-flex"
+                        className="text-decoration-none text-black ms-3 d-flex"
                       >
                         <h5 className="me-5">{user.username}</h5>
                       </Link>

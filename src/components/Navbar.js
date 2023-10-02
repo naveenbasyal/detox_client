@@ -9,6 +9,8 @@ import bcrypt from "bcryptjs";
 import { logoutChallengesSlice } from "../store/slices/challengesSlice";
 import brand_logo from "../assets/images/brand.png";
 import io from "socket.io-client";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -53,7 +55,6 @@ const Navbar = () => {
   }, [userProfile, location.pathname]);
 
   useEffect(() => {
- 
     checkAdminStatus();
   }, []);
 
@@ -94,7 +95,7 @@ const Navbar = () => {
     >
       <div className="container">
         <Link className="navbar-brand fw-bold" to="/">
-          <img src={brand_logo} alt="DeToxifyMe" style={{ height: "42px" }} />
+          <LazyLoadImage src={brand_logo} alt="DeToxifyMe" height="42px" />
         </Link>
         <button
           className="navbar-toggler"
@@ -164,13 +165,13 @@ const Navbar = () => {
                   className="nav-item mx-4"
                   to={`/profile/${userProfile?._id}`}
                 >
-                  <img
+                  <LazyLoadImage
                     src={userImage} // Display the user's image here
                     alt="User Profile"
                     className="me-3 rounded-circle"
+                    width="34px"
+                    height="34px"
                     style={{
-                      width: "34px",
-                      height: "34px",
                       cursor: "pointer",
                       objectFit: "cover",
                     }}
