@@ -14,6 +14,11 @@
     height: 65vh !important;
   }
 }
+@media (max-width: 385px) {
+  .chat-body {
+    height: 55vh !important;
+  }
+}
 @import url("https://fonts.googleapis.com/css2?family=Livvic&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Livvic:wght@700&display=swap");
 * {
@@ -55,13 +60,15 @@ html {
 .lev {
   font-family: "Livvic", sans-serif !important;
 }
-body,
+body {
+  background-color: #000000;
+}
 .card {
-  background-color: var(--primary-bg);
+  background-color: #16181c !important;
   overflow-x: hidden;
 }
 .card {
-  border-color: #616161;
+  border-color: #61616146;
   border-radius: 8px;
 }
 a,
@@ -102,4 +109,13 @@ label {
 .css-qfso29-MuiTypography-root-MuiDialogContentText-root,
 .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
   color: black !important;
+}
+
+/* -auth- */
+/* inputfield with name ==email should be of color white */
+.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input,
+.css-1jy569b-MuiFormLabel-root-MuiInputLabel-root,
+.css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-error,
+.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
+  color: white !important;
 }

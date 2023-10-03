@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
 import "../Styles/chat.css";
 import "react-tooltip/dist/react-tooltip.css";
-import { format, set } from "date-fns";
+import { format } from "date-fns";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
 import "react-lazy-load-image-component/src/effects/black-and-white.css";
@@ -115,8 +115,10 @@ const Chat = () => {
               style={{
                 height: "70vh",
                 overflowY: "scroll",
+
                 background:
-                  " #efe7dd url(https://cloud.githubusercontent.com/assets/398893/15136779/4e765036-1639-11e6-9201-67e728e86f39.jpg) repeat",
+                  " #efe7dd url(https://e1.pxfuel.com/desktop-wallpaper/461/478/desktop-wallpaper-whatsapp-dark-whatsapp-chat.jpg) repeat",
+                backgroundSize: "cover",
               }}
               ref={chatContainerRef}
             >
@@ -170,8 +172,8 @@ const Chat = () => {
                           style={{
                             background:
                               messageData?.userId === user?._id
-                                ? "#e1ffc7"
-                                : "#fff",
+                                ? "#005d4b"
+                                : "#1f2c34",
 
                             borderRadius: "5px 0px 5px 5px",
                             padding: "0.3rem 0.5rem",
@@ -184,13 +186,15 @@ const Chat = () => {
                         >
                           {/* _____ USERNAME _____ */}
                           {messageData?.userId !== user?._id && (
-                            <span className="mt-0 text-muted">
+                            <span className="mt-0 ">
                               {messageData?.username}
                             </span>
                           )}
                           {/* _____ Message _____ */}
 
-                          <span className="text-dark">{messageData?.message}</span>
+                          <span className="text-light">
+                            {messageData?.message}
+                          </span>
 
                           <p
                             style={{
@@ -232,15 +236,22 @@ const Chat = () => {
             <div className="card-footer mb-3">
               <div className="input-group">
                 <input
+                  style={{
+                    background: "#1f2c34",
+                    border: "1px solid #000",
+                  }}
                   type="text"
-                  className="form-control"
+                  className="form-control text-light"
                   placeholder="Type your message..."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                 />
                 <div className="input-group-append">
                   <button
-                    className="btn btn-primary"
+                    className="btn "
+                    style={{
+                      background:"#00a884"
+                    }}
                     type="button"
                     onClick={handleSendMessage}
                     disabled={sending}

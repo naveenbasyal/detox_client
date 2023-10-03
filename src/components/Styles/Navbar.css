@@ -15,7 +15,6 @@
 .mobile-menu {
   border-radius: 30px;
   background: inherit;
-
 }
 .mobile-menu::before {
   background: inherit;
@@ -165,4 +164,15 @@ h3 span {
   align-items: center;
   margin-left: 10px;
   transition: var(--speed);
+}
+.badge-count {
+  position: absolute;
+  top: -14px; 
+  right: -15px;
+  background-color: crimson;
+  color: white;
+  border-radius: 50%;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: bold;
 }

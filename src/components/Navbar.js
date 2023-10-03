@@ -24,12 +24,23 @@ import {
 import "./Styles/Navbar.css";
 
 const Navbar = () => {
+  const id = fetchToken()?.id;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const [open, setOpen] = useState(false);
-
   let menuRef = useRef();
+
+  const [open, setOpen] = useState(false);
+  const [admin, setAdmin] = useState(null);
+  // for chats
+  const [unreadMessageCount, setUnreadMessageCount] = useState(0); // State to store unread message count
+  const socket = io(process.env.REACT_APP_SERVER_PORT, {
+    transports: ["websocket"],
+  });
+  // auth
+  const { isLogin } = useSelector((state) => state?.auth);
+  const { userProfile } = useSelector((state) => state?.user);
+  const userImage = userProfile?.picture;
 
   useEffect(() => {
     let handler = (e) => {
@@ -45,23 +56,8 @@ const Navbar = () => {
     };
   });
 
-  // for chats
-  const [unreadMessageCount, setUnreadMessageCount] = useState(0); // State to store unread message count
-  const socket = io(process.env.REACT_APP_SERVER_PORT, {
-    transports: ["websocket"],
-  });
-
-  // auth
-  const { isLogin } = useSelector((state) => state?.auth);
-  const { userProfile } = useSelector((state) => state?.user);
-
-  const userImage = userProfile?.picture;
-
-  const id = fetchToken()?.id;
-  const [admin, setAdmin] = useState(null);
-
+  // Retrieve unread message count from local storage
   useEffect(() => {
-    // Retrieve unread message count from local storage
     const storedUnreadMessageCount = localStorage.getItem("unreadMessageCount");
     if (storedUnreadMessageCount !== null) {
       setUnreadMessageCount(parseInt(storedUnreadMessageCount, 10));
@@ -102,8 +98,7 @@ const Navbar = () => {
     dispatch(logoutEntrySlice());
     dispatch(logoutChallengesSlice());
     localStorage.removeItem("admin");
-    // Clear the unread message count from local storage on logout
-    localStorage.removeItem("unreadMessageCount");
+
     setUnreadMessageCount(0); // Reset the unread message count in state
     navigate("/login");
   };
@@ -141,7 +136,10 @@ const Navbar = () => {
             style={{ position: "absolute", right: "10rem" }}
           >
             <div className="desktop p-1 me-5">
-              <ul className="m-0 d-flex ">
+              <ul
+                className="m-0 d-flex fw-bold "
+                style={{ fontSize: "17px", letterSpacing: ".7px" }}
+              >
                 {isLogin && (
                   <>
                     <li className="nav-item">
@@ -199,12 +197,19 @@ const Navbar = () => {
                           localStorage.removeItem("unreadMessageCount");
                         }}
                       >
-                        Chat{" "}
-                        {unreadMessageCount > 0 && (
-                          <span className="badge bg-danger ms-2">
-                            {unreadMessageCount}
-                          </span>
-                        )}
+                        <div style={{ position: "relative" }}>
+                          Chat
+                          {unreadMessageCount > 0 && (
+                            <span
+                              className="badge-count bg-danger"
+                              style={{
+                                padding: "0.15rem 0.45rem",
+                              }}
+                            >
+                              {unreadMessageCount}
+                            </span>
+                          )}
+                        </div>
                       </Link>
                     </li>
                     {admin === true && (
@@ -270,33 +275,62 @@ const Navbar = () => {
                 <ul>
                   <li className="dropdownItem">
                     <Link
-                      className="text-decoration-none text-black"
+                      className="text-decoration-none"
                       to={`/profile/${id}`}
                       onClick={() => {
                         setOpen(false);
                       }}
                     >
-                      <span>
-                        <Person2Rounded className="text-dark" />
+                      <span
+                        className={
+                          location.pathname === `/profile/${id}`
+                            ? "active-link"
+                            : "text-dark"
+                        }
+                      >
+                        <Person2Rounded />
                       </span>
                       &nbsp;
-                      <span className="text-dark">My Profile</span>
+                      <span
+                        className={
+                          location.pathname === `/profile/${id}`
+                            ? "active-link"
+                            : "text-dark"
+                        }
+                      >
+                        My Profile
+                      </span>
                     </Link>
                   </li>
+
                   {admin === true && (
                     <li className="dropdownItem">
                       <Link
-                        className="text-decoration-none text-black"
+                        className="text-decoration-none"
                         to="/challenges"
                         onClick={() => {
                           setOpen(false);
                         }}
                       >
-                        <span>
-                          <AdminPanelSettings className="text-dark" />
+                        <span
+                          className={
+                            location.pathname === `/challenges`
+                              ? "active-link "
+                              : "text-dark "
+                          }
+                        >
+                          <AdminPanelSettings />
                         </span>
                         &nbsp;
-                        <span className="text-dark">Admin</span>
+                        <span
+                          className={
+                            location.pathname === `/challenges`
+                              ? "active-link "
+                              : "text-dark "
+                          }
+                        >
+                          Admin
+                        </span>
                       </Link>
                     </li>
                   )}
@@ -323,7 +357,7 @@ const Navbar = () => {
             filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
             left: 0,
             right: 0,
-            padding: ".9rem .6rem",
+            padding: ".5rem .6rem",
           }}
         >
           <ul className="d-flex justify-content-around fw-bold text-decoration-none list-unstyled">
@@ -378,12 +412,14 @@ const Navbar = () => {
                   localStorage.removeItem("unreadMessageCount");
                 }}
               >
-                <Chat />
-                {unreadMessageCount > 0 && (
-                  <span className="badge bg-danger ms-2">
-                    {unreadMessageCount}
-                  </span>
-                )}
+                <div style={{ position: "relative" }}>
+                  <Chat />
+                  {unreadMessageCount > 0 && (
+                    <span className="badge-count bg-danger">
+                      {unreadMessageCount}
+                    </span>
+                  )}
+                </div>
               </Link>
             </li>
           </ul>

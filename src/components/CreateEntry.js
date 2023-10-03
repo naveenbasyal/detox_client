@@ -15,7 +15,8 @@ const CreateEntry = () => {
   const validationSchema = Yup.object({
     content: Yup.string()
       .trim() // Remove leading/trailing spaces
-      .min(300, "Content must be at least 300 characters")
+      .min(150, "Content must be at least 150 characters")
+
       .required("Content is required"),
     mood: Yup.string().required("Mood is required"),
     visibility: Yup.string().required("Visibility is required"),
@@ -35,7 +36,10 @@ const CreateEntry = () => {
         toast.success(
           <>
             Entry created !!
-            <Link to="/myentries" className="text-primary text-decoration-none"> Go to My Entries</Link>
+            <Link to="/myentries" className="text-primary text-decoration-none">
+              {" "}
+              Go to My Entries
+            </Link>
           </>
         );
         formik.resetForm();
