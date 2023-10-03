@@ -18,6 +18,9 @@
   .chat-body {
     height: 57vh !important;
   }
+    .myprofile {
+    margin-bottom: 3.5rem !important;
+    }
 }
 @import url("https://fonts.googleapis.com/css2?family=Livvic&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Livvic:wght@700&display=swap");
@@ -127,7 +130,5 @@ label {
   border: 1px solid #525050;
 }
 @media screen and (max-width: 768px) {
-  .myprofile {
-    margin-bottom: 3.5rem !important;
-  }
+
 }
