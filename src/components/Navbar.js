@@ -83,12 +83,6 @@ const Navbar = () => {
   }, []);
 
   const checkAdminStatus = () => {
-    console.log("checking admin status");
-    console.log(
-      "->envadmin",
-      process.env.REACT_APP_ADMIN,
-      typeof process.env.REACT_APP_ADMIN
-    );
 
     const res = bcrypt.compareSync(
       process.env.REACT_APP_ADMIN,
@@ -310,7 +304,36 @@ const Navbar = () => {
                       </span>
                     </Link>
                   </li>
-                  {/* ---------------------------------------- */}
+                  <li className="dropdownItem">
+                    <Link
+                      className="text-decoration-none"
+                      to={`/myentries`}
+                      onClick={() => {
+                        setOpen(false);
+                      }}
+                    >
+                      <span
+                        className={
+                          location.pathname === `/myentries/`
+                            ? "active-link"
+                            : "text-dark"
+                        }
+                      >
+                        <NotesRounded />
+                      </span>
+                      &nbsp;
+                      <span
+                        className={
+                          location.pathname === `/myentries`
+                            ? "active-link"
+                            : "text-dark"
+                        }
+                      >
+                        My Entries
+                      </span>
+                    </Link>
+                  </li>
+                  
                   {admin == true && (
                     <li className="dropdownItem">
                       <Link
