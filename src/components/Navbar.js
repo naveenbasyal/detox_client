@@ -85,7 +85,12 @@ const Navbar = () => {
 
   const checkAdminStatus = () => {
     console.log("checking admin status");
-    console.log("->envadmin",process.env.REACT_APP_ADMIN);
+    console.log(
+      "->envadmin",
+      process.env.REACT_APP_ADMIN,
+      typeof process.env.REACT_APP_ADMIN
+    );
+
     const res = bcrypt.compareSync(
       process.env.REACT_APP_ADMIN,
       localStorage.getItem("admin")
