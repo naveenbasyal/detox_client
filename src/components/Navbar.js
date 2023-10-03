@@ -79,7 +79,6 @@ const Navbar = () => {
   }, [userProfile, location.pathname]);
 
   useEffect(() => {
-    console.log("checking");
     checkAdminStatus();
   }, []);
 
