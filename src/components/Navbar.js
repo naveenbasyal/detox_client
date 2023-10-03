@@ -79,17 +79,18 @@ const Navbar = () => {
   }, [userProfile, location.pathname]);
 
   useEffect(() => {
-    console.log("checking")
+    console.log("checking");
     checkAdminStatus();
   }, []);
 
   const checkAdminStatus = () => {
-    console.log("checking admin status")
+    console.log("checking admin status");
+    console.log("->envadmin",process.env.REACT_APP_ADMIN);
     const res = bcrypt.compareSync(
       process.env.REACT_APP_ADMIN,
       localStorage.getItem("admin")
     );
-    console.log("res",res);
+    console.log("res", res);
     if (res) {
       setAdmin(true);
     }
@@ -305,7 +306,7 @@ const Navbar = () => {
                       </span>
                     </Link>
                   </li>
-{/* ---------------------------------------- */}
+                  {/* ---------------------------------------- */}
                   {admin == true && (
                     <li className="dropdownItem">
                       <Link
