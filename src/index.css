@@ -117,16 +117,12 @@ label {
 .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root,
 .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-error,
 .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input,
-.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
+.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root,
+.css-p0rm37,
+.css-1ald77x {
   color: white !important;
 }
 .css-segi59,
 .css-1bp1ao6 {
   border: 1px solid #525050;
-}
-.css-1ald77x {
-  color: white!important;
-}
-.css-p0rm37{
-  color: white;
 }
