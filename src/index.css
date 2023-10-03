@@ -16,7 +16,7 @@
 }
 @media (max-width: 385px) {
   .chat-body {
-    height: 55vh !important;
+    height: 57vh !important;
   }
 }
 @import url("https://fonts.googleapis.com/css2?family=Livvic&display=swap");
@@ -112,7 +112,7 @@ label {
 }
 
 /* -auth- */
-/* inputfield with name ==email should be of color white */
+/* inputfield with name == email should be of color white */
 .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input,
 .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root,
 .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-error,
@@ -125,4 +125,9 @@ label {
 .css-segi59,
 .css-1bp1ao6 {
   border: 1px solid #525050;
+}
+@media screen and (max-width: 768px) {
+  .myprofile {
+    margin-bottom: 3.5rem !important;
+  }
 }

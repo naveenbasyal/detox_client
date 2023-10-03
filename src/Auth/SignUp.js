@@ -185,9 +185,7 @@ const SignUp = () => {
                 />
                 {message && (
                   <div className="form-group">
-                    <div className="alert alert-success" role="alert">
-                      {message}
-                    </div>
+                    <div className="text-danger">{message}</div>
                   </div>
                 )}
                 <Button
@@ -199,7 +197,7 @@ const SignUp = () => {
                   disabled={!!loading || !!message}
                 >
                   {loading ? (
-                    <ThreeDots height={24} width={24} color="#000000" />
+                    <ThreeDots height={24} width={24} color="#fff" />
                   ) : (
                     "Sign Up"
                   )}
