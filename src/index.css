@@ -92,23 +92,23 @@ td {
 }
 input,
 label {
-  color: black ;
+  color: black;
   font-family: "Livvic", sans-serif !important;
 }
 .css-1x51dt5-MuiInputBase-input-MuiInput-input {
-  color: #242526 ;
+  color: #242526;
   font-family: "Livvic", sans-serif !important;
 }
 .css-1c2i806-MuiFormLabel-root-MuiInputLabel-root {
   font-family: "Livvic", sans-serif !important;
   margin-top: 0.2rem !important;
-  color: #656668 ;
+  color: #656668;
   font-size: 1rem !important;
   font-weight: bold !important;
 }
 .css-qfso29-MuiTypography-root-MuiDialogContentText-root,
 .css-bdhsul-MuiTypography-root-MuiDialogTitle-root {
-  color: black ;
+  color: black;
 }
 
 /* -auth- */
@@ -119,4 +119,11 @@ label {
 .css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input,
 .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
   color: white !important;
+}
+.css-segi59,
+.css-1bp1ao6 {
+  border: 1px solid #525050;
+}
+.css-1ald77x {
+  color: white;
 }
