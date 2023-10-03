@@ -92,17 +92,17 @@ td {
 }
 input,
 label {
-  color: black !important;
+  color: black ;
   font-family: "Livvic", sans-serif !important;
 }
 .css-1x51dt5-MuiInputBase-input-MuiInput-input {
-  color: #242526 !important;
+  color: #242526 ;
   font-family: "Livvic", sans-serif !important;
 }
 .css-1c2i806-MuiFormLabel-root-MuiInputLabel-root {
   font-family: "Livvic", sans-serif !important;
   margin-top: 0.2rem !important;
-  color: #656668 !important;
+  color: #656668 ;
   font-size: 1rem !important;
   font-weight: bold !important;
 }

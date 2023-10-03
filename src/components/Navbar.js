@@ -302,8 +302,8 @@ const Navbar = () => {
                       </span>
                     </Link>
                   </li>
-
-                  {admin === true && (
+{/* ---------------------------------------- */}
+                  {admin == true && (
                     <li className="dropdownItem">
                       <Link
                         className="text-decoration-none"

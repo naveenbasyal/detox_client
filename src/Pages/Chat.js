@@ -52,7 +52,7 @@ const Chat = () => {
           Notification.requestPermission().then((permission) => {
             if (permission === "granted") {
               new Notification("New Message", {
-                body: `<b>${messageData.username}</b>: ${messageData.message}`,
+                body: `${messageData.username}: ${messageData.message}`,
                 icon: messageData.userImage,
               });
             } else {
