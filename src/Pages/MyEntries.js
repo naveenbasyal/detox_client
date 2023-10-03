@@ -87,7 +87,6 @@ const MyEntries = () => {
               <textarea
                 rows={5}
                 className="lev text-dark w-100 mb-3 p-2 rounded"
-                fullWidth
                 name="content"
                 value={editValues?.content}
                 onChange={handleEditChange}

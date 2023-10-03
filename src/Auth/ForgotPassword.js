@@ -53,6 +53,7 @@ const ForgotPassword = () => {
               label="Email"
               variant="outlined"
               fullWidth
+              color="primary"
               name="email"
               value={email}
               margin="normal"
