@@ -15,7 +15,7 @@ const CreateEntry = () => {
   const validationSchema = Yup.object({
     content: Yup.string()
       .trim() // Remove leading/trailing spaces
-      .min(150, "Content must be at least 150 characters")
+      .min(15, "Content must be at least 15 characters")
 
       .required("Content is required"),
     mood: Yup.string().required("Mood is required"),

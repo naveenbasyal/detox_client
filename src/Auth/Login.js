@@ -26,7 +26,7 @@ import { ThreeDots } from "react-loader-spinner";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import brand_logo from "../assets/images/favicon.png";
-
+import bcrypt from "bcryptjs";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Login = () => {

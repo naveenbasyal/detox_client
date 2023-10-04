@@ -17,11 +17,10 @@
 @media (max-width: 385px) {
   .chat-body {
     height: 55.89vh !important;
-    margin-bottom:3.4rem;
   }
-    .myprofile {
+  .myprofile {
     margin-bottom: 3.5rem !important;
-    }
+  }
 }
 @import url("https://fonts.googleapis.com/css2?family=Livvic&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Livvic:wght@700&display=swap");
@@ -131,5 +130,4 @@ label {
   border: 1px solid #525050;
 }
 @media screen and (max-width: 768px) {
-
 }

@@ -114,7 +114,7 @@ const UserProfile = () => {
   };
 
   return (
-    <div className="container mt-4">
+    <div className="container mt-4 myprofile">
       <h2 className="mb-3 fw-bolder text-center">User Profile</h2>
 
       {loading ? (

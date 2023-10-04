@@ -17,7 +17,7 @@ export const registerUser = createAsyncThunk(
         }
       );
       const data = await response.json();
-      if(data){
+      if (data) {
         return data;
       }
     } catch (error) {
@@ -39,10 +39,7 @@ export const loginUser = createAsyncThunk(
         }
       );
       const data = await response.json();
-      // data?.message && toast(data?.message);
-      // if (!data?.user) {
-      //   return;
-      // }
+
       data?.token && localStorage.setItem("token", data.token);
       if (data?.user && data?.user?.admin) {
         const adminStatus = "true";
