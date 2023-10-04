@@ -173,10 +173,12 @@ const UserProfile = () => {
                   Upload new image?
                 </Button>
               </Box>
-              {uploadProgress && (
+              {uploadProgress>0 && (
                 <div className="my-3">
-                  {!uploadProgress === 100 ? (
-                    <p className="alert alert-success">Image Uploaded Successfully</p>
+                  {uploadProgress === 100 ? (
+                    <p className="alert alert-success">
+                      Image Uploaded Successfully
+                    </p>
                   ) : (
                     <p className="alert alert-info">
                       Uploading Image..Please do not go back or refresh!!
@@ -188,7 +190,7 @@ const UserProfile = () => {
                       max="100"
                       className="mt-2"
                     />
-                    <span>{uploadProgress && `${uploadProgress}%`}</span>
+                    <span>{uploadProgress > 0 && `${uploadProgress}%`}</span>
                   </div>
                 </div>
               )}
