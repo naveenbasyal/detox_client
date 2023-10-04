@@ -16,9 +16,6 @@ import {
   InputLabel,
   MenuItem,
   Select,
-  TextField,
-  TextareaAutosize,
-  Typography,
 } from "@mui/material";
 import { formatDistanceToNow } from "date-fns";
 import CreateEntry from "../components/CreateEntry";
