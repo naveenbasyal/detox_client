@@ -17,10 +17,11 @@
 @media (max-width: 385px) {
   .chat-body {
     height: 55.89vh !important;
+    
   }
-  .myprofile {
+    .myprofile {
     margin-bottom: 3.5rem !important;
-  }
+    }
 }
 @import url("https://fonts.googleapis.com/css2?family=Livvic&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Livvic:wght@700&display=swap");
@@ -79,6 +80,7 @@ span,
 li,
 ul,
 button,
+div,
 strong,
 h3,
 h2,
@@ -88,8 +90,7 @@ h5 svg {
   color: var(--secondary-text-color) !important;
 }
 th,
-td,
-p {
+td {
   color: white;
   font-family: "Livvic", sans-serif !important;
 }
@@ -130,4 +131,5 @@ label {
   border: 1px solid #525050;
 }
 @media screen and (max-width: 768px) {
+
 }
