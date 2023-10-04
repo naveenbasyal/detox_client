@@ -2,9 +2,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import bcrypt from "bcryptjs";
 import fetchToken from "../../utils/fetchToken";
 
+
 export const registerUser = createAsyncThunk(
   "registerUser",
   async (user, { rejectWithValue }) => {
+    
     try {
       const response = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/users/register`,
