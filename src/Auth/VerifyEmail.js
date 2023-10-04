@@ -14,7 +14,10 @@ const VerifyEmail = () => {
         `${process.env.REACT_APP_SERVER_URL}/users/verify/${id}/${token}`
       );
       if (res?.status == 200) {
-        toast.success(res?.data?.message);
+        toast.success(res?.data?.message, {
+          theme: "dark",
+          autoClose: 2000,
+        });
         navigate("/login");
       }
       setLoading(false);

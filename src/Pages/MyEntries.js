@@ -69,7 +69,10 @@ const MyEntries = () => {
   const handleSubmitEditedEntry = async (e) => {
     e.preventDefault();
     const response = await dispatch(updateEntryById(editValues));
-    toast(response?.payload?.message);
+    toast.success(response?.payload?.message, {
+      theme: "dark",
+      autoClose: 2000,
+    });
     setEditing(false);
   };
 

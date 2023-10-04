@@ -54,7 +54,10 @@ const UserProfile = () => {
 
   const handleImageUpload = async (e) => {
     if (id !== user?._id) {
-      alert("You can't edit someone else's profile");
+      toast.error("You can't edit someone else's profile", {
+        theme: "dark",
+        autoClose: 2000,
+      });
       return;
     }
     const file = e.target.files[0];
@@ -97,7 +100,10 @@ const UserProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (id !== user?._id) {
-      alert("You can't edit someone else's profile");
+      toast.error("You can't edit someone else's profile", {
+        theme: "dark",
+        autoClose: 2000,
+      });
       setIsEditing(false);
       setUploadProgress(null);
       return;
@@ -105,9 +111,15 @@ const UserProfile = () => {
     const res = await dispatch(updateUserProfile({ id, ...userValues }));
 
     if (res?.payload?.message) {
-      toast.success(res?.payload?.message);
+      toast.success(res?.payload?.message, {
+        theme: "dark",
+        autoClose: 2000,
+      });
     } else {
-      toast.error("Something went wrong");
+      toast.error("Something went wrong", {
+        theme: "dark",
+        autoClose: 2000,
+      });
     }
     setIsEditing(false);
     setUploadProgress(null);
@@ -152,7 +164,7 @@ const UserProfile = () => {
                   variant="contained"
                   component="span"
                   startIcon={<CloudUploadOutlined />}
-                  className="ms-2 text-capitalize"
+                  className="ms-2 text-capitalize text-light"
                   width="50%"
                   onClick={() =>
                     document.getElementById("image-upload").click()
@@ -163,8 +175,8 @@ const UserProfile = () => {
               </Box>
               {uploadProgress && (
                 <div className="my-3">
-                  {uploadProgress === 100 ? (
-                    <p className="alert-success">Image Uploaded Successfully</p>
+                  {!uploadProgress === 100 ? (
+                    <p className="alert alert-success">Image Uploaded Successfully</p>
                   ) : (
                     <p className="alert alert-info">
                       Uploading Image..Please do not go back or refresh!!
@@ -197,25 +209,25 @@ const UserProfile = () => {
                     <button
                       onClick={handleSubmit}
                       disabled={editprofileLoading}
-                      className="btn btn-primary mt-2"
+                      className="btn btn-primary mt-2 text-light"
                     >
                       Save
                     </button>
                     <button
                       onClick={() => setIsEditing(false)}
-                      className="btn btn-secondary mt-2 ms-2"
+                      className="btn btn-secondary mt-2 ms-2 text-light"
                     >
                       Cancel
                     </button>
                   </>
                 ) : (
                   <>
-                    <p>
+                    <p className="text-light">
                       <strong>Username : </strong> {user?.username}
                     </p>
                     <button
                       onClick={() => setIsEditing(true)}
-                      className="btn btn-outline-primary my-2"
+                      className="btn btn-outline-primary my-2 text-light"
                     >
                       Edit Username
                     </button>

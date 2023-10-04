@@ -83,12 +83,11 @@ const Navbar = () => {
   }, []);
 
   const checkAdminStatus = () => {
-
     const res = bcrypt.compareSync(
       process.env.REACT_APP_ADMIN,
       localStorage.getItem("admin")
     );
-    console.log("res", res);
+
     if (res) {
       setAdmin(true);
     }
@@ -333,7 +332,7 @@ const Navbar = () => {
                       </span>
                     </Link>
                   </li>
-                  
+
                   {admin == true && (
                     <li className="dropdownItem">
                       <Link

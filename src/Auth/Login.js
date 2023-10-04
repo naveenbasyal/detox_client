@@ -28,6 +28,7 @@ import * as Yup from "yup";
 import brand_logo from "../assets/images/favicon.png";
 import bcrypt from "bcryptjs";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -65,6 +66,7 @@ const Login = () => {
       }
     },
   });
+
 
   return (
     <>
