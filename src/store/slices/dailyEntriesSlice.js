@@ -42,7 +42,7 @@ export const getAllEntriesForCalendar = createAsyncThunk(
         }
       );
       const data = await res.json();
-      
+
       return data.entries;
     } catch (error) {
       console.log(error);
@@ -114,7 +114,7 @@ export const createDailyEntries = createAsyncThunk(
         }
       );
       const data = await res.json();
-      console.log("new Entry Added", data);
+
       data?.entry && dispatch(getAllPublicEntries());
       return data?.entry;
     } catch (error) {

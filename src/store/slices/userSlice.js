@@ -75,7 +75,7 @@ export const updateUserProfile = createAsyncThunk(
   "updateUserProfile",
   async (values, { rejectWithValue, dispatch }) => {
     const { id, picture, username } = values;
-    console.log("values", values);
+
     try {
       const res = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/users/update/${id}`,
@@ -102,7 +102,6 @@ export const updateUserProfile = createAsyncThunk(
 export const deleteUserProfile = createAsyncThunk(
   "deleteUserProfile",
   async (id, { rejectWithValue, dispatch }) => {
-    console.log(id);
     try {
       const res = await fetch(`${process.env.REACT_APP_SERVER_URL}/users/`, {
         method: "DELETE",
