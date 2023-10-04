@@ -47,6 +47,7 @@ const SignUp = () => {
       .required("Email is required"),
     password: Yup.string()
       .min(6, "Password must be at least 6 characters")
+
       .required("Password is required"),
   });
 
@@ -63,19 +64,11 @@ const SignUp = () => {
         // navigate("/login");
         setMessage(success?.payload?.message);
         formik.resetForm();
-        toast.success("Registration successful!", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: true,
-          theme: "light",
-        });
       } else {
         formik.setFieldError("password", "Invalid credentials");
         toast.error("Invalid credentials. Registration failed.", {
-          position: "top-center",
-          autoClose: 5000, // Optional: Close the toast after 5 seconds
-          hideProgressBar: true,
-          theme: "light", // Optional: Use a light theme
+          autoClose: 5000,
+          theme: "dark",
         });
       }
     },
