@@ -40,7 +40,10 @@ const CreateEntry = () => {
               {" "}
               Go to My Entries
             </Link>
-          </>
+          </>,
+          {
+            theme: "dark",
+          }
         );
         formik.resetForm();
         setToggleWriteEntries(false);
