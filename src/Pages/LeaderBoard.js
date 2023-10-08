@@ -88,6 +88,7 @@ const LeaderBoard = () => {
               (user, index) =>
                 user.verified && (
                   <tr key={user._id}>
+                    {/* ________ UserImage __________ */}
                     <td className="d-flex align-items-center">
                       <LazyLoadImage
                         src={user.picture}
@@ -107,8 +108,11 @@ const LeaderBoard = () => {
                         <span className="me-1">{user.username}</span>
                       </Link>
                     </td>
+                    {/* ________ Level __________ */}
 
                     <td>{user.level}</td>
+                    {/* ________ points __________ */}
+
                     <td>
                       {user.points}{" "}
                       {index === 0 ? (
@@ -125,13 +129,20 @@ const LeaderBoard = () => {
                         </span>
                       )}
                     </td>
-                    {user?.admin ? (
+                    {admin && user?.admin ? (
                       <td>
-                        <AdminPanelSettings color="primary" className="text-primary" />
+                        <AdminPanelSettings
+                          color="primary"
+                          className="text-primary"
+                        />
                       </td>
                     ) : (
                       <td onClick={() => deleteUser(user._id)}>
-                        <Delete style={{ cursor: "pointer", color: "red" }} color="red" className="text-danger"/>
+                        <Delete
+                          style={{ cursor: "pointer", color: "red" }}
+                          color="red"
+                          className="text-danger"
+                        />
                       </td>
                     )}
                   </tr>
@@ -152,7 +163,10 @@ const LeaderBoard = () => {
           <Button onClick={() => setOpenDialog(false)} className="text-dark">
             Cancel
           </Button>
-          <button onClick={handleConfirmation} className="btn btn-danger text-white">
+          <button
+            onClick={handleConfirmation}
+            className="btn btn-danger text-white"
+          >
             {deleteUserLoading ? (
               <ThreeDots height={24} width={24} color="#000" />
             ) : (
