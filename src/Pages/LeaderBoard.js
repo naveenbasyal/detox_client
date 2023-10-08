@@ -129,20 +129,22 @@ const LeaderBoard = () => {
                         </span>
                       )}
                     </td>
-                    {admin && user?.admin ? (
+
+                    {user?.admin && (
                       <td>
-                        <AdminPanelSettings
-                          color="primary"
-                          className="text-primary"
-                        />
-                      </td>
-                    ) : (
-                      <td onClick={() => deleteUser(user._id)}>
-                        <Delete
-                          style={{ cursor: "pointer", color: "red" }}
-                          color="red"
-                          className="text-danger"
-                        />
+                        {user?.admin ? (
+                          <AdminPanelSettings
+                            color="primary"
+                            className="text-primary"
+                          />
+                        ) : (
+                          <Delete
+                            onClick={() => deleteUser(user._id)}
+                            style={{ cursor: "pointer", color: "red" }}
+                            color="red"
+                            className="text-danger"
+                          />
+                        )}
                       </td>
                     )}
                   </tr>
