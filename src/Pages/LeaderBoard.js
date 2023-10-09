@@ -130,7 +130,7 @@ const LeaderBoard = () => {
                       )}
                     </td>
 
-                    {user?.admin && (
+                    {admin ? (
                       <td>
                         {user?.admin ? (
                           <AdminPanelSettings
@@ -146,7 +146,7 @@ const LeaderBoard = () => {
                           />
                         )}
                       </td>
-                    )}
+                    ) : null}
                   </tr>
                 )
             )}
