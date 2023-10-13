@@ -29,6 +29,7 @@ const LeaderBoard = () => {
   const { loading: entryLoading } = useSelector((state) => state?.dailyEntries);
   const [admin, setAdmin] = useState(null);
   const myId = fetchToken()?.id;
+  const [toggleShowAll, setToggleShowAll] = useState(false);
 
   const [openDialog, setOpenDialog] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState(null);
@@ -74,88 +75,164 @@ const LeaderBoard = () => {
       {loading || entryLoading ? (
         <MainLoader />
       ) : (
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">User</th>
-              <th scope="col">Level</th>
-              <th scope="col">Score</th>
-              {admin && <th scope="col">Delete</th>}
-            </tr>
-          </thead>
-          <tbody>
-            {users?.map(
-              (user, index) =>
-                user.verified && (
-                  <tr key={user._id}>
-                    {/* ________ UserImage __________ */}
-                    <td className="d-flex align-items-center">
-                      <LazyLoadImage
-                        src={user.picture}
-                        alt={user.username}
-                        className="me-3 rounded-circle"
-                        width="44px"
-                        height="44px"
-                        effect="blur"
-                        style={{
-                          objectFit: "cover",
-                        }}
-                      />
-                      <Link
-                        to={`/user/${user._id}`}
-                        className="text-decoration-none text-black ms-3 d-flex"
-                      >
-                        <span className="me-1">{user.username}</span>
-                      </Link>
-                    </td>
-                    {/* ________ Level __________ */}
+        <>
+          {admin && (
+            <div className="d-flex justify-content-end my-4">
+              <button
+                className="btn btn-primary text-white"
+                onClick={() => setToggleShowAll(!toggleShowAll)}
+              >
+                {toggleShowAll ? "Show Verified Only" : "Show All"}
+              </button>
+            </div>
+          )}
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">User</th>
+                <th scope="col">Level</th>
+                <th scope="col">Score</th>
+                {admin && <th scope="col">Delete</th>}
+              </tr>
+            </thead>
+            <tbody>
+              {toggleShowAll
+                ? users?.map((user, index) => (
+                    <tr key={user._id}>
+                      {/* ________ UserImage __________ */}
+                      <td className="d-flex align-items-center">
+                        <LazyLoadImage
+                          src={user.picture}
+                          alt={user.username}
+                          className="me-3 rounded-circle"
+                          width="44px"
+                          height="44px"
+                          effect="blur"
+                          style={{
+                            objectFit: "cover",
+                          }}
+                        />
+                        <Link
+                          to={`/user/${user._id}`}
+                          className="text-decoration-none text-black ms-3 d-flex"
+                        >
+                          <span className="me-1">{user.username}</span>
+                        </Link>
+                      </td>
+                      {/* ________ Level __________ */}
 
-                    <td>{user.level}</td>
-                    {/* ________ points __________ */}
+                      <td>{user.level}</td>
+                      {/* ________ points __________ */}
 
-                    <td>
-                      {user.points}{" "}
-                      {index === 0 ? (
-                        <span role="img" aria-label="star">
-                          🥇
-                        </span>
-                      ) : index === 1 ? (
-                        <span role="img" aria-label="star">
-                          🥈
-                        </span>
-                      ) : (
-                        <span role="img" aria-label="star">
-                          ⚡
-                        </span>
-                      )}
-                    </td>
-
-                    {admin ? (
                       <td>
-                        {user?.admin ? (
-                          <AdminPanelSettings
-                            color="primary"
-                            className="text-primary"
-                          />
+                        {user.points}{" "}
+                        {index === 0 ? (
+                          <span role="img" aria-label="star">
+                            🥇
+                          </span>
+                        ) : index === 1 ? (
+                          <span role="img" aria-label="star">
+                            🥈
+                          </span>
                         ) : (
-                          <Delete
-                            onClick={() => deleteUser(user._id)}
-                            style={{ cursor: "pointer", color: "red" }}
-                            color="red"
-                            className="text-danger"
-                          />
+                          <span role="img" aria-label="star">
+                            ⚡
+                          </span>
                         )}
                       </td>
-                    ) : null}
-                  </tr>
-                )
-            )}
-          </tbody>
-        </table>
+
+                      {admin ? (
+                        <td>
+                          {user?.admin ? (
+                            <AdminPanelSettings
+                              color="primary"
+                              className="text-primary"
+                            />
+                          ) : (
+                            <Delete
+                              onClick={() => deleteUser(user._id)}
+                              style={{ cursor: "pointer", color: "red" }}
+                              color="red"
+                              className="text-danger"
+                            />
+                          )}
+                        </td>
+                      ) : null}
+                    </tr>
+                  ))
+                : users?.map(
+                    (user, index) =>
+                      user.verified && (
+                        <tr key={user._id}>
+                          {/* ________ UserImage __________ */}
+                          <td className="d-flex align-items-center">
+                            <LazyLoadImage
+                              src={user.picture}
+                              alt={user.username}
+                              className="me-3 rounded-circle"
+                              width="44px"
+                              height="44px"
+                              effect="blur"
+                              style={{
+                                objectFit: "cover",
+                              }}
+                            />
+                            <Link
+                              to={`/user/${user._id}`}
+                              className="text-decoration-none text-black ms-3 d-flex"
+                            >
+                              <span className="me-1">{user.username}</span>
+                            </Link>
+                          </td>
+                          {/* ________ Level __________ */}
+
+                          <td>{user.level}</td>
+                          {/* ________ points __________ */}
+
+                          <td>
+                            {user.points}{" "}
+                            {index === 0 ? (
+                              <span role="img" aria-label="star">
+                                🥇
+                              </span>
+                            ) : index === 1 ? (
+                              <span role="img" aria-label="star">
+                                🥈
+                              </span>
+                            ) : (
+                              <span role="img" aria-label="star">
+                                ⚡
+                              </span>
+                            )}
+                          </td>
+
+                          {admin ? (
+                            <td>
+                              {user?.admin ? (
+                                <AdminPanelSettings
+                                  color="primary"
+                                  className="text-primary"
+                                />
+                              ) : (
+                                <Delete
+                                  onClick={() => deleteUser(user._id)}
+                                  style={{ cursor: "pointer", color: "red" }}
+                                  color="red"
+                                  className="text-danger"
+                                />
+                              )}
+                            </td>
+                          ) : null}
+                        </tr>
+                      )
+                  )}
+            </tbody>
+          </table>
+        </>
       )}
 
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-        <DialogTitle>Confirm Delete</DialogTitle>
+        <div className="fs-5 fw-bold px-3 mt-3 text-secondary">Confirm Delete</div>
         <DialogContent>
           <DialogContentText>
             Are you sure you want to delete this user?

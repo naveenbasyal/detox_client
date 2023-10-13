@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-import { registerUser } from "../store/slices/authSlice";
+import { googleLogin, registerUser } from "../store/slices/authSlice";
 import {
   Avatar,
   Container,
@@ -22,6 +22,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ThreeDots } from "react-loader-spinner";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { GoogleLogin } from "@react-oauth/google";
+import jwtDecode from "jwt-decode";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -91,7 +92,6 @@ const SignUp = () => {
       setMessage(success?.payload?.message);
     }
     if (success?.payload?.user) {
-      setLoginSuccess(true);
       navigate("/");
     }
   };
