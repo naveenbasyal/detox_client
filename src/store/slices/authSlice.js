@@ -2,11 +2,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import bcrypt from "bcryptjs";
 import fetchToken from "../../utils/fetchToken";
 
-
 export const registerUser = createAsyncThunk(
   "registerUser",
   async (user, { rejectWithValue }) => {
-    
     try {
       const response = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/users/register`,
@@ -55,6 +53,44 @@ export const loginUser = createAsyncThunk(
         localStorage.setItem("admin", hashedAdminStatus);
       }
       dispatch(setIsLogin(data?.user));
+      return data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response);
+    }
+  }
+);
+
+export const googleLogin = createAsyncThunk(
+  "googleLogin",
+  async (values, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/users/google-login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(values),
+        }
+      );
+      const data = await response.json();
+      if (data) {
+        data?.token && localStorage.setItem("token", data.token);
+        if (data?.user && data?.user?.admin) {
+          const adminStatus = "true";
+          dispatch(setIsLogin(data?.user));
+
+          const hashedAdminStatus = bcrypt.hashSync(adminStatus, 10);
+          localStorage.setItem("admin", hashedAdminStatus);
+        } else if (data?.user && !data?.user?.admin) {
+          dispatch(setIsLogin(data?.user));
+
+          const adminStatus = "false";
+          const hashedAdminStatus = bcrypt.hashSync(adminStatus, 10);
+          localStorage.setItem("admin", hashedAdminStatus);
+        }
+        dispatch(setIsLogin(data?.user));
+      }
       return data;
     } catch (error) {
       console.log(error);
@@ -115,6 +151,20 @@ const authSlice = createSlice({
         state.isAdmin = action.payload?.user?.admin ? true : false;
       })
       .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      //  _____________ Google Login ______________
+      .addCase(googleLogin.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(googleLogin.fulfilled, (state, action) => {
+        state.loading = false;
+
+        state.userProfile = action.payload?.user;
+        state.isAdmin = action.payload?.user?.admin ? true : false;
+      })
+      .addCase(googleLogin.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

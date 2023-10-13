@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../store/slices/authSlice";
+import { googleLogin, loginUser } from "../store/slices/authSlice";
 import { useNavigate, Link } from "react-router-dom";
 
 import {
@@ -29,6 +29,8 @@ import brand_logo from "../assets/images/favicon.png";
 import bcrypt from "bcryptjs";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { toast } from "react-toastify";
+import { GoogleLogin } from "@react-oauth/google";
+import jwtDecode from "jwt-decode";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -67,7 +69,19 @@ const Login = () => {
     },
   });
 
-
+  const continueWithGoogle = async (credentialResponse) => {
+    console.log(credentialResponse);
+    const profileDetails = jwtDecode(credentialResponse?.credential);
+    console.log(profileDetails);
+    const success = await dispatch(googleLogin(profileDetails));
+    if (success?.payload?.message) {
+      setMessage(success?.payload?.message);
+    }
+    if (success?.payload?.user) {
+      setLoginSuccess(true);
+      navigate("/");
+    }
+  };
   return (
     <>
       <div className=" my-4 d-flex align-items-center container ms-2 fs-2">
@@ -193,13 +207,30 @@ const Login = () => {
                     </Link>
                   </Grid>
                 </Grid>
+                <hr />
+                {/* _______ Google Login _________ */}
+                <Grid container className="my-3 d-flex justify-content-center">
+                  <Grid
+                    item
+                    xs={12}
+                    md={12}
+                    className="d-flex justify-content-center"
+                  >
+                    <GoogleLogin
+                      size="large"
+                      shape="pill"
+                      text="continue_with"
+                      width={250}
+                      onSuccess={(credentialResponse) => {
+                        continueWithGoogle(credentialResponse);
+                      }}
+                      onError={() => {
+                        console.log("Login Failed");
+                      }}
+                    />
+                  </Grid>
+                </Grid>
               </form>
-              <Snackbar
-                open={loginSuccess}
-                autoHideDuration={2000} // Automatically close after 2 seconds
-                onClose={handleCloseSuccess}
-                message="Login Successful"
-              />
             </Box>
           </Paper>
         </Container>
