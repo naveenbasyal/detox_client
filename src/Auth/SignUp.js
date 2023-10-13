@@ -21,6 +21,7 @@ import brand_logo from "../assets/images/favicon.png";
 import "react-toastify/dist/ReactToastify.css";
 import { ThreeDots } from "react-loader-spinner";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { GoogleLogin } from "@react-oauth/google";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -75,11 +76,24 @@ const SignUp = () => {
   });
 
   const styles = {
-    height: `calc(100vh - 4rem)`,
+    height: `calc(100vh - 8rem)`,
     width: "100%",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+  };
+  const continueWithGoogle = async (credentialResponse) => {
+    console.log(credentialResponse);
+    const profileDetails = jwtDecode(credentialResponse?.credential);
+    console.log(profileDetails);
+    const success = await dispatch(googleLogin(profileDetails));
+    if (success?.payload?.message) {
+      setMessage(success?.payload?.message);
+    }
+    if (success?.payload?.user) {
+      setLoginSuccess(true);
+      navigate("/");
+    }
   };
 
   return (
@@ -195,11 +209,34 @@ const SignUp = () => {
                     "Sign Up"
                   )}
                 </Button>
-                <Grid container justifyContent="flex-end" className="mt-4">
+                <Grid container justifyContent="flex-end" className="mb-3">
                   <Grid item>
-                    <Link to="/login" variant="body2" className="text-primary">
+                    <Link to="/login" variant="body2" className="text-white">
                       Already have an account? Sign in
                     </Link>
+                  </Grid>
+                </Grid>
+                <hr />
+                {/* _______ Google Login _________ */}
+                <Grid container className="my-3 d-flex justify-content-center">
+                  <Grid
+                    item
+                    xs={12}
+                    md={12}
+                    className="d-flex justify-content-center"
+                  >
+                    <GoogleLogin
+                      size="large"
+                      shape="pill"
+                      text="continue_with"
+                      width={250}
+                      onSuccess={(credentialResponse) => {
+                        continueWithGoogle(credentialResponse);
+                      }}
+                      onError={() => {
+                        console.log("Login Failed");
+                      }}
+                    />
                   </Grid>
                 </Grid>
               </form>

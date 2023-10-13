@@ -95,8 +95,7 @@ const Login = () => {
       </div>
       <div
         style={{
-          height: `calc(100vh - 4rem)`,
-
+          height: `calc(100vh - 8rem)`,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -192,22 +191,19 @@ const Login = () => {
                     <Link
                       to="/forgot-password"
                       variant="body2"
-                      className="text-primary"
+                      className="text-white"
                     >
                       Forgot password?
                     </Link>
                   </Grid>
-                  <Grid item xs>
-                    <Link
-                      to="/register"
-                      variant="body2"
-                      className="text-primary"
-                    >
+                  <Grid item xs className="d-flex justify-content-end">
+                    <Link to="/register" variant="body2" className="text-white">
                       {"Create a new Account."}
                     </Link>
                   </Grid>
                 </Grid>
                 <hr />
+
                 {/* _______ Google Login _________ */}
                 <Grid container className="my-3 d-flex justify-content-center">
                   <Grid
