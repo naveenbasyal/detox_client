@@ -126,7 +126,7 @@ const LeaderBoard = () => {
 
                       <td>
                         {user.points}{" "}
-                        {index === 0 ? (
+                        {/* {index === 0 ? (
                           <span role="img" aria-label="star">
                             🥇
                           </span>
@@ -138,7 +138,7 @@ const LeaderBoard = () => {
                           <span role="img" aria-label="star">
                             ⚡
                           </span>
-                        )}
+                        )} */}
                       </td>
 
                       {admin ? (

@@ -427,7 +427,9 @@ const Challenges = () => {
         onClose={handleCloseDeleteModal}
         style={{ width: "100%" }}
       >
-                <div className="fs-5 fw-bold px-3 mt-3 text-secondary">Confirm Delete</div>
+        <div className="fs-5 fw-bold px-3 mt-3 text-secondary">
+          Confirm Delete
+        </div>
 
         <DialogContent>
           <DialogContentText>
