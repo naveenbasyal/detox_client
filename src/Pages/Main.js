@@ -8,8 +8,7 @@ import { useSelector } from "react-redux";
 const Main = () => {
   const { loading } = useSelector(({ dailyEntries }) => dailyEntries);
   const { loading: userLoading } = useSelector((state) => state?.user);
-  console.log("loading", loading);
-  console.log("userLoading", userLoading);
+  
 
   return (
     <section className="main mb-5">
