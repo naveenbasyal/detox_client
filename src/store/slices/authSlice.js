@@ -65,6 +65,7 @@ export const googleLogin = createAsyncThunk(
   "googleLogin",
   async (values, { rejectWithValue, dispatch }) => {
     try {
+      console.log("google login data", process.env.REACT_APP_SERVER_URL);
       const response = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/users/google-login`,
         {
@@ -73,7 +74,10 @@ export const googleLogin = createAsyncThunk(
           body: JSON.stringify(values),
         }
       );
+      console.log("google login res", response);
+
       const data = await response.json();
+      console.log("google login data", data);
       if (data) {
         data?.token && localStorage.setItem("token", data.token);
         if (data?.user && data?.user?.admin) {
